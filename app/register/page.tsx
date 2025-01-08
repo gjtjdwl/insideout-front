@@ -76,8 +76,29 @@ const Register = () => {
     <div className="flex justify-center items-center min-h-screen bg-customPink">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
+        className="relative bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
       >
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+        </button>
+
         <h1 className="text-center text-3xl font-bold mb-8">회원가입</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* 왼쪽 입력 필드 */}
