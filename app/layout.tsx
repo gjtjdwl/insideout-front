@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/app/components/header';
+
+export const metadata: Metadata = {
+  title: 'Inside out',
+  description: '인간간에 지친 당신을 위한 심리 상담 플랫폼폼',
+};
 
 export default function RootLayout({
   children,
@@ -9,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body>
         <Header />
         {children}
