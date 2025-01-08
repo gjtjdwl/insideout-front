@@ -1,5 +1,6 @@
 'use client';
 
+import router from 'next/router';
 import React, { useState } from 'react';
 
 const LoginForm: React.FC = () => {
@@ -13,6 +14,7 @@ const LoginForm: React.FC = () => {
     console.log('로그인 시도:', { id, password });
 
     // TODO: 로그인 API 연동
+    router.push('/');
   };
 
   return (
@@ -33,7 +35,7 @@ const LoginForm: React.FC = () => {
             placeholder="id"
             value={id}
             onChange={(e) => setId(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
           />
         </div>
 
@@ -51,13 +53,13 @@ const LoginForm: React.FC = () => {
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
           />
         </div>
 
         {/* 비밀번호 찾기 링크 */}
         <div className="flex justify-between items-center mb-4">
-          <a href="#" className="text-sm text-pink-500 hover:underline">
+          <a href="#" className="text-sm text-pink-400 hover:underline">
             비밀번호를 잊으셨나요?
           </a>
         </div>
@@ -65,7 +67,7 @@ const LoginForm: React.FC = () => {
         {/* 로그인 버튼 */}
         <button
           type="submit"
-          className="w-full bg-pink-500 text-white font-bold py-2 rounded-lg hover:bg-pink-600 focus:outline-none"
+          className="w-full bg-customPink text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
         >
           로그인
         </button>
@@ -73,7 +75,7 @@ const LoginForm: React.FC = () => {
         {/* 가입 링크 */}
         <p className="text-center text-sm text-gray-600 mt-4">
           계정이 없으신가요?{' '}
-          <a href="#" className="text-pink-500 hover:underline">
+          <a href="/register" className="text-pink-400 hover:underline">
             가입하기
           </a>
         </p>
