@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import { RegisterAPI } from '../api';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,7 +14,7 @@ const Register = () => {
     user_id: '',
     password: '',
     confirmPassword: '',
-    departmentName: '',
+    department: '',
     departmentCode: '',
   });
 
@@ -20,16 +23,22 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
+    // 역할 선택 필수 체크 추가
+    if (!formData.role) {
+      alert('직책을 선택해주세요.');
+      return;
+    }
+
+    // 기존 유효성 검사
     if (formData.password !== formData.confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    if (formData.role === '부서장' && !formData.departmentName) {
+    if (formData.role === '부서장' && !formData.department) {
       alert('부서 이름을 입력해주세요.');
       return;
     }
@@ -39,7 +48,27 @@ const Register = () => {
       return;
     }
 
-    console.log('Form Data Submitted:', formData);
+    try {
+      // RegisterRequestData 형식에 맞게 데이터 정제
+      const requestData = {
+        user_id: formData.user_id,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        role: formData.role as '부서장' | '부서원',
+        password: formData.password,
+        department: formData.department,
+        departmentCode: formData.departmentCode,
+      };
+
+      const response = await RegisterAPI.register(requestData);
+      alert('회원가입이 완료되었습니다!');
+      router.push('/login'); // 로그인 페이지로 이동
+    } catch (error: any) {
+      alert(
+        error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
+      );
+    }
   };
 
   return (
@@ -109,6 +138,7 @@ const Register = () => {
                   onChange={handleChange}
                   className="mr-2"
                   checked={formData.role === '부서장'}
+                  required
                 />
                 부서장
               </label>
@@ -120,6 +150,7 @@ const Register = () => {
                   onChange={handleChange}
                   className="mr-2"
                   checked={formData.role === '부서원'}
+                  required
                 />
                 부서원
               </label>
@@ -129,16 +160,16 @@ const Register = () => {
             {formData.role === '부서장' && (
               <div className="mt-4">
                 <label
-                  htmlFor="departmentName"
+                  htmlFor="department"
                   className="block text-sm font-bold mb-2"
                 >
                   부서 이름 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  id="departmentName"
-                  name="departmentName"
-                  value={formData.departmentName}
+                  id="department"
+                  name="department"
+                  value={formData.department}
                   onChange={handleChange}
                   placeholder="부서 이름을 입력해주세요"
                   className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
