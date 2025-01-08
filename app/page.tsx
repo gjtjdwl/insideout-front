@@ -10,10 +10,10 @@ export default function Home() {
           <span className='text-[24px] font-bold'>편안함과 행복을 드립니다</span>
         </div>
         <div className='flex mb-[200px] w-100'>
-          <div className='flex items-center justify-center w-[90%] h-[70px] bg-customPink rounded-full text-[22px]'>
+          <div className='flex items-center justify-center w-[200px] h-[70px] bg-customPink rounded-full text-[22px]'>
             <button >로그인</button>
           </div>
-          <div  className='flex ml-20 items-center justify-center w-[90%] h-[70px] bg-white border border-[#D9D9D9] rounded-full text-[22px]'>
+          <div  className='flex ml-20 items-center justify-center w-[200px]] h-[70px] bg-white border border-[#D9D9D9] rounded-full text-[22px]'>
             <div className='flex'>
               <div className='ml-8'>
                 <button>회원가입</button>
