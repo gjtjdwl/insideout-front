@@ -1,5 +1,5 @@
 import axios from 'axios';
-import register from './register';
+import auth from './auth';
 
 axios.defaults.withCredentials = true;
 
@@ -7,4 +7,31 @@ export const API = axios.create({
   baseURL: 'http://localhost:8080',
 });
 
-export const RegisterAPI = register(API);
+// 요청 인터셉터 추가
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터 추가
+API.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      // 토큰이 만료된 경우
+      localStorage.removeItem('accessToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const AuthAPI = auth(API);
