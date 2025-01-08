@@ -62,12 +62,12 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="이름을 입력해주세요"
-              className="w-full border rounded-md p-3 text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <label
               htmlFor="email"
-              className="block text-base font-bold mb-2 mt-6"
+              className="block text-sm font-bold mb-2 mt-4"
             >
               이메일 <span className="text-red-500">*</span>
             </label>
