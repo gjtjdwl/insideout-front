@@ -1,0 +1,231 @@
+'use client';
+
+import React, { useState } from 'react';
+
+const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    role: '',
+    user_id: '',
+    password: '',
+    confirmPassword: '',
+    departmentName: '',
+    departmentCode: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    if (formData.role === '부서장' && !formData.departmentName) {
+      alert('부서 이름을 입력해주세요.');
+      return;
+    }
+
+    if (formData.role === '부서원' && !formData.departmentCode) {
+      alert('부서 코드를 입력해주세요.');
+      return;
+    }
+
+    console.log('Form Data Submitted:', formData);
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-customPink">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
+      >
+        <h1 className="text-center text-3xl font-bold mb-8">회원가입</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          {/* 왼쪽 입력 필드 */}
+          <div>
+            <label htmlFor="name" className="block text-sm font-bold mb-2">
+              이름 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="이름을 입력해주세요"
+              className="w-full border rounded-md p-3 text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+            <label
+              htmlFor="email"
+              className="block text-base font-bold mb-2 mt-6"
+            >
+              이메일 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="이메일을 입력해주세요"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+            <label
+              htmlFor="phone"
+              className="block text-sm font-bold mb-2 mt-4"
+            >
+              전화번호 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="전화번호를 입력해주세요"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+            <label className="block text-sm font-bold mb-2 mt-4">
+              직책 <span className="text-red-500">*</span>
+            </label>
+            <div className="flex space-x-4">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="부서장"
+                  onChange={handleChange}
+                  className="mr-2"
+                  checked={formData.role === '부서장'}
+                />
+                부서장
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="부서원"
+                  onChange={handleChange}
+                  className="mr-2"
+                  checked={formData.role === '부서원'}
+                />
+                부서원
+              </label>
+            </div>
+
+            {/* 동적 입력 필드 */}
+            {formData.role === '부서장' && (
+              <div className="mt-4">
+                <label
+                  htmlFor="departmentName"
+                  className="block text-sm font-bold mb-2"
+                >
+                  부서 이름 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="departmentName"
+                  name="departmentName"
+                  value={formData.departmentName}
+                  onChange={handleChange}
+                  placeholder="부서 이름을 입력해주세요"
+                  className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  required
+                />
+              </div>
+            )}
+            {formData.role === '부서원' && (
+              <div className="mt-4">
+                <label
+                  htmlFor="departmentCode"
+                  className="block text-sm font-bold mb-2"
+                >
+                  부서 코드 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="departmentCode"
+                  name="departmentCode"
+                  value={formData.departmentCode}
+                  onChange={handleChange}
+                  placeholder="부서 코드를 입력해주세요"
+                  className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  required
+                />
+              </div>
+            )}
+          </div>
+
+          {/* 오른쪽 입력 필드 */}
+          <div>
+            <label htmlFor="user_id" className="block text-sm font-bold mb-2">
+              아이디 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="user_id"
+              name="user_id"
+              value={formData.user_id}
+              onChange={handleChange}
+              placeholder="아이디를 입력해주세요"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+            <label
+              htmlFor="password"
+              className="block text-sm font-bold mb-2 mt-4"
+            >
+              비밀번호 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="비밀번호를 입력해주세요"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-bold mb-2 mt-4"
+            >
+              비밀번호 확인 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="비밀번호를 한 번 더 입력해주세요"
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-customPink text-black font-bold py-2 px-4 rounded-md mt-6 hover:bg-customPinkHover focus:outline-none"
+        >
+          회원가입
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
