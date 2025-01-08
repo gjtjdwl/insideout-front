@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RegisterAPI } from '../api';
+import { AuthAPI } from '../api';
 import { useRouter } from 'next/navigation';
+import { UserRole } from '../types/auth';
 
 const Register = () => {
   const router = useRouter();
@@ -10,7 +11,7 @@ const Register = () => {
     name: '',
     email: '',
     phone: '',
-    role: '',
+    role: '' as UserRole,
     user_id: '',
     password: '',
     confirmPassword: '',
@@ -38,12 +39,12 @@ const Register = () => {
       return;
     }
 
-    if (formData.role === '부서장' && !formData.department) {
+    if (formData.role === 'manager' && !formData.department) {
       alert('부서 이름을 입력해주세요.');
       return;
     }
 
-    if (formData.role === '부서원' && !formData.departmentCode) {
+    if (formData.role === 'user' && !formData.departmentCode) {
       alert('부서 코드를 입력해주세요.');
       return;
     }
@@ -55,13 +56,13 @@ const Register = () => {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        role: formData.role as '부서장' | '부서원',
+        role: formData.role as UserRole,
         password: formData.password,
         department: formData.department,
         departmentCode: formData.departmentCode,
       };
 
-      const response = await RegisterAPI.register(requestData);
+      const response = await AuthAPI.register(requestData);
       alert('회원가입이 완료되었습니다!');
       router.push('/login'); // 로그인 페이지로 이동
     } catch (error: any) {
@@ -134,10 +135,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="부서장"
+                  value="manager"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === '부서장'}
+                  checked={formData.role === 'manager'}
                   required
                 />
                 부서장
@@ -146,10 +147,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="부서원"
+                  value="user"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === '부서원'}
+                  checked={formData.role === 'user'}
                   required
                 />
                 부서원
@@ -157,7 +158,7 @@ const Register = () => {
             </div>
 
             {/* 동적 입력 필드 */}
-            {formData.role === '부서장' && (
+            {formData.role === 'manager' && (
               <div className="mt-4">
                 <label
                   htmlFor="department"
@@ -177,7 +178,7 @@ const Register = () => {
                 />
               </div>
             )}
-            {formData.role === '부서원' && (
+            {formData.role === 'user' && (
               <div className="mt-4">
                 <label
                   htmlFor="departmentCode"
