@@ -1,9 +1,20 @@
-import Image from 'next/image';
-import { FaBold } from 'react-icons/fa';
-import { FiChevronRight } from "react-icons/fi";
+'use client';
+import React, { useState } from 'react';
 import ButtonIcon from './components/ButtonIcon';
 
 export default function Home() {
+  const [isLogIn, setIsLogIn] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
+
+  const handleLogin = () => {
+    setIsLogIn(true);
+    setRole('부서원');
+  };
+  const handleLogout = () => {
+    setIsLogIn(false);
+    setRole(null);
+  };
+
   return (
     <div className=' flex flex-col items-center min-h-screen bg-customPink p-[50px]'>
       <div className='flex flex-col items-center bg-white w-[100%]'>
@@ -13,42 +24,39 @@ export default function Home() {
         </div>
         
         <div className='flex flex-col sm:flex-row items-center w-full sm:w-auto mb-60'>
-          {isLoggedIn ? (
+          {!isLogIn ? (
             <>
               <div className='sm:mr-20  flex items-center justify-center w-[200px] h-[70px] bg-customPink rounded-full text-[22px] mb-4 sm:mb-0'>
-                <button className='w-full h-[70px] rounded-full pt-[2px]'>로그인</button>
+                <button onClick={handleLogin} className='w-full h-[70px] rounded-full pt-[2px]'>로그인</button>
               </div> 
               <ButtonIcon
                 label="회원가입"
-                bgColor = "white"
+                bgColor = "bg-white"
                 textColor="text-black"
                 width = "w-[200px]"
                 onClick={()=>{}}
                 />
             </>
-            )
-          <div className='flex items-center justify-center w-[200px] h-[70px] bg-white border border-[#D9D9D9] rounded-full text-[22px] relative'>
-            <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>회원가입</button>
-            <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
-              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
-            </div>
-          </div>
-          
-          {/* <div className='flex items-center justify-center w-[240px] h-[70px] bg-customPink border border-[#D9D9D9] rounded-full text-[22px] relative'>
-            <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>본부 들어가기</button>
-            <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
-              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
-            </div>
-          </div> */}
-          {/* <div className='flex items-center justify-center w-[240px] h-[70px] bg-customPink border border-[#D9D9D9] rounded-full text-[22px] relative'>
-            <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>관리자 페이지 </button>
-            <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
-              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
-            </div>
-          </div> */}
-          }
-        </div>
+            ) : role ==='부서장' ?(
+              <ButtonIcon
+                label="관리자 페이지"
+                bgColor = "bg-customPink"
+                textColor="text-black"
+                width = "w-[240px]"
+                onClick={()=>{}}
+                />
 
+            ) : role === '부서원' ?(
+              <ButtonIcon
+                label="본부 들어가기 "
+                bgColor = "bg-customPink"
+                textColor="text-black"
+                width = "w-[240px]"
+                onClick={handleLogout}
+                />
+
+            ): null }
+        </div>
         <div className='bg-customPink min-w-full h-80 mb-[200px]'>
           어쩌구 저쩌구
         </div>
@@ -57,5 +65,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+
   );
 }
