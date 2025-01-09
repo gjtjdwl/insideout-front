@@ -1,13 +1,16 @@
 'use client';
 import React, { useState } from 'react';
 import ButtonIcon from './components/ButtonIcon';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
   const [isLogIn, setIsLogIn] = useState<boolean>(false);
   const [role, setRole] = useState<string | null>(null);
 
   const handleLogin = () => {
     setIsLogIn(true);
+    router.push('/login');
     setRole('부서원');
   };
   const handleLogout = () => {
@@ -36,7 +39,7 @@ export default function Home() {
                 bgColor = "bg-white"
                 textColor="text-black"
                 width = "w-[200px]"
-                onClick={()=>{}}
+                onClick={()=>{router.push('/register')}}
                 />
             </>
             ) : role ==='부서장' ?(
@@ -45,7 +48,7 @@ export default function Home() {
                 bgColor = "bg-customPink"
                 textColor="text-black"
                 width = "w-[240px]"
-                onClick={()=>{}}
+                onClick={()=>{router.push('/')}}
                 />
 
             ) : role === '부서원' ?(
@@ -54,7 +57,7 @@ export default function Home() {
                 bgColor = "bg-customPink"
                 textColor="text-black"
                 width = "w-[240px]"
-                onClick={handleLogout}
+                onClick={()=>{router.push('/')}}
                 />
 
             ): null }

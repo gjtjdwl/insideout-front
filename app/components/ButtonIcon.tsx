@@ -6,7 +6,6 @@ interface ButtonProps {
   textColor: string;
   width: string;
   onClick: () => void
-  role?: string; 
 }
 
 const ButtonIcon: React.FC<ButtonProps> = ({
@@ -15,7 +14,6 @@ const ButtonIcon: React.FC<ButtonProps> = ({
   textColor,
   width,
   onClick,
-  role,
 }) => {
   return (
     <div onClick={onClick} className={`flex items-center justify-center ${width} h-[70px] ${bgColor} border border-[#D9D9D9] rounded-full text-[22px] relative`}>
