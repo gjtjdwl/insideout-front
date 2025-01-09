@@ -1,12 +1,43 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import LoginForm from '../components/LoginForm';
+import SuccessModal from '../components/SuccessModal';
+import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [countdown, setCountdown] = useState(3);
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    if (showSuccessModal && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (showSuccessModal && countdown === 0) {
+      router.push('/');
+    }
+  }, [showSuccessModal, countdown, router]);
+
+  const handleLoginSuccess = (userId: string) => {
+    setUserId(userId);
+    setShowSuccessModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    router.push('/');
+  };
+
   return (
     <div className="flex h-screen">
       {/* 왼쪽 로그인 컴포넌트 */}
       <div className="w-1/2 flex justify-center items-center bg-white">
-        <LoginForm />
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
       </div>
 
       {/* 오른쪽 대화 예시 */}
@@ -80,9 +111,32 @@ const LoginPage: React.FC = () => {
                 성
               </div>
             </div>
+
+            {/* 채팅 입력창 */}
+            <div className="mt-6 flex gap-2">
+              <input
+                type="text"
+                placeholder="메시지를 입력하세요..."
+                className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300"
+                disabled
+              />
+              <button
+                className="bg-customPink text-black px-6 py-3 rounded-xl transition-colors disabled:opacity-50"
+                disabled
+              >
+                전송
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={`환영합니다. ${userId}님! (${countdown}초 후 자동으로 이동합니다)`}
+          onClose={handleModalClose}
+        />
+      )}
     </div>
   );
 };

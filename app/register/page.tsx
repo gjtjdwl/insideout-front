@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthAPI } from '../api';
 import { useRouter } from 'next/navigation';
 import { UserRole } from '../types/auth';
+import SuccessModal from '../components/SuccessModal';
 
 const Register = () => {
   const router = useRouter();
@@ -18,10 +19,39 @@ const Register = () => {
     department: '',
     departmentCode: '',
   });
+  const [passwordError, setPasswordError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [countdown, setCountdown] = useState(3);
+
+  useEffect(() => {
+    if (showSuccessModal && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (showSuccessModal && countdown === 0) {
+      router.push('/login');
+    }
+  }, [showSuccessModal, countdown, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'password' || name === 'confirmPassword') {
+      if (name === 'confirmPassword' && value !== formData.password) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else if (
+        name === 'password' &&
+        value !== formData.confirmPassword &&
+        formData.confirmPassword
+      ) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,9 +63,8 @@ const Register = () => {
       return;
     }
 
-    // 기존 유효성 검사
     if (formData.password !== formData.confirmPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
+      setPasswordError('비밀번호가 일치하지 않습니다.');
       return;
     }
 
@@ -63,13 +92,37 @@ const Register = () => {
       };
 
       const response = await AuthAPI.register(requestData);
-      alert('회원가입이 완료되었습니다!');
-      router.push('/login'); // 로그인 페이지로 이동
+      setShowSuccessModal(true);
     } catch (error: any) {
       alert(
         error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
       );
     }
+  };
+
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    router.push('/login');
+  };
+
+  const isFormValid = () => {
+    const baseFieldsValid =
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.phone.trim() !== '' &&
+      formData.user_id.trim() !== '' &&
+      formData.password.trim() !== '' &&
+      formData.confirmPassword.trim() !== '' &&
+      Boolean(formData.role) &&
+      formData.password === formData.confirmPassword;
+
+    if (formData.role === 'manager') {
+      return baseFieldsValid && formData.department.trim() !== '';
+    }
+    if (formData.role === 'user') {
+      return baseFieldsValid && formData.departmentCode.trim() !== '';
+    }
+    return baseFieldsValid;
   };
 
   return (
@@ -268,15 +321,30 @@ const Register = () => {
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
           </div>
         </div>
         <button
           type="submit"
-          className="w-full bg-customPink text-black font-bold py-2 px-4 rounded-md mt-6 hover:bg-customPinkHover focus:outline-none"
+          disabled={!isFormValid()}
+          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${
+            isFormValid()
+              ? 'bg-customPink text-black hover:bg-customPinkHover'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
         >
           회원가입
         </button>
       </form>
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={`회원가입이 완료되었습니다! (${countdown}초 후 자동으로 이동합니다)`}
+          onClose={handleModalClose}
+        />
+      )}
     </div>
   );
 };
