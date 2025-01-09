@@ -1,20 +1,40 @@
 'use client';
 
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { AuthAPI } from '../api';
 
-const LoginForm: React.FC = () => {
-  // 상태 관리 (아이디와 비밀번호)
+interface LoginFormProps {
+  onLoginSuccess: (name: string) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+  const router = useRouter();
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  // 폼 제출 핸들러
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('로그인 시도:', { id, password });
+    setError('');
 
-    // TODO: 로그인 API 연동
-    router.push('/');
+    try {
+      const response = await AuthAPI.login({
+        user_id: id,
+        password: password,
+      });
+
+      // 로그인 성공 시 콜백 호출 (사용자 이름 전달)
+      onLoginSuccess(response.userId);
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        setError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      } else if (error.response?.status === 404) {
+        setError('존재하지 않는 계정입니다.');
+      } else {
+        setError('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      }
+    }
   };
 
   return (
@@ -32,10 +52,12 @@ const LoginForm: React.FC = () => {
           <input
             type="text"
             id="id"
-            placeholder="id"
+            placeholder="아이디를 입력하세요."
             value={id}
             onChange={(e) => setId(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 
+              ${error ? 'border-red-500' : 'border-gray-300'}`}
+            required
           />
         </div>
 
@@ -50,10 +72,12 @@ const LoginForm: React.FC = () => {
           <input
             type="password"
             id="password"
-            placeholder="password"
+            placeholder="비밀번호를 입력하세요."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 
+              ${error ? 'border-red-500' : 'border-gray-300'}`}
+            required
           />
         </div>
 
@@ -63,6 +87,11 @@ const LoginForm: React.FC = () => {
             비밀번호를 잊으셨나요?
           </a>
         </div>
+
+        {/* 에러 메시지 표시 */}
+        {error && (
+          <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
+        )}
 
         {/* 로그인 버튼 */}
         <button
