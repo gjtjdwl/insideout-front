@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import { FaBold } from 'react-icons/fa';
 import { FiChevronRight } from "react-icons/fi";
+import ButtonIcon from './components/ButtonIcon';
 
 export default function Home() {
   return (
@@ -11,15 +13,40 @@ export default function Home() {
         </div>
         
         <div className='flex flex-col sm:flex-row items-center w-full sm:w-auto mb-60'>
-          <div className='flex items-center justify-center w-[200px] h-[70px] bg-customPink rounded-full text-[22px] mb-4 sm:mb-0'>
-            <button className='w-full h-[70px] rounded-full pt-[2px]'>로그인</button>
-          </div>
-          <div className='flex sm:ml-20 items-center justify-center w-[200px] h-[70px] bg-white border border-[#D9D9D9] rounded-full text-[22px] relative'>
+          {isLoggedIn ? (
+            <>
+              <div className='sm:mr-20  flex items-center justify-center w-[200px] h-[70px] bg-customPink rounded-full text-[22px] mb-4 sm:mb-0'>
+                <button className='w-full h-[70px] rounded-full pt-[2px]'>로그인</button>
+              </div> 
+              <ButtonIcon
+                label="회원가입"
+                bgColor = "white"
+                textColor="text-black"
+                width = "w-[200px]"
+                onClick={()=>{}}
+                />
+            </>
+            )
+          <div className='flex items-center justify-center w-[200px] h-[70px] bg-white border border-[#D9D9D9] rounded-full text-[22px] relative'>
             <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>회원가입</button>
             <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
-              <FiChevronRight size={40} color="#5C5C5C" />
+              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
             </div>
           </div>
+          
+          {/* <div className='flex items-center justify-center w-[240px] h-[70px] bg-customPink border border-[#D9D9D9] rounded-full text-[22px] relative'>
+            <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>본부 들어가기</button>
+            <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
+              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
+            </div>
+          </div> */}
+          {/* <div className='flex items-center justify-center w-[240px] h-[70px] bg-customPink border border-[#D9D9D9] rounded-full text-[22px] relative'>
+            <button className='w-full h-[70px] rounded-full pr-5 pt-[2px]'>관리자 페이지 </button>
+            <div className=' w-[40px] h-[40px] flex justify-center items-center absolute right-3'>
+              <FiChevronRight size={40} color="#5C5C5C" fontWeight="bold" />
+            </div>
+          </div> */}
+          }
         </div>
 
         <div className='bg-customPink min-w-full h-80 mb-[200px]'>
