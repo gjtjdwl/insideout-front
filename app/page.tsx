@@ -59,7 +59,7 @@ export default function Home() {
           <span>당신 안의 작은 목소리들을 만나보세요, Inside Out</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-40">
+        <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-80">
           {!isLogIn ? (
             <>
               <div className="sm:mr-20  flex items-center justify-center w-[200px] h-[70px] bg-customPink hover:bg-customPinkHover rounded-full text-[22px] mb-4 sm:mb-0">
