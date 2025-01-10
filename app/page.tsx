@@ -56,9 +56,7 @@ export default function Home() {
       <div className="flex flex-col items-center bg-white w-[100%]">
         <img src="./mainLogo.png" className="w-54 h-32 mt-24" alt="asdf" />
         <div className="flex flex-col items-center mt-3 mb-32 text-[24px] font-bold">
-          <span>
-            당신 안의 작은 목소리들을 만나보세요, Inside Out
-          </span>
+          <span>당신 안의 작은 목소리들을 만나보세요, Inside Out</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-40">
@@ -133,16 +131,34 @@ export default function Home() {
           </div>
         </div>
 
-        <div>
-          <div className="ml-4 my-20 text-4xl">
-            InsideOut을 통해,
-            <br />
-            <br />
-            기업과 조직원의 마음은 달라집니다.
+        <div className="my-14">
+          <div className="ml-4 my-20 font-semibold">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{
+                opacity: 1,
+                x: 1,
+                transition: { delay: 0.2 },
+              }}
+              className="mb-2 text-[40px]"
+            >
+              InsideOut을 통해,
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{
+                opacity: 1,
+                x: 1,
+                transition: { delay: 0.2 },
+              }}
+              className="text-[45px]"
+            >
+              기업과 조직원의 마음은 달라집니다.
+            </motion.div>
           </div>
           <div className="flex flex-row mb-40">
             <div className="flex flex-col justify-between py-12 m-4 text-lg">
-              <div className="bg-[#d9d9d9] p-3 rounded">
+              <div className="bg-[#d9d9d9] p-3 rounded font-light">
                 <p className="text-left text-black">
                   회사에 하고싶은 말을 어떻게 전하지?
                 </p>
@@ -151,7 +167,7 @@ export default function Home() {
                   회사에 적응하기가 너무 힘들어
                 </p>
               </div>
-              <div className="bg-customPink mt-5 p-3 rounded">
+              <div className="bg-customPink mt-5 p-3 rounded font-light">
                 <p className="text-left text-black">
                   심리도를 통한 심리 상담 추천
                 </p>
@@ -166,13 +182,13 @@ export default function Home() {
               <img className="w-60" alt="employer" src="./frame_er.svg" />
             </div>
             <div className="flex flex-col justify-between py-12 m-4 text-lg">
-              <div className="bg-[#d9d9d9] mt-4 p-3 rounded">
+              <div className="bg-[#d9d9d9] mt-4 p-3 rounded font-light">
                 <p className="text-left text-black">조직과의 소통이 안돼요</p>
                 <p className=" text-left text-black">
                   조직이 뭘 원하는지 모르겠어요
                 </p>
               </div>
-              <div className="bg-[#deeafa] mb-3 p-3 rounded">
+              <div className="bg-[#deeafa] mb-3 p-3 rounded font-light">
                 <p className="text-left text-black">조직의 심리 변화도 제공</p>
                 <p className="text-left text-black">
                   AI 요약을 통한 개선방안 제공
@@ -187,7 +203,6 @@ export default function Home() {
         <div className="relative w-full h-auto aspect-video mb-40 flex items-center justify-center">
           <div className="absolute inset-0 bg-[url('/homeback.jpg')] bg-cover bg-center opacity-60"></div>
           <div className=" max-w-[84rem] flex flex-col justify-around max-h-[1000px] h-[800px]">
-
             <motion.div
               initial={{ y: -50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
