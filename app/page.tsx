@@ -162,7 +162,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-row ">
-              <img className="w-60" alt="employee" src="./frame_ee.svg" />
+              <img className="w-60" alt="employee" src="./frame_90.svg" />
               <img className="w-60" alt="employer" src="./frame_er.svg" />
             </div>
             <div className="flex flex-col justify-between py-12 m-4 text-lg">
@@ -184,20 +184,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-full h-auto aspect-video mb-40">
+        <div className="relative w-full h-auto aspect-video mb-40 flex items-center justify-center">
           <div className="absolute inset-0 bg-[url('/homeback.jpg')] bg-cover bg-center opacity-60"></div>
-          <div className="mt-32">
-            {/* <motion.div
-              initial={{y: -50, opacity:0}}
-              whileInView={{y: 0, opacity:1}}
-              transition={{
-                type: 'spring',
-                stiffness: 100,
-                damping: 25,
-                duration: 1.5,
-              }}
-              className='mt-32'
-              > */}
+          <div className=" max-w-[84rem] flex flex-col justify-around max-h-[1000px] h-[800px]">
+
             <motion.div
               initial={{ y: -50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
@@ -207,9 +197,8 @@ export default function Home() {
                 damping: 25,
                 duration: 1.5,
               }}
-              className="flex relative items-center justify-start pl-[40px] sm:pl-[80px]"
+              className="flex relative items-center justify-start pl-[40px] sm:pl-[80px] sm:mt-10"
             >
-              {/* <div className='flex relative items-center justify-start pl-[40px] sm:pl-[80px]'> */}
               <div className="w-[350px] h-[160px] flex flex-col bg-customPink items-center justify-center rounded-[80px] opacity-85 text-[20px] sm:w-[300px] sm:h-[140px] sm:text-[22px] shadow-lg transition-shadow">
                 <span>ORS </span>
                 <span>(Outcome Rating Scale) </span>
@@ -222,7 +211,6 @@ export default function Home() {
                   확인합니다.
                 </p>
               </div>
-              {/* </div> */}
             </motion.div>
             <motion.div
               initial={{ y: -50, opacity: 0 }}
@@ -233,9 +221,8 @@ export default function Home() {
                 damping: 25,
                 duration: 1.5,
               }}
-              className="flex relative items-center justify-end pr-[40px] sm:pr-[80px] mt-32"
+              className="flex relative items-center justify-end pr-[40px] sm:pr-[80px] sm:mt-0 "
             >
-              {/* <div className='flex relative items-center justify-end pr-[40px] sm:pr-[80px] mt-[100px]'> */}
               <div className="relative ">
                 <p className="text-[20px] sm:text-[26px] font-bold text-white text-right">
                   상담에 대한 고객님의 만족도를 평가하며 <br />
@@ -246,9 +233,7 @@ export default function Home() {
                 <span>SRS </span>
                 <span>(Session Rating Scale) </span>
               </div>
-              {/* </div> */}
             </motion.div>
-            {/* </motion.div> */}
 
             <div>
               <motion.div
