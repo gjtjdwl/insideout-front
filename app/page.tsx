@@ -259,7 +259,7 @@ export default function Home() {
         {/* 제목 */}
         <h1 className="text-4xl font-bold mb-12 text-center">
           Inside Out과 함께하면서, <br />
-          <span className="text-blue-600">기대되는 것들</span>
+          <span className="text-[#3F75FF]">기대되는 것들</span>
         </h1>
 
         {/* 메인 콘텐츠 */}
@@ -275,42 +275,42 @@ export default function Home() {
             {/*초기상태 투명하게 왼쪽에서 80 이동 / 화면에 보일때 완전히, 원래위치 / 전환 시간 1.5초 */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-customPink to-[#F8C8DC] p-8 rounded-[30px] shadow-lg border border-customPink hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#FFE9A8] to-[#FFE9A8] p-8 rounded-[30px] shadow-lg  hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-[#B56576] font-semibold mb-2">
+                <div className="text-[#2C2C2C] text-2xl font-semibold mb-2">
                   업무 생산성
                 </div>
-                <div className="text-3xl font-bold text-[#4C8C74]">43%↑</div>
-                <div className="text-sm text-[#6A6EA9] mt-2">
+                <div className="text-3xl font-bold text-[#4D82FF]">43% 🠕</div>
+                <div className="text-[18px] text-[#836900] mt-2">
                   업무 효율성 증가
                 </div>
               </div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-customPink to-[#D9F5F2] p-8 rounded-[30px] shadow-lg border border-pink-100 hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#FAD4AE] to-[#FAD4AE] p-8 rounded-[30px] shadow-lg  hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-[#FFB1C1] font-semibold mb-2">
+                <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                   근무 태도
                 </div>
-                <div className="text-3xl font-bold text-[#82C7B5]">36%↑</div>
-                <div className="text-sm text-[#A0B2A4] mt-2">
+                <div className="text-3xl font-bold text-[#4D82FF]">36% 🠕</div>
+                <div className="text-[18px] text-[#FF8000] mt-2">
                   업무 만족도 향상
                 </div>
               </div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-customPink to-[#E9DFF7] p-8 rounded-[30px] shadow-lg border border-purple-100 hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#FDAFAB] to-[#FDAFAB] p-8 rounded-[30px] shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-[#D8A7E2] font-semibold mb-2">
+                <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                   업무 동기
                 </div>
-                <div className="text-3xl font-bold text-[#9A94CF]">50%↑</div>
-                <div className="text-sm text-[#ADA9C5] mt-2">
+                <div className="text-3xl font-bold text-[#4D82FF]">50% 🠕</div>
+                <div className="text-[18px] text-[#FF3A30] mt-2">
                   자발적 참여도 증가
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function Home() {
               {/* 채팅 예시 */}
               <div className="flex flex-col gap-4">
                 {/* 공지 텍스트 */}
-                <div className="bg-blue-100 text-blue-700 text-sm p-4 rounded-xl whitespace-normal">
+                <div className="bg-[#DEF3FA] text-[#0773A1] text-sm p-4 rounded-xl whitespace-normal">
                   반갑습니다. 지금 하는 대화는 공개되지 않으니 편하게 속마음을
                   얘기해 보세요.
                 </div>
@@ -335,8 +335,8 @@ export default function Home() {
                   transition={{ duration: 0.5 }}
                   className="flex items-start gap-4"
                 >
-                  <div className="w-10 h-10 rounded-full bg-orange-400 flex-shrink-0 flex justify-center items-center text-white font-bold">
-                    마
+                  <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-xl font-bold">
+                    🤗
                   </div>
                   <div className="bg-gray-100 px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
                     안녕, 내 이름은 마음이야. 네 이름은 뭐야?
@@ -352,8 +352,8 @@ export default function Home() {
                   <div className="bg-customPink px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
                     안녕 난 성미야 😊
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-pink-400 flex-shrink-0 flex justify-center items-center text-white font-bold">
-                    성
+                  <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-2xl font-bold">
+                    🐰
                   </div>
                 </motion.div>
 
@@ -363,8 +363,8 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="flex items-start gap-4"
                 >
-                  <div className="w-10 h-10 rounded-full bg-orange-400 flex-shrink-0 flex justify-center items-center text-white font-bold">
-                    마
+                  <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-xl font-bold">
+                    🤗
                   </div>
                   <div className="bg-gray-100 px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
                     안녕, 성미야. 요즘 무슨 고민이 있어?
@@ -380,8 +380,8 @@ export default function Home() {
                   <div className="bg-customPink px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
                     연애는 어떻게 하는거야?
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-pink-400 flex-shrink-0 flex justify-center items-center text-white font-bold">
-                    성
+                  <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-2xl text-white font-bold">
+                  🐰
                   </div>
                 </motion.div>
               </div>
@@ -396,8 +396,8 @@ export default function Home() {
                     disabled
                   />
                   <button
-                    className="bg-customPink text-black px-6 py-3 rounded-xl transition-colors disabled:opacity-50"
-                    disabled
+                    className="bg-customPink text-black px-6 py-3 rounded-xl transition-colors"
+                
                   >
                     전송
                   </button>
@@ -415,14 +415,14 @@ export default function Home() {
           >
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-customPink to-[#D7E9F5] p-8 rounded-[30px] shadow-lg border border-orange-100 hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#FFD0E4] to-[#FFD0E4] p-8 rounded-[30px] shadow-lg  hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-[#A1C7E6] font-semibold mb-2">
+                <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                   감정 건강
                 </div>
-                <div className="text-3xl font-bold text-[#6DB2D1]">86%↑</div>
-                <div className="text-sm text-[#8FAABF] mt-2">
+                <div className="text-3xl font-bold text-[#4D82FF]">86% 🠕</div>
+                <div className="text-[18px] text-[#FC5F70] mt-2">
                   정서적 안정감 향상
                 </div>
               </div>
@@ -430,14 +430,14 @@ export default function Home() {
 
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-[30px] shadow-lg border border-yellow-100 hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#E4FFB4] to-[#E4FFB4] p-8 rounded-[30px] shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-yellow-800 font-semibold mb-2">
+                <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                   일상 생활
                 </div>
-                <div className="text-3xl font-bold text-green-500">45%↑</div>
-                <div className="text-sm text-gray-600 mt-2">
+                <div className="text-3xl font-bold text-[#4D82FF]">45% 🠕</div>
+                <div className="text-[18px] text-[#58830D] mt-2">
                   생활 만족도 개선
                 </div>
               </div>
@@ -445,14 +445,14 @@ export default function Home() {
 
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gradient-to-r from-green-50 to-blue-50 p-8 rounded-[30px] shadow-lg border border-green-100 hover:shadow-xl transition-shadow"
+              className="bg-gradient-to-r from-[#B6E3E9] to-[#B6E3E9] p-8 rounded-[30px] shadow-lg  hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <div className="text-green-800 font-semibold mb-2">
+                <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                   신체 건강
                 </div>
-                <div className="text-3xl font-bold text-green-500">15%↑</div>
-                <div className="text-sm text-gray-600 mt-2">건강 지표 개선</div>
+                <div className="text-3xl font-bold text-[#4D82FF]">15% 🠕</div>
+                <div className="text-[18px] text-[#68888C] mt-2">건강 지표 개선</div>
               </div>
             </motion.div>
           </motion.div>
