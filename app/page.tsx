@@ -134,24 +134,24 @@ export default function Home() {
         </div>
 
         <div>
-          <div className="ml-4 my-20 text-4xl">
+          <div className="ml-4 my-20 text-4xl font-semibold">
             InsideOut을 통해,
             <br />
             <br />
             기업과 조직원의 마음은 달라집니다.
           </div>
           <div className="flex flex-row mb-40">
-            <div className="flex flex-col justify-between py-12 m-4 text-lg">
-              <div className="bg-[#d9d9d9] p-3 rounded">
-                <p className="text-left text-black">
-                  회사에 하고싶은 말을 어떻게 전하지?
-                </p>
+            <div className="flex flex-col justify-evenly pb-12 m-4 text-lg">
+              <div className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9">
+                <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -right-8"></div>
+                <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -right-14"></div>
+                <p className=" text-left text-black">회사에 하고싶은 말을 어떻게 전하지?</p>
                 <p className="text-left text-black">내 마음... 잘 모르겠어</p>
-                <p className=" text-left text-black">
-                  회사에 적응하기가 너무 힘들어
-                </p>
+                  <p className=" text-left text-black">
+                    회사에 적응하기가 너무 힘들어
+                  </p>
               </div>
-              <div className="bg-customPink mt-5 p-3 rounded">
+              <div className="bg-customPink mt-10 p-7 rounded-tl-[35px] rounded-bl-[35px] rounded-br-[35px] ">
                 <p className="text-left text-black">
                   심리도를 통한 심리 상담 추천
                 </p>
@@ -161,18 +161,21 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-row ">
-              <img className="w-60" alt="employee" src="./frame_90.svg" />
+            <div className="flex flex-row h-[500px]">
+              <img className="w-60 h-auto" alt="employee" src="./frame_90.svg" />
               <img className="w-60" alt="employer" src="./frame_er.svg" />
             </div>
-            <div className="flex flex-col justify-between py-12 m-4 text-lg">
-              <div className="bg-[#d9d9d9] mt-4 p-3 rounded">
+            <div className="flex flex-col justify-evenly pb-12 m-4 text-lg">
+              
+              <div className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9">
+                <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -left-8"></div>
+                <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -left-14"></div>
                 <p className="text-left text-black">조직과의 소통이 안돼요</p>
                 <p className=" text-left text-black">
                   조직이 뭘 원하는지 모르겠어요
                 </p>
               </div>
-              <div className="bg-[#deeafa] mb-3 p-3 rounded">
+              <div className="bg-[#deeafa] mt-10 p-7 rounded-br-[35px] rounded-bl-[35px] rounded-tr-[35px]">
                 <p className="text-left text-black">조직의 심리 변화도 제공</p>
                 <p className="text-left text-black">
                   AI 요약을 통한 개선방안 제공
@@ -338,7 +341,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-xl font-bold">
                     🤗
                   </div>
-                  <div className="bg-gray-100 px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
+                  <div className="bg-gray-100 px-6 py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
                     안녕, 내 이름은 마음이야. 네 이름은 뭐야?
                   </div>
                 </motion.div>
@@ -349,7 +352,7 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="flex items-start justify-end gap-4"
                 >
-                  <div className="bg-customPink px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
+                  <div className="bg-customPink px-6 py-3 mt-4 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
                     안녕 난 성미야 😊
                   </div>
                   <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-2xl font-bold">
@@ -366,7 +369,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-xl font-bold">
                     🤗
                   </div>
-                  <div className="bg-gray-100 px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
+                  <div className="bg-gray-100 px-6 py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
                     안녕, 성미야. 요즘 무슨 고민이 있어?
                   </div>
                 </motion.div>
@@ -377,7 +380,7 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: 0.6 }}
                   className="flex items-start justify-end gap-4"
                 >
-                  <div className="bg-customPink px-6 py-4 rounded-2xl max-w-[75%] whitespace-normal break-words">
+                  <div className="bg-customPink px-6 py-3 mt-4 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
                     연애는 어떻게 하는거야?
                   </div>
                   <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-2xl text-white font-bold">
@@ -388,7 +391,7 @@ export default function Home() {
 
               {/* 채팅 입력창 */}
               <div className="mt-auto border-t pt-4">
-                <div className="flex gap-2">
+                <div className="flex gap-2 h-12">
                   <input
                     type="text"
                     placeholder="메시지를 입력하세요..."
