@@ -83,7 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
         {/* 비밀번호 찾기 링크 */}
         <div className="flex justify-between items-center mb-4">
-          <a href="#" className="text-sm text-pink-400 hover:underline">
+          <a href="#" className="text-sm text-[#a5a5a5] hover:underline">
             비밀번호를 잊으셨나요?
           </a>
         </div>
@@ -104,7 +104,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         {/* 가입 링크 */}
         <p className="text-center text-sm text-gray-600 mt-4">
           계정이 없으신가요?{' '}
-          <a href="/register" className="text-pink-400 hover:underline">
+          <a href="/register" className="text-[#a5a5a5] hover:underline ml-2">
             가입하기
           </a>
         </p>
