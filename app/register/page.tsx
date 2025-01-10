@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { RegisterAPI } from '../api';
+import React, { useState, useEffect } from 'react';
+import { AuthAPI } from '../api';
 import { useRouter } from 'next/navigation';
+import { UserRole } from '../types/auth';
+import SuccessModal from '../components/SuccessModal';
 
 const Register = () => {
   const router = useRouter();
@@ -10,17 +12,46 @@ const Register = () => {
     name: '',
     email: '',
     phone: '',
-    role: '',
+    role: '' as UserRole,
     user_id: '',
     password: '',
     confirmPassword: '',
     department: '',
     departmentCode: '',
   });
+  const [passwordError, setPasswordError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [countdown, setCountdown] = useState(3);
+
+  useEffect(() => {
+    if (showSuccessModal && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (showSuccessModal && countdown === 0) {
+      router.push('/login');
+    }
+  }, [showSuccessModal, countdown, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'password' || name === 'confirmPassword') {
+      if (name === 'confirmPassword' && value !== formData.password) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else if (
+        name === 'password' &&
+        value !== formData.confirmPassword &&
+        formData.confirmPassword
+      ) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else {
+        setPasswordError('');
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,18 +63,17 @@ const Register = () => {
       return;
     }
 
-    // 기존 유효성 검사
     if (formData.password !== formData.confirmPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
+      setPasswordError('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    if (formData.role === '부서장' && !formData.department) {
+    if (formData.role === 'manager' && !formData.department) {
       alert('부서 이름을 입력해주세요.');
       return;
     }
 
-    if (formData.role === '부서원' && !formData.departmentCode) {
+    if (formData.role === 'user' && !formData.departmentCode) {
       alert('부서 코드를 입력해주세요.');
       return;
     }
@@ -55,15 +85,14 @@ const Register = () => {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        role: formData.role as '부서장' | '부서원',
+        role: formData.role as UserRole,
         password: formData.password,
         department: formData.department,
         departmentCode: formData.departmentCode,
       };
 
-      const response = await RegisterAPI.register(requestData);
-      alert('회원가입이 완료되었습니다!');
-      router.push('/login'); // 로그인 페이지로 이동
+      const response = await AuthAPI.register(requestData);
+      setShowSuccessModal(true);
     } catch (error: any) {
       alert(
         error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
@@ -71,12 +100,58 @@ const Register = () => {
     }
   };
 
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    router.push('/login');
+  };
+
+  const isFormValid = () => {
+    const baseFieldsValid =
+      formData.name.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.phone.trim() !== '' &&
+      formData.user_id.trim() !== '' &&
+      formData.password.trim() !== '' &&
+      formData.confirmPassword.trim() !== '' &&
+      Boolean(formData.role) &&
+      formData.password === formData.confirmPassword;
+
+    if (formData.role === 'manager') {
+      return baseFieldsValid && formData.department.trim() !== '';
+    }
+    if (formData.role === 'user') {
+      return baseFieldsValid && formData.departmentCode.trim() !== '';
+    }
+    return baseFieldsValid;
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-customPink">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
+        className="relative bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
       >
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+        </button>
+
         <h1 className="text-center text-3xl font-bold mb-8">회원가입</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* 왼쪽 입력 필드 */}
@@ -134,10 +209,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="부서장"
+                  value="manager"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === '부서장'}
+                  checked={formData.role === 'manager'}
                   required
                 />
                 부서장
@@ -146,10 +221,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="부서원"
+                  value="user"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === '부서원'}
+                  checked={formData.role === 'user'}
                   required
                 />
                 부서원
@@ -157,7 +232,7 @@ const Register = () => {
             </div>
 
             {/* 동적 입력 필드 */}
-            {formData.role === '부서장' && (
+            {formData.role === 'manager' && (
               <div className="mt-4">
                 <label
                   htmlFor="department"
@@ -177,7 +252,7 @@ const Register = () => {
                 />
               </div>
             )}
-            {formData.role === '부서원' && (
+            {formData.role === 'user' && (
               <div className="mt-4">
                 <label
                   htmlFor="departmentCode"
@@ -246,15 +321,30 @@ const Register = () => {
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
           </div>
         </div>
         <button
           type="submit"
-          className="w-full bg-customPink text-black font-bold py-2 px-4 rounded-md mt-6 hover:bg-customPinkHover focus:outline-none"
+          disabled={!isFormValid()}
+          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${
+            isFormValid()
+              ? 'bg-customPink text-black hover:bg-customPinkHover'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
         >
           회원가입
         </button>
       </form>
+
+      {showSuccessModal && (
+        <SuccessModal
+          message={`회원가입이 완료되었습니다! (${countdown}초 후 자동으로 이동합니다)`}
+          onClose={handleModalClose}
+        />
+      )}
     </div>
   );
 };
