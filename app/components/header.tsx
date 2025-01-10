@@ -16,7 +16,7 @@ export default function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 alt=""
@@ -38,13 +38,13 @@ export default function Header() {
           </div>
           <div className="flex flex-1 items-center justify-end gap-x-6">
             <a
-              href="#"
+              href="/login"
               className="hidden text-sm/6 font-semibold text-gray-900 lg:block"
             >
               로그인
             </a>
             <a
-              href="#"
+              href="/register"
               className="rounded-md bg-customPink px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               회원가입

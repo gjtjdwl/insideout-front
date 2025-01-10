@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RegisterAPI } from '../api';
+import { RegisterAPI } from '../../api';
 import { useRouter } from 'next/navigation';
 
 const Register = () => {
