@@ -107,13 +107,17 @@ export default function Home() {
         </div>
 
         <div id="serviceInfo" className="bg-customPink py-20 min-w-full mb-20">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              편한 곳에서, 익명으로 신속하게
-            </h2>
-            <p className="text-gray-700 mb-10">
-              익명 커뮤니티 기반으로 즉시성과 접근성을 담보합니다.
-            </p>
+          <div className="max-w-7xl flex justify-between gap-16 mx-auto text-center">
+            <div className="flex flex-col justify-center text-right">
+              <h2 className="text-4xl font-bold mb-4 leading-[3rem]">
+                편한 곳에서, <br />
+                익명으로 <br />
+                신속하게
+              </h2>
+              <p className="text-gray-700 mb-10 mt-2">
+                익명 커뮤니티 기반으로 즉시성과 접근성을 담보합니다.
+              </p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feature, index) => (
                 <div
@@ -157,27 +161,45 @@ export default function Home() {
             </motion.div>
           </div>
           <div className="flex flex-row mb-40">
-            <div className="flex flex-col justify-evenly pb-12 m-4 text-lg">
-              <div className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9">
+            <div className="flex flex-col justify-evenly pb-12 m-4 text-xl font-light">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 1,
+                  transition: { delay: 0.4 },
+                }}
+                className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9"
+              >
                 <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -right-8"></div>
                 <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -right-14"></div>
-                <p className=" text-left text-black">
+                <p className=" text-left text-black mb-1">
                   회사에 하고싶은 말을 어떻게 전하지?
                 </p>
-                <p className="text-left text-black">내 마음... 잘 모르겠어</p>
+                <p className="text-left text-black mb-1">
+                  내 마음... 잘 모르겠어
+                </p>
                 <p className=" text-left text-black">
                   회사에 적응하기가 너무 힘들어
                 </p>
-              </div>
-              <div className="bg-customPink mt-10 p-7 rounded-tl-[35px] rounded-bl-[35px] rounded-br-[35px] ">
-                <p className="text-left text-black">
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 1,
+                  transition: { delay: 0.6 },
+                }}
+                className="bg-customPink mt-10 p-7 rounded-tl-[35px] rounded-bl-[35px] rounded-br-[35px] "
+              >
+                <p className="text-left text-black mb-1">
                   심리도를 통한 심리 상담 추천
                 </p>
-                <p className="text-left text-black">자신의 심리 검토</p>
+                <p className="text-left text-black mb-1">자신의 심리 검토</p>
                 <p className="text-left text-black">
                   AI 분석을 통한 심리도 파악
                 </p>
-              </div>
+              </motion.div>
             </div>
             <div className="flex flex-row h-[500px]">
               <img
@@ -187,24 +209,44 @@ export default function Home() {
               />
               <img className="w-60" alt="employer" src="./frame_er.svg" />
             </div>
-            <div className="flex flex-col justify-evenly pb-12 m-4 text-lg">
-              <div className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9">
+            <div className="flex flex-col justify-evenly pb-12 m-4 text-xl font-light">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 1,
+                  transition: { delay: 0.4 },
+                }}
+                className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9 "
+              >
                 <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -left-8"></div>
                 <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -left-14"></div>
-                <p className="text-left text-black">조직과의 소통이 안돼요</p>
+                <p className="text-left text-black mb-1">
+                  조직과의 소통이 안돼요
+                </p>
                 <p className=" text-left text-black">
                   조직이 뭘 원하는지 모르겠어요
                 </p>
-              </div>
-              <div className="bg-[#deeafa] mt-10 p-7 rounded-br-[35px] rounded-bl-[35px] rounded-tr-[35px]">
-                <p className="text-left text-black">조직의 심리 변화도 제공</p>
-                <p className="text-left text-black">
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 1,
+                  transition: { delay: 0.6 },
+                }}
+                className="bg-[#deeafa] mt-10 p-7 rounded-br-[35px] rounded-bl-[35px] rounded-tr-[35px]"
+              >
+                <p className="text-left text-black mb-1">
+                  조직의 심리 변화도 제공
+                </p>
+                <p className="text-left text-black mb-1">
                   AI 요약을 통한 개선방안 제공
                 </p>
                 <p className="text-left text-black">
                   해당 서비스를 통한 근무환경 개선 기대
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
