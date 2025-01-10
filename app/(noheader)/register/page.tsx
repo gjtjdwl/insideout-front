@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AuthAPI } from '../api';
+import { AuthAPI } from '../../api';
 import { useRouter } from 'next/navigation';
-import { UserRole } from '../types/auth';
-import SuccessModal from '../components/SuccessModal';
+import { UserRole } from '../../types/auth';
+import SuccessModal from '../../components/SuccessModal';
 
 const Register = () => {
   const router = useRouter();
