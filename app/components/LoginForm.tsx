@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { AuthAPI } from '../api';
-
+import { FiChevronLeft } from "react-icons/fi";
 interface LoginFormProps {
   onLoginSuccess: (name: string) => void;
 }
@@ -39,6 +39,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-white">
+      <FiChevronLeft
+          type="button"
+          size={35}
+          cursor={'pointer'}
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+        />
+          
       <h1 className="text-2xl font-bold mb-8">감정 본부로 출발하기 🏃</h1>
       <form onSubmit={handleSubmit} className="w-3/4 max-w-md">
         {/* 아이디 입력 */}
