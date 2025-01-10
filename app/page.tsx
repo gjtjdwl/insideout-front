@@ -46,7 +46,7 @@ export default function Home() {
   const handleLogin = () => {
     setIsLogIn(true);
     router.push('/login');
-    setRole('부서원');
+  
   };
   const handleLogout = () => {
     setIsLogIn(false);
