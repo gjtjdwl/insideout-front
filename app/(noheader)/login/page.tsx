@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import LoginForm from '../components/LoginForm';
-import SuccessModal from '../components/SuccessModal';
+import LoginForm from '../../components/LoginForm';
+import SuccessModal from '../../components/SuccessModal';
 import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
