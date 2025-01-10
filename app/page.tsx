@@ -55,9 +55,9 @@ export default function Home() {
     <div className=" flex flex-col items-center min-h-screen bg-customPink px-[50px]">
       <div className="flex flex-col items-center bg-white w-[100%]">
         <img src="./mainLogo.png" className="w-54 h-32 mt-24" alt="asdf" />
-        <div className="mb-32">
-          <span className="text-[24px] font-bold">
-            편안함과 행복을 드립니다
+        <div className="flex flex-col items-center mt-3 mb-32 text-[24px] font-bold">
+          <span>
+            당신 안의 작은 목소리들을 만나보세요, Inside Out
           </span>
         </div>
 
