@@ -3,8 +3,13 @@ import auth from './auth';
 
 axios.defaults.withCredentials = true;
 
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://insideout-back-production.up.railway.app'
+    : 'http://localhost:8080';
+
 export const API = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL,
 });
 
 // 요청 인터셉터 추가
