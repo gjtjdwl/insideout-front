@@ -10,7 +10,7 @@ export const API = axios.create({
 // 요청 인터셉터 추가
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('jwt');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -27,7 +27,7 @@ API.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       // 토큰이 만료된 경우
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem('jwt');
       window.location.href = '/login';
     }
     return Promise.reject(error);

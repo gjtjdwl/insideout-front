@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { AuthAPI } from '../api';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useAuth } from '../contexts/AuthContext';
+import { useUser } from '../hooks/useUser';
 
 interface LoginFormProps {
   onLoginSuccess: (name: string) => void;
@@ -12,7 +12,7 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login } = useUser();
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -27,19 +27,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         password: password,
       });
 
-      // JWT 토큰을 localStorage에 저장
-      localStorage.setItem('accessToken', response.jwt);
+      login(
+        {
+          userId: response.userId,
+          name: response.name,
+          role: response.role,
+        },
+        response.jwt
+      );
 
-      // 사용자 정보를 AuthContext에 저장
-      const userData = {
-        userId: response.userId,
-        name: response.name,
-        role: response.role,
-      };
-
-      login(userData);
       onLoginSuccess(response.name);
-      router.push('/'); // 로그인 성공 후 홈으로 이동
     } catch (error: any) {
       if (error.response?.status === 401) {
         setError('아이디 또는 비밀번호가 일치하지 않습니다.');

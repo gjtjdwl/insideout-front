@@ -25,17 +25,6 @@ const auth = (api: AxiosInstance) => ({
       userId: data.userId,
       password: data.password,
     });
-
-    if (response.data.jwt) {
-      localStorage.setItem('jwt', response.data.jwt);
-      const userData = {
-        userId: response.data.userId,
-        name: response.data.name,
-        role: response.data.role,
-        department: '',
-      };
-      localStorage.setItem('user', JSON.stringify(userData));
-    }
     return response.data;
   },
 

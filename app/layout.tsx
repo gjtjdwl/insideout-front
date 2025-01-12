@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AuthProvider } from './contexts/AuthContext';
-import { RouteGuard } from './components/RouteGuard';
 
 export const metadata: Metadata = {
   title: 'Inside out',
@@ -15,11 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className="scroll-smooth" lang="ko">
-      <body>
-        <AuthProvider>
-          <RouteGuard>{children}</RouteGuard>
-        </AuthProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
