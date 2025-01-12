@@ -1,9 +1,11 @@
 'use client';
 
-import { useAuth } from '../contexts/AuthContext';
+import { useUser } from '../hooks/useUser';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const defaultNav = [
   { name: '서비스소개', href: '#serviceInfo' },
@@ -35,9 +37,9 @@ const adminNav = [
   { name: '문의게시판', href: '#' },
   { name: '마이페이지', href: '#' },
 ];
-// user manager admin
+
 export default function Header() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { user, logout } = useUser();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -59,7 +61,6 @@ export default function Header() {
 
   const handleLogout = () => {
     logout();
-    router.push('/');
   };
 
   return (
@@ -67,14 +68,16 @@ export default function Header() {
       <header className="bg-white z-50 relative">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-4 lg:p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                alt=""
+              <Image
+                alt="Company Logo"
                 src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                width={32}
+                height={32}
                 className="h-6 w-auto sm:h-8"
               />
-            </a>
+            </Link>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -92,35 +95,35 @@ export default function Header() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="text-sm/6 font-semibold text-gray-900"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
           {mobileMenuOpen && (
             <div className="lg:hidden absolute top-full left-0 w-full bg-white border-t">
               <div className="space-y-1 px-4 py-3">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="block py-2 text-base font-medium text-gray-900"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
           )}
           <div className="flex flex-1 items-center justify-end gap-x-4">
-            {isAuthenticated ? (
+            {user ? (
               <>
                 <span className="text-sm/6 font-semibold text-gray-900">
-                  {user?.name}님
+                  {user.name}님
                 </span>
                 <button
                   onClick={handleLogout}
@@ -131,18 +134,18 @@ export default function Header() {
               </>
             ) : (
               <>
-                <a
+                <Link
                   href="/login"
                   className="text-sm/6 font-semibold text-gray-900"
                 >
                   로그인
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/register"
                   className="rounded-md bg-customPink px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-customPinkHover"
                 >
                   회원가입
-                </a>
+                </Link>
               </>
             )}
           </div>

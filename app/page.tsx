@@ -1,19 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import ButtonIcon from './components/ButtonIcon';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { TbChevronCompactDown } from 'react-icons/tb';
 import Header from './components/header';
 import Footer from './components/footer';
-import { useAuth } from './contexts/AuthContext';
+import { useUser } from './hooks/useUser';
+import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth();
-  const [isLogIn, setIsLogIn] = useState<boolean>(false);
-  const [role, setRole] = useState<string | null>(null);
+  const { user, loading } = useUser();
+
+  // 로딩 중일 때는 아무것도 렌더링하지 않음
+  if (loading) return null;
+
   const features = [
     {
       title: '익명성',
@@ -46,25 +49,22 @@ export default function Home() {
       icon: '📚',
     },
   ];
-  const handleLogin = () => {
-    setIsLogIn(true);
-    router.push('/login');
-  };
-  const handleLogout = () => {
-    setIsLogIn(false);
-    setRole(null);
-  };
 
   return (
     <>
       <Header />
       <div className="bg-customPink px-4 sm:px-[50px]">
         <div className="flex flex-col items-center bg-white w-full overflow-x-hidden">
-          <img
-            src="./mainLogo.png"
-            className="w-36 h-24 sm:w-54 sm:h-32 mt-16 sm:mt-24"
-            alt="asdf"
-          />
+          <div className="relative w-48 h-32 sm:w-[400px] sm:h-[240px] mt-16 sm:mt-24">
+            <Image
+              src="/mainLogo.png"
+              alt="Inside Out 로고"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+              sizes="(max-width: 640px) 192px, 400px"
+            />
+          </div>
           <div className="flex flex-col items-center mt-3 mb-32">
             <span className="text-[16px] sm:text-[20px] lg:text-[24px] font-bold text-center px-4 break-keep">
               당신 안의 작은 목소리들을 만나보세요, Inside Out
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-80">
-            {!isAuthenticated ? (
+            {!user ? (
               <>
                 <div className="sm:mr-20 flex items-center justify-center w-[200px] h-[70px] bg-customPink hover:bg-customPinkHover rounded-full text-[22px] mb-4 sm:mb-0">
                   <button
@@ -93,7 +93,7 @@ export default function Home() {
               </>
             ) : (
               <>
-                {user?.role === 'MANAGER' && (
+                {user.role === 'MANAGER' && (
                   <ButtonIcon
                     label="관리자 페이지"
                     bgColor="bg-customPink"
@@ -103,7 +103,7 @@ export default function Home() {
                     onClick={() => router.push('/dashboard')}
                   />
                 )}
-                {user?.role === 'USER' && (
+                {user.role === 'USER' && (
                   <ButtonIcon
                     label="감정 본부 입장"
                     bgColor="bg-customPink"
@@ -216,16 +216,22 @@ export default function Home() {
                 </motion.div>
               </div>
               <div className="flex flex-row h-[250px] sm:h-[350px] lg:h-[500px] mx-auto">
-                <img
-                  className="w-32 sm:w-40 lg:w-60 h-auto object-contain"
-                  alt="employee"
-                  src="./frame_90.svg"
-                />
-                <img
-                  className="w-32 sm:w-40 lg:w-60 h-auto object-contain"
-                  alt="employer"
-                  src="./frame_er.svg"
-                />
+                <div className="relative w-32 sm:w-40 lg:w-60 h-auto">
+                  <Image
+                    src="/frame_90.svg"
+                    alt="부서원 이미지"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+                <div className="relative w-32 sm:w-40 lg:w-60 h-auto">
+                  <Image
+                    src="/frame_er.svg"
+                    alt="부서장 이미지"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
               </div>
               <div className="flex flex-col justify-evenly pb-12 m-4 text-base sm:text-lg lg:text-xl font-light">
                 <motion.div
