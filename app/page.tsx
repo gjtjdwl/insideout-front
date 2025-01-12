@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import ButtonIcon from './components/ButtonIcon';
 import { useRouter } from 'next/navigation';
@@ -6,9 +7,11 @@ import { motion } from 'framer-motion';
 import { TbChevronCompactDown } from 'react-icons/tb';
 import Header from './components/header';
 import Footer from './components/footer';
+import { useAuth } from './contexts/AuthContext';
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated, user } = useAuth();
   const [isLogIn, setIsLogIn] = useState<boolean>(false);
   const [role, setRole] = useState<string | null>(null);
   const features = [
@@ -46,7 +49,6 @@ export default function Home() {
   const handleLogin = () => {
     setIsLogIn(true);
     router.push('/login');
-  
   };
   const handleLogout = () => {
     setIsLogIn(false);
@@ -56,19 +58,25 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className=" flex flex-col items-center min-h-screen bg-customPink px-[50px]">
-        <div className="flex flex-col items-center bg-white w-[100%]">
-          <img src="./mainLogo.png" className="w-54 h-32 mt-24" alt="asdf" />
-          <div className="flex flex-col items-center mt-3 mb-32 text-[24px] font-bold">
-            <span>당신 안의 작은 목소리들을 만나보세요, Inside Out</span>
+      <div className="bg-customPink px-4 sm:px-[50px]">
+        <div className="flex flex-col items-center bg-white w-full overflow-x-hidden">
+          <img
+            src="./mainLogo.png"
+            className="w-36 h-24 sm:w-54 sm:h-32 mt-16 sm:mt-24"
+            alt="asdf"
+          />
+          <div className="flex flex-col items-center mt-3 mb-32">
+            <span className="text-[16px] sm:text-[20px] lg:text-[24px] font-bold text-center px-4 break-keep">
+              당신 안의 작은 목소리들을 만나보세요, Inside Out
+            </span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center w-full sm:w-auto mb-80">
-            {!isLogIn ? (
+            {!isAuthenticated ? (
               <>
-                <div className="sm:mr-20  flex items-center justify-center w-[200px] h-[70px] bg-customPink hover:bg-customPinkHover rounded-full text-[22px] mb-4 sm:mb-0">
+                <div className="sm:mr-20 flex items-center justify-center w-[200px] h-[70px] bg-customPink hover:bg-customPinkHover rounded-full text-[22px] mb-4 sm:mb-0">
                   <button
-                    onClick={handleLogin}
+                    onClick={() => router.push('/login')}
                     className="w-full h-[70px] rounded-full pt-[2px]"
                   >
                     로그인
@@ -80,43 +88,42 @@ export default function Home() {
                   hoverColor="hover:bg-gray-50"
                   textColor="text-black"
                   width="w-[200px]"
-                  onClick={() => {
-                    router.push('/register');
-                  }}
+                  onClick={() => router.push('/register')}
                 />
               </>
-            ) : role === '부서장' ? (
-              <ButtonIcon
-                label="관리자 페이지"
-                bgColor="bg-customPink"
-                hoverColor="hover:bg-customPinkHover"
-                textColor="text-black"
-                width="w-[240px]"
-                onClick={() => {
-                  router.push('/');
-                }}
-              />
-            ) : role === '부서원' ? (
-              <ButtonIcon
-                label="본부 들어가기 "
-                bgColor="bg-customPink"
-                hoverColor="hover:bg-customPinkHover"
-                textColor="text-black"
-                width="w-[240px]"
-                onClick={() => {
-                  router.push('/');
-                }}
-              />
-            ) : null}
+            ) : (
+              <>
+                {user?.role === 'MANAGER' && (
+                  <ButtonIcon
+                    label="관리자 페이지"
+                    bgColor="bg-customPink"
+                    hoverColor="hover:bg-customPinkHover"
+                    textColor="text-black"
+                    width="w-[240px]"
+                    onClick={() => router.push('/dashboard')}
+                  />
+                )}
+                {user?.role === 'USER' && (
+                  <ButtonIcon
+                    label="감정 본부 입장"
+                    bgColor="bg-customPink"
+                    hoverColor="hover:bg-customPinkHover"
+                    textColor="text-black"
+                    width="w-[240px]"
+                    onClick={() => router.push('/chat')}
+                  />
+                )}
+              </>
+            )}
           </div>
 
           <div
             id="serviceInfo"
             className="bg-customPink py-20 min-w-full mb-20"
           >
-            <div className="max-w-7xl flex justify-between gap-16 mx-auto text-center">
-              <div className="flex flex-col justify-center text-right">
-                <h2 className="text-4xl font-bold mb-4 leading-[3rem]">
+            <div className="max-w-7xl flex flex-col lg:flex-row justify-between gap-8 lg:gap-16 mx-auto text-center px-4">
+              <div className="flex flex-col justify-center text-center lg:text-right">
+                <h2 className="text-3xl lg:text-4xl font-bold mb-4 leading-[2.5rem] lg:leading-[3rem]">
                   편한 곳에서, <br />
                   익명으로 <br />
                   신속하게
@@ -125,7 +132,7 @@ export default function Home() {
                   익명 커뮤니티 기반으로 즉시성과 접근성을 담보합니다.
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {features.map((feature, index) => (
                   <div
                     key={index}
@@ -142,8 +149,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="my-14">
-            <div className="ml-4 my-20 font-semibold">
+          <div className="my-14 w-full">
+            <div className="mx-4 sm:mx-8 lg:ml-20 my-20 font-semibold">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{
@@ -151,7 +158,7 @@ export default function Home() {
                   x: 1,
                   transition: { delay: 0.2 },
                 }}
-                className="mb-2 text-[40px]"
+                className="mb-2 text-[24px] sm:text-[32px] lg:text-[40px] break-keep"
               >
                 InsideOut을 통해,
               </motion.div>
@@ -162,13 +169,13 @@ export default function Home() {
                   x: 1,
                   transition: { delay: 0.2 },
                 }}
-                className="text-[45px]"
+                className="text-[28px] sm:text-[36px] lg:text-[45px] break-keep leading-tight"
               >
                 기업과 조직원의 마음은 달라집니다.
               </motion.div>
             </div>
-            <div className="flex flex-row mb-40">
-              <div className="flex flex-col justify-evenly pb-12 m-4 text-xl font-light">
+            <div className="flex flex-col lg:flex-row mb-35 px-4 sm:px-8">
+              <div className="flex flex-col justify-evenly pb-12 m-4 text-base sm:text-lg lg:text-xl font-light">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{
@@ -176,17 +183,17 @@ export default function Home() {
                     x: 1,
                     transition: { delay: 0.4 },
                   }}
-                  className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9"
+                  className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-4 sm:p-6 lg:p-9 mx-2 sm:mx-0"
                 >
-                  <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -right-8"></div>
-                  <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -right-14"></div>
-                  <p className=" text-left text-black mb-1">
+                  <div className="absolute w-6 sm:w-8 lg:w-12 h-6 sm:h-8 lg:h-12 bg-[#d9d9d9] rounded-full -bottom-3 sm:-bottom-4 -right-4 sm:-right-8"></div>
+                  <div className="absolute w-3 sm:w-4 lg:w-6 h-3 sm:h-4 lg:h-6 bg-[#d9d9d9] rounded-full -bottom-5 sm:-bottom-6 -right-8 sm:-right-14"></div>
+                  <p className="text-left text-black mb-1 break-keep text-sm sm:text-base lg:text-lg">
                     회사에 하고싶은 말을 어떻게 전하지?
                   </p>
-                  <p className="text-left text-black mb-1">
+                  <p className="text-left text-black mb-1 break-keep text-sm sm:text-base lg:text-lg">
                     내 마음... 잘 모르겠어
                   </p>
-                  <p className=" text-left text-black">
+                  <p className="text-left text-black break-keep text-sm sm:text-base lg:text-lg">
                     회사에 적응하기가 너무 힘들어
                   </p>
                 </motion.div>
@@ -208,15 +215,19 @@ export default function Home() {
                   </p>
                 </motion.div>
               </div>
-              <div className="flex flex-row h-[500px]">
+              <div className="flex flex-row h-[250px] sm:h-[350px] lg:h-[500px] mx-auto">
                 <img
-                  className="w-60 h-auto"
+                  className="w-32 sm:w-40 lg:w-60 h-auto object-contain"
                   alt="employee"
                   src="./frame_90.svg"
                 />
-                <img className="w-60" alt="employer" src="./frame_er.svg" />
+                <img
+                  className="w-32 sm:w-40 lg:w-60 h-auto object-contain"
+                  alt="employer"
+                  src="./frame_er.svg"
+                />
               </div>
-              <div className="flex flex-col justify-evenly pb-12 m-4 text-xl font-light">
+              <div className="flex flex-col justify-evenly pb-12 m-4 text-base sm:text-lg lg:text-xl font-light">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{
@@ -224,14 +235,14 @@ export default function Home() {
                     x: 1,
                     transition: { delay: 0.4 },
                   }}
-                  className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-9 "
+                  className="relative bg-[#d9d9d9] rounded-full flex flex-col justify-center p-4 sm:p-6 lg:p-9 mx-2 sm:mx-0"
                 >
-                  <div className="absolute w-12 h-12 bg-[#d9d9d9] rounded-full -bottom-4 -left-8"></div>
-                  <div className="absolute w-6 h-6 bg-[#d9d9d9] rounded-full -bottom-6 -left-14"></div>
-                  <p className="text-left text-black mb-1">
+                  <div className="absolute w-6 sm:w-8 lg:w-12 h-6 sm:h-8 lg:h-12 bg-[#d9d9d9] rounded-full -bottom-3 sm:-bottom-4 -left-4 sm:-left-8"></div>
+                  <div className="absolute w-3 sm:w-4 lg:w-6 h-3 sm:h-4 lg:h-6 bg-[#d9d9d9] rounded-full -bottom-5 sm:-bottom-6 -left-8 sm:-left-14"></div>
+                  <p className="text-left text-black mb-1 break-keep text-sm sm:text-base lg:text-lg">
                     조직과의 소통이 안돼요
                   </p>
-                  <p className=" text-left text-black">
+                  <p className="text-left text-black break-keep text-sm sm:text-base lg:text-lg">
                     조직이 뭘 원하는지 모르겠어요
                   </p>
                 </motion.div>
@@ -257,94 +268,89 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="relative w-full h-auto aspect-video mb-40 flex items-center justify-center">
-            <div className="absolute inset-0 bg-[url('/homeback.jpg')] bg-cover bg-center opacity-60"></div>
-            <div className=" max-w-[84rem] flex flex-col justify-around max-h-[1000px] h-[800px]">
-              <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 25,
-                  duration: 1.5,
-                }}
-                className="flex relative items-center justify-start pl-[40px] sm:pl-[80px] sm:mt-10"
-              >
-                <div className="w-[350px] h-[160px] flex flex-col bg-customPink items-center justify-center rounded-[80px] opacity-85 text-[20px] sm:w-[300px] sm:h-[140px] sm:text-[22px] shadow-lg transition-shadow">
-                  <span>ORS </span>
-                  <span>(Outcome Rating Scale) </span>
-                </div>
-                <div className="relative pl-[40px] sm:pl-[80px]">
-                  <p className="text-[20px] sm:text-[26px] font-bold text-white ">
-                    고객님의 마음 상태와 삶의 질을 평가하며
-                    <br />
-                    상담 전후의 변화 정도를 측정하여 고객님의 치료 효과를
-                    확인합니다.
-                  </p>
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 25,
-                  duration: 1.5,
-                }}
-                className="flex relative items-center justify-end pr-[40px] sm:pr-[80px] sm:mt-0 "
-              >
-                <div className="relative ">
-                  <p className="text-[20px] sm:text-[26px] font-bold text-white text-right">
-                    상담에 대한 고객님의 만족도를 평가하며 <br />
-                    상담자가 고객님의 경험을 반영하여 질을 향상시킵니다.
-                  </p>
-                </div>
-                <div className="w-[350px] h-[160px] flex flex-col bg-customPink items-center justify-center rounded-[80px] opacity-85 text-[20px] sm:w-[300px] sm:h-[140px] sm:text-[22px]  ml-[40px] sm:ml-[80px] shadow-lg transition-shadow">
-                  <span>SRS </span>
-                  <span>(Session Rating Scale) </span>
-                </div>
-              </motion.div>
 
-              <div>
+          <div className="relative w-full h-auto mb-40 flex items-center justify-center">
+            <div className="absolute inset-0 bg-[url('/homeback.jpg')] bg-cover bg-center opacity-60 z-0"></div>
+            <div className="w-full max-w-7xl mx-auto flex flex-col justify-around min-h-[600px] relative z-10">
+              <div className="flex flex-col gap-12 sm:gap-20 py-12 sm:py-20">
                 <motion.div
-                  initial={{ y: 0 }}
-                  animate={{
-                    y: [0, 10, 0],
-                    opacity: [1, 0.5, 1],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.0,
-                    ease: 'easeInOut',
-                  }}
-                  className="absolute bottom-8 left-1/2 ml-[-50px]"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.5 }}
+                  className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-center justify-center mb-12 sm:mb-20"
                 >
-                  <TbChevronCompactDown size={100} color="#FADEE1" />
+                  <div className="w-[280px] sm:w-[300px] h-[120px] sm:h-[140px] flex flex-col bg-customPink items-center justify-center rounded-[40px] sm:rounded-[80px] opacity-85 text-[16px] sm:text-[20px] lg:text-[22px] shadow-lg">
+                    <span>ORS </span>
+                    <span>(Outcome Rating Scale) </span>
+                  </div>
+                  <div className="text-center sm:text-left max-w-[500px]">
+                    <p className="text-[16px] sm:text-[20px] lg:text-[26px] font-bold text-white leading-relaxed">
+                      고객님의 마음 상태와 삶의 질을 평가하며
+                      <br />
+                      상담 전후의 변화 정도를 측정하여
+                      <br />
+                      고객님의 치료 효과를 확인합니다.
+                    </p>
+                  </div>
                 </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1.5 }}
+                  className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-center justify-center"
+                >
+                  <div className="text-center sm:text-right max-w-[500px] order-2 sm:order-1">
+                    <p className="text-[16px] sm:text-[20px] lg:text-[26px] font-bold text-white leading-relaxed">
+                      상담에 대한 고객님의 만족도를 평가하며
+                      <br />
+                      상담자가 고객님의 경험을 반영하여
+                      <br />
+                      질을 향상시킵니다.
+                    </p>
+                  </div>
+                  <div className="w-[280px] sm:w-[300px] h-[120px] sm:h-[140px] flex flex-col bg-customPink items-center justify-center rounded-[40px] sm:rounded-[80px] opacity-85 text-[16px] sm:text-[20px] lg:text-[22px] shadow-lg order-1 sm:order-2">
+                    <span>SRS </span>
+                    <span>(Session Rating Scale) </span>
+                  </div>
+                </motion.div>
+
+                <div className="relative h-20 mt-8">
+                  <motion.div
+                    initial={{ y: 0 }}
+                    animate={{
+                      y: [0, 10, 0],
+                      opacity: [1, 0.5, 1],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1.0,
+                      ease: 'easeInOut',
+                    }}
+                    className="absolute left-1/2 transform -translate-x-1/2"
+                  >
+                    <TbChevronCompactDown
+                      className="w-[60px] sm:w-[80px] lg:w-[100px] h-[60px] sm:h-[80px] lg:h-[100px]"
+                      color="#FADEE1"
+                    />
+                  </motion.div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* <div> */}
-          {/* 제목 */}
           <h1 className="text-4xl font-bold mb-12 text-center">
             Inside Out과 함께하면서, <br />
             <span className="text-[#3F75FF]">기대되는 것들</span>
           </h1>
 
-          {/* 메인 콘텐츠 */}
-          <div className="flex items-center justify-center relative w-full max-w-6xl">
-            {/* 왼쪽 텍스트 */}
+          <div className="flex flex-col lg:flex-row items-center justify-center relative w-full max-w-6xl px-4 sm:px-8 overflow-visible mb-12">
             <motion.div
-              initial={{ opacity: 0, x: -80 }}
-              whileInView={{ opacity: 1.0, x: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.5 }}
-              className="flex flex-col space-y-10 text-xl font-medium w-[300px]"
+              className="flex flex-col space-y-4 sm:space-y-6 lg:space-y-10 text-base sm:text-lg lg:text-xl font-medium w-full lg:w-[300px] mb-6 lg:mb-0"
             >
-              {' '}
-              {/*초기상태 투명하게 왼쪽에서 80 이동 / 화면에 보일때 완전히, 원래위치 / 전환 시간 1.5초 */}
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="bg-gradient-to-r from-[#FFE9A8] to-[#FFE9A8] p-8 rounded-[30px] shadow-lg  hover:shadow-xl transition-shadow"
@@ -389,18 +395,14 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* 이미지/애니메이션 영역 */}
-            <div className="relative w-[450px] h-[600px] bg-white shadow-lg rounded-lg p-6 mx-8">
-              <div className="w-full h-full flex flex-col justify-between">
-                {/* 채팅 예시 */}
-                <div className="flex flex-col gap-4">
-                  {/* 공지 텍스트 */}
+            <div className="relative w-full lg:w-[450px] h-auto min-h-[500px] lg:min-h-[600px] bg-white shadow-lg rounded-lg p-3 sm:p-4 lg:p-6 mx-0 lg:mx-8 mb-20 lg:mb-0">
+              <div className="w-full h-full flex flex-col">
+                <div className="flex flex-col gap-4 flex-grow">
                   <div className="bg-[#DEF3FA] text-[#0773A1] text-sm p-4 rounded-xl whitespace-normal">
                     반갑습니다. 지금 하는 대화는 공개되지 않으니 편하게 속마음을
                     얘기해 보세요.
                   </div>
 
-                  {/* 대화 내용 - 핵심 대화만 유지 */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -458,16 +460,15 @@ export default function Home() {
                   </motion.div>
                 </div>
 
-                {/* 채팅 입력창 */}
-                <div className="mt-auto border-t pt-4">
-                  <div className="flex gap-2 h-12">
+                <div className="mt-4 border-t pt-4">
+                  <div className="flex gap-1 sm:gap-2 h-12 max-w-full">
                     <input
                       type="text"
                       placeholder="메시지를 입력하세요..."
-                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300"
+                      className="flex-1 px-2 sm:px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 text-sm sm:text-base"
                       disabled
                     />
-                    <button className="bg-customPink text-black px-6 py-3 rounded-xl transition-colors">
+                    <button className="bg-customPink text-black px-3 sm:px-6 py-3 rounded-xl transition-colors whitespace-nowrap flex-shrink-0 cursor-default text-sm sm:text-base min-w-[52px] sm:min-w-fit">
                       전송
                     </button>
                   </div>
@@ -475,12 +476,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 오른쪽 텍스트 */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="flex flex-col space-y-10 text-xl font-medium w-[300px]"
+              className="flex flex-col space-y-4 sm:space-y-6 lg:space-y-10 text-base sm:text-lg lg:text-xl font-medium w-full lg:w-[300px] mb-8"
             >
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -529,11 +529,9 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* 출처 */}
-          <p className="mt-12 text-gray-500 text-base pb-36">
+          <p className="mt-4 text-gray-500 text-base pb-36">
             EAP 도입 효과 (출처: Flanagan & Ots 2017)
           </p>
-          {/* </div> */}
         </div>
       </div>
       <Footer />
