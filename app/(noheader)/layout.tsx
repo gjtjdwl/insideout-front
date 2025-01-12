@@ -1,7 +1,16 @@
-export default function layout({ children }: { children: React.ReactNode }) {
+import { AuthProvider } from '../contexts/AuthContext';
+import { RouteGuard } from '../components/RouteGuard';
+
+export default function NoHeaderLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html className="scroll-smooth" lang="ko">
-      <body>{children}</body>
-    </html>
+    <>
+      <AuthProvider>
+        <RouteGuard>{children}</RouteGuard>
+      </AuthProvider>
+    </>
   );
 }
