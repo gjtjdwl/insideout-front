@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { AuthAPI } from '../api';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '../hooks/useUser';
+import axios from 'axios';
 
 interface LoginFormProps {
   onLoginSuccess: (name: string) => void;
@@ -37,13 +38,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       );
 
       onLoginSuccess(response.name);
-    } catch (error: any) {
-      if (error.response?.status === 401) {
-        setError('아이디 또는 비밀번호가 일치하지 않습니다.');
-      } else if (error.response?.status === 403) {
-        setError(
-          '존재하지 않는 계정이거나 아이디 또는 비밀번호가 일치하지 않습니다.'
-        );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setError('아이디 또는 비밀번호가 일치하지 않습니다.');
+        } else if (error.response?.status === 403) {
+          setError(
+            '존재하지 않는 계정이거나 아이디 또는 비밀번호가 일치하지 않습니다.'
+          );
+        } else {
+          setError('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
       } else {
         setError('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { UserRole } from '../../types/auth';
 import SuccessModal from '../../components/SuccessModal';
 import { FiChevronLeft } from 'react-icons/fi';
+import axios from 'axios';
 
 const Register = () => {
   const router = useRouter();
@@ -140,10 +141,14 @@ const Register = () => {
 
       const response = await AuthAPI.register(requestData);
       setShowSuccessModal(true);
-    } catch (error: any) {
-      alert(
-        error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        alert(
+          error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
+        );
+      } else {
+        alert('회원가입 중 오류가 발생했습니다.');
+      }
     }
   };
 
