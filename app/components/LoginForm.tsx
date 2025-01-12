@@ -3,13 +3,16 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { AuthAPI } from '../api';
-import { FiChevronLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
+import { useAuth } from '../contexts/AuthContext';
+
 interface LoginFormProps {
   onLoginSuccess: (name: string) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const router = useRouter();
+  const { login } = useAuth();
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -20,17 +23,30 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
     try {
       const response = await AuthAPI.login({
-        user_id: id,
+        userId: id,
         password: password,
       });
 
-      // 로그인 성공 시 콜백 호출 (사용자 이름 전달)
-      onLoginSuccess(response.userId);
+      // JWT 토큰을 localStorage에 저장
+      localStorage.setItem('accessToken', response.jwt);
+
+      // 사용자 정보를 AuthContext에 저장
+      const userData = {
+        userId: response.userId,
+        name: response.name,
+        role: response.role,
+      };
+
+      login(userData);
+      onLoginSuccess(response.name);
+      router.push('/'); // 로그인 성공 후 홈으로 이동
     } catch (error: any) {
       if (error.response?.status === 401) {
         setError('아이디 또는 비밀번호가 일치하지 않습니다.');
-      } else if (error.response?.status === 404) {
-        setError('존재하지 않는 계정입니다.');
+      } else if (error.response?.status === 403) {
+        setError(
+          '존재하지 않는 계정이거나 아이디 또는 비밀번호가 일치하지 않습니다.'
+        );
       } else {
         setError('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }
@@ -40,13 +56,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-white">
       <FiChevronLeft
-          type="button"
-          size={35}
-          cursor={'pointer'}
-          onClick={() => router.back()}
-          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
-        />
-          
+        type="button"
+        size={35}
+        cursor={'pointer'}
+        onClick={() => router.back()}
+        className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+      />
+
       <h1 className="text-2xl font-bold mb-8">감정 본부로 출발하기 🏃</h1>
       <form onSubmit={handleSubmit} className="w-3/4 max-w-md">
         {/* 아이디 입력 */}
