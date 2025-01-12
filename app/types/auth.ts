@@ -1,25 +1,26 @@
-export type UserRole = 'user' | 'manager' | 'admin';
+export type UserRole = 'USER' | 'MANAGER' | 'ADMIN';
 
 export interface RegisterRequestData {
-  user_id: string;
+  userId: string;
+  passwordHash: string;
   name: string;
   email: string;
-  phone: string;
-  role: UserRole;
-  password: string;
+  phoneNumber: string;
   department: string;
-  departmentCode?: string;
+  role: UserRole;
+  deptCode?: string;
 }
 
 export interface LoginRequestData {
-  user_id: string;
+  userId: string;
   password: string;
 }
 
 export interface AuthResponseData {
   message: string;
   userId: string;
-  accessToken: string;
+  name: string;
+  jwt: string;
   role: UserRole;
 }
 
@@ -27,5 +28,5 @@ export interface User {
   userId: string;
   name: string;
   role: UserRole;
-  department: string;
+  department?: string;
 }
