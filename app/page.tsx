@@ -218,7 +218,7 @@ export default function Home() {
               <div className="flex flex-row h-[250px] sm:h-[350px] lg:h-[500px] mx-auto">
                 <div className="relative w-32 sm:w-40 lg:w-60 h-auto">
                   <Image
-                    src="/frame_90.svg"
+                    src="/employee_image.svg"
                     alt="부서원 이미지"
                     fill
                     style={{ objectFit: 'contain' }}
@@ -226,7 +226,7 @@ export default function Home() {
                 </div>
                 <div className="relative w-32 sm:w-40 lg:w-60 h-auto">
                   <Image
-                    src="/frame_er.svg"
+                    src="/employer_image.svg"
                     alt="부서장 이미지"
                     fill
                     style={{ objectFit: 'contain' }}

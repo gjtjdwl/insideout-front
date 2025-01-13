@@ -242,7 +242,7 @@ const Register = () => {
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
-              placeholder="전화번호를 입력해주세요"
+              placeholder="'-'없이 전화번호를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
