@@ -1,4 +1,5 @@
 import BoardList from "../../components/BoardList"
+import PaginationComponent from "@/app/components/PagenationComponent";
 
 const Inquiry = () => {
   const breakdown = [
@@ -24,15 +25,17 @@ const Inquiry = () => {
         <div className="flex">
           <div className="border-r border-gray-600 mr-4 py-4 whitespace-normal sm:whitespace-nowrap break-words">
             {breakdown.map((item, index)=> (
-              <div key={index} className="p-4 mt-2 font-semibold">
+              <div key={index} className="px-4 pb-4 mt-4 font-semibold cursor-pointer">
                 <span>{item.title}</span>
               </div>  
             ))}
           </div>
-          <div className="py-14 w-[90%] flex-grow">
+          <div className="pt-14 w-[90%] flex-grow">
             <BoardList />
           </div>
-          
+        </div>
+        <div>
+          <PaginationComponent totalPages={10} />
         </div>
       </div>
     </div>
