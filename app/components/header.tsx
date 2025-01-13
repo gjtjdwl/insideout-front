@@ -19,7 +19,7 @@ const employeeNav = [
   { name: '공지사항', href: '#' },
   { name: '감정본부', href: '#' },
   { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '#' },
+  { name: '마이페이지', href: '/mypage' },
 ];
 
 const employerNav = [
@@ -27,7 +27,7 @@ const employerNav = [
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
   { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '#' },
+  { name: '마이페이지', href: '/mypage' },
 ];
 
 const adminNav = [
@@ -35,7 +35,7 @@ const adminNav = [
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
   { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '#' },
+  { name: '마이페이지', href: '/mypage' },
 ];
 
 export default function Header() {
