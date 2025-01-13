@@ -11,14 +11,14 @@ const defaultNav = [
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '감정본부', href: '#' },
-  { name: '문의게시판', href: '#' },
+  { name: '문의게시판', href: '/inquiry' },
 ];
 
 const employeeNav = [
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '감정본부', href: '#' },
-  { name: '문의게시판', href: '#' },
+  { name: '문의게시판', href: '/inquiry' },
   { name: '마이페이지', href: '#' },
 ];
 
@@ -26,7 +26,7 @@ const employerNav = [
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
-  { name: '문의게시판', href: '#' },
+  { name: '문의게시판', href: '/inquiry' },
   { name: '마이페이지', href: '#' },
 ];
 
@@ -34,7 +34,7 @@ const adminNav = [
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
-  { name: '문의게시판', href: '#' },
+  { name: '문의게시판', href: '/inquiry' },
   { name: '마이페이지', href: '#' },
 ];
 
