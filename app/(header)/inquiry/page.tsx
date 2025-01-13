@@ -32,12 +32,12 @@ const Inquiry = () => {
           </div>
           <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center">
             <BoardList />
-            <div className="mt-10 w-[100%]">
-              <PaginationComponent totalPages={11} />
+            <div className="mt-10">
+              <PaginationComponent totalPages={13} />
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import type React from 'react'
 import { Button } from './button'
-
+import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 
 /*
 pagination - 전체 nav element, props: totalPages, currentPage
@@ -10,13 +10,22 @@ next - 다음 버튼
 list - 페이지 번호
 page - 각 페이지 번호 
 gap - 페이지 번호 사이 ... 형태 구분자 
+
+clsx : css 동적 제어
+1. 병합
+2. 조건부 클래스
+3. 객체로 조건 추가
+4. false값 무시
+
+React.PropsWithChildren : react 컴포넌트에 children을 포함한 props 정의 (href,className은 선택)
+
 */
 export function Pagination({
   'aria-label': ariaLabel = 'Page navigation',
   className,
   ...props
 }: React.ComponentPropsWithoutRef<'nav'>) {
-  return <nav aria-label={ariaLabel} {...props} className={clsx(className, 'flex gap-x-2')} />
+  return <nav aria-label={ariaLabel} {...props} className={clsx(className, 'flex gap-x-1 justify-center')} />
 }
 
 export function PaginationPrevious({
@@ -25,17 +34,10 @@ export function PaginationPrevious({
   children = '이전',
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className={clsx(className, 'grow basis-0')}>
+    <span className={clsx(className, 'flex  justify-end')}>
       <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
-        <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {children}
+      <FiChevronLeft />
+        {/* {children} */}
       </Button>
     </span>
   )
@@ -47,17 +49,10 @@ export function PaginationNext({
   children = '다음',
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
-    <span className={clsx(className, 'flex grow basis-0 justify-end')}>
+    <span className={clsx(className, 'flex  justify-end')}>
       <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
-        {children}
-        <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {/* {children} */}
+        <FiChevronRight />
       </Button>
     </span>
   )
