@@ -23,21 +23,21 @@ const Inquiry = () => {
           </button>
         </div>
         <div className="flex">
-          <div className="border-r border-gray-600 mr-4 py-4 whitespace-normal sm:whitespace-nowrap break-words">
+          <div className="border-r border-gray-600 mr-10 py-4 mb-20 whitespace-normal sm:whitespace-nowrap break-words">
             {breakdown.map((item, index)=> (
-              <div key={index} className="px-4 pb-4 mt-4 font-semibold cursor-pointer">
+              <div key={index} className="px-6 pb-4 mt-4 font-semibold cursor-pointer">
                 <span>{item.title}</span>
               </div>  
             ))}
           </div>
-          <div className="pt-14 w-[90%] flex-grow">
+          <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center">
             <BoardList />
+            <div className="mt-10 w-[100%]">
+              <PaginationComponent totalPages={11} />
+            </div>
           </div>
         </div>
-        <div>
-          <PaginationComponent totalPages={10} />
         </div>
-      </div>
     </div>
   )
 }
