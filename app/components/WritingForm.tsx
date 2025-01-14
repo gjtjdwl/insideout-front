@@ -4,8 +4,17 @@ import React from "react"
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import { useRouter } from "next/navigation"
 
-const WritingForm = () => {
+type WritingFormProps = {
+  formName: string;
+};
+
+const WritingForm: React.FC<WritingFormProps> = ({ formName }) => {
   const router = useRouter();
+
+  const placeholder = formName === "문의사항" 
+  ? `${formName}을 입력해 주세요. 사진을 첨부하시면 더 자세한 답변이 가능합니다.` 
+  : `${formName}을 입력해 주세요.`;
+
 
   return (
     <form className="">
@@ -38,7 +47,7 @@ const WritingForm = () => {
                 <textarea
                   id="about"
                   name="about"
-                  placeholder="문의사항을 입력해 주세요. 사진을 첨부하시면 더 자세한 답변이 가능합니다."
+                  placeholder={ placeholder }
                   rows={5}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#ffbdc3] sm:text-sm/6"
                   defaultValue={''}

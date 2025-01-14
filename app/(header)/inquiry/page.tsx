@@ -63,19 +63,19 @@ const Inquiry = () => {
           <div className="font-bold text-3xl">
             문의게시판
           </div>
-          <button onClick={() => router.push('/inquirywriteboard')} className="py-3 px-6 border border-gray-400 rounded-2xl">
+          <button onClick={() => router.push('/inquirywriteboard')} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
             문의하기✏️
           </button>
         </div>
         <div className="flex">
-          <div className="border-r border-gray-600 mr-10 py-4 mb-20 whitespace-normal sm:whitespace-nowrap break-words">
+          <div className="my-9 whitespace-normal sm:whitespace-nowrap break-words">
             {breakdown.map((item, index)=> (
               <div key={index} className="px-6 pb-4 mt-4 font-semibold cursor-pointer">
                 <span>{item.title}</span>
               </div>  
             ))}
           </div>
-          <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center">
+          <div className="mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
             <BoardList boardList={inquiryList} />
             <div className="mt-10">
               <PaginationComponent totalPages={13} />

@@ -9,9 +9,9 @@ import { IoSearch, IoClose } from "react-icons/io5";
 
 const Notice = () => {
   const router = useRouter();
-  const { user } = useUser();
+  // const { user } = useUser();
   const [searchValue, setSearchValue] = useState<string>("");
-
+  const user: string = 'ADMIN'
 
   const handleClear = () => {
     setSearchValue("");
@@ -78,9 +78,9 @@ const Notice = () => {
           ) 
           : (
             <>
-            { user.role ==='ADMIN' && (
+            { user ==='ADMIN' && (
               <>
-                <button onClick={() => router.push('/inquirywriteboard')} className="py-3 px-6 border border-gray-400 rounded-2xl">
+                <button onClick={() => router.push('/noticewriteboard')} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
                   공지하기✏️
                 </button>
               </>
