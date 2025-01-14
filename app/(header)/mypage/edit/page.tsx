@@ -7,7 +7,7 @@ interface updateValues {
   dept_code?: string;
 }
 
-export default function change() {
+export default function EditProfilePage() {
   const router = useRouter();
   const [updateValues, setupdateValues] = useState<updateValues>({
     password: '',
@@ -22,8 +22,8 @@ export default function change() {
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="bg-white px-44 py-16">
         <div className="flex justify-center items-center px-4 sm:px-0">
-          <h3 className="text-4xl leading-loose font-semibold text-gray-900">
-            마이페이지
+          <h3 className="text-3xl leading-loose font-semibold text-gray-900">
+            회원 정보 수정
           </h3>
         </div>
         <hr className="mb-12" />

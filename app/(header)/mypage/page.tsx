@@ -1,14 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/navigation';
 
 export default function Mypage() {
   const router = useRouter();
-  const [showVerifyModal, setShowVerifyModal] = useState<boolean>(false);
   const handleClick = () => {
-    router.push('/mypage/hello');
+    router.push('/mypage/verify');
   };
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
