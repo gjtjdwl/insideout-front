@@ -1,6 +1,15 @@
+'use client';
+
+import { useState } from 'react';
 import { useUser } from '../../hooks/useUser';
+import { useRouter } from 'next/navigation';
 
 export default function Mypage() {
+  const router = useRouter();
+  const [showVerifyModal, setShowVerifyModal] = useState<boolean>(false);
+  const handleClick = () => {
+    router.push('/mypage/hello');
+  };
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="bg-white px-44 py-16">
@@ -39,7 +48,7 @@ export default function Mypage() {
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">직무</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                프론트엔드 팀원
+                부서장
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -51,11 +60,14 @@ export default function Mypage() {
           </dl>
         </div>
         <div className="flex justify-center items-center mt-24">
-          <button className="bg-customPink w-[200px] text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none">
+          <button
+            onClick={handleClick}
+            className="bg-customPink w-[200px] text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
+          >
             내 정보 수정
           </button>
           <button className="bg-customPink w-[200px] text-black font-bold py-2 ml-10 rounded-lg hover:bg-customPinkHover focus:outline-none">
-            상담결과
+            상담 결과 보기
           </button>
         </div>
       </div>
