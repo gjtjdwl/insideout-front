@@ -37,7 +37,7 @@ export default function PaginationComponent({ totalPages }: {totalPages: number}
           }
         </PaginationList>
       <PaginationNext href={currentPage < totalPages ? `/page/${currentPage + 1}` : null} />
-      <button onClick={handleNextGroup} disabled={currentPage >= pageSize} className={`${currentPage >= pageSize ? 'text-[#87878d]' : 'flex items-center justify-center rounded-lg min-w-[2.25rem] hover:bg-zinc-950/5 before:bg-white/10'}`}><FiChevronsRight /></button>
+      <button onClick={handleNextGroup} disabled={currentPage >= pageSize || totalPages <= pageSize} className={`${currentPage >= pageSize || totalPages <= pageSize ? 'text-[#87878d]' : 'flex items-center justify-center rounded-lg min-w-[2.25rem] hover:bg-zinc-950/5 before:bg-white/10'}`}><FiChevronsRight /></button>
     </Pagination>
   )
 }
