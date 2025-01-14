@@ -1,10 +1,15 @@
 'use client'
+import React, { useState,useEffect } from "react";
 import BoardList from "../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
 import { useRouter } from 'next/navigation';
+import { FiChevronLeft } from 'react-icons/fi';
+import BoardDetail from "../notice/[index]/page";
 
 const Inquiry = () => {
   const router = useRouter();
+  const [selectIndex, setSelectIndex] = useState<number | null>(null);
+
   const breakdown = [
     {
       title: '전체 문의 내역'
@@ -55,6 +60,10 @@ const Inquiry = () => {
       role: '부서원',
     },
   ]
+  const handleClick = (index: number) => {
+    setSelectIndex(index);
+    // router.push(`/inquiry/${index}`, { shallow: true });
+  }
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
@@ -63,23 +72,32 @@ const Inquiry = () => {
           <div className="font-bold text-3xl">
             문의게시판
           </div>
-          <button onClick={() => router.push('/inquirywriteboard')} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
+          <button onClick={() => router.push('/inquiry/writeboard')} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
             문의하기✏️
           </button>
         </div>
         <div className="flex">
           <div className="my-9 whitespace-normal sm:whitespace-nowrap break-words">
-            {breakdown.map((item, index)=> (
+            {breakdown.map((item, index) => (
               <div key={index} className="px-6 pb-4 mt-4 font-semibold cursor-pointer">
                 <span>{item.title}</span>
-              </div>  
+              </div>
             ))}
           </div>
           <div className="mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
-            <BoardList boardList={inquiryList} />
-            <div className="mt-10">
-              <PaginationComponent totalPages={13} />
-            </div>
+            {selectIndex === null ? (
+              <>
+                <BoardList boardList={inquiryList} onItemClick={handleClick} name='inquiry' />
+                <div className="mt-10">
+                  <PaginationComponent totalPages={13} />
+                </div>
+              </>
+            ):(
+              <div>
+                <BoardDetail board={inquiryList[selectIndex]}/>
+                <button onClick={() => setSelectIndex(null)}>뒤로 가기</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
