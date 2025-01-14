@@ -1,7 +1,10 @@
+'use client'
 import BoardList from "../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
+import { useRouter } from 'next/navigation';
 
 const Inquiry = () => {
+  const router = useRouter();
   const breakdown = [
     {
       title: '전체 문의 내역'
@@ -18,7 +21,7 @@ const Inquiry = () => {
           <div className="font-bold text-3xl">
             문의게시판
           </div>
-          <button className="py-3 px-6 border border-gray-400 rounded-2xl">
+          <button onClick={() => router.push('/inquirywriteboard')} className="py-3 px-6 border border-gray-400 rounded-2xl">
             문의하기✏️
           </button>
         </div>
