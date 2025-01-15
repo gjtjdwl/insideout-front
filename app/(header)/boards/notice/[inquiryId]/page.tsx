@@ -8,19 +8,19 @@ import { FiChevronLeft } from 'react-icons/fi';
 //React.use()로 params 언래핑
 type Props = {
   params: Promise< {
-    index: number
+    inquiryId: number
   } >;
 }
 const BoardDetail = ({ params }: Props) => {
   const router = useRouter();
-  const { index } = use(params);
+  const { inquiryId } = use(params);
 
   return (
     <div className="p-5 w-full">
       <FiChevronLeft type='button' onClick={() => router.push('/boards/notice')} className="text-2xl mb-4 cursor-pointer"/>
       <div className="flex flex-col justify-center items-center">
         <div>
-          {index}번 째 게시물
+          {inquiryId}번 째 게시물
         </div>
         <div>
           내용입니다.
