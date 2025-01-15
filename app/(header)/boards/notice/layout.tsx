@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
-import { useUser } from '../../hooks/useUser';
+import { useUser } from '../../../hooks/useUser';
 import { IoSearch, IoClose } from "react-icons/io5";
 import { FaPencil } from "react-icons/fa6";
 
@@ -45,7 +45,7 @@ export default function InquiryLayout({ children }: { children: React.ReactNode 
               <>
                 {user === 'ADMIN' && (
                   <>
-                    <Link href={`/boards/${boardName}/writeboard`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
+                    <Link href={`/boards/create/${boardName}`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
                       <span className='hidden sm:block'>공지하기</span>
                       <FaPencil />
                     </Link>

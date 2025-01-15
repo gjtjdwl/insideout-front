@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react'
-import BoardList from "../../components/BoardList"
+import BoardList from "../../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
 import { FiChevronLeft } from 'react-icons/fi';
 

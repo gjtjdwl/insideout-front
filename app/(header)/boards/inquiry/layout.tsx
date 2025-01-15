@@ -19,7 +19,7 @@ export default function InquiryLayout({ children }: { children: React.ReactNode 
           <div className="font-bold text-3xl">
             문의게시판
           </div>
-          <Link href={`/boards/${boardName}/writeboard`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
+          <Link href={`/boards/create/${boardName}`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
             <span className='hidden sm:block'>문의하기</span>
             <FaPencil />
           </Link>

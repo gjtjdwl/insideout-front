@@ -1,6 +1,6 @@
 
 import React from "react";
-import BoardList from "../../components/BoardList"
+import BoardList from "../../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
 
 
