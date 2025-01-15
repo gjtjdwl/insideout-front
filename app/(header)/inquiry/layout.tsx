@@ -1,5 +1,5 @@
 import Link from 'next/link'
-
+import { FaPencil } from "react-icons/fa6";
 export default function InquiryLayout({ children }: { children: React.ReactNode }) {
 
   const boardName = 'inquiry'
@@ -19,8 +19,9 @@ export default function InquiryLayout({ children }: { children: React.ReactNode 
           <div className="font-bold text-3xl">
             문의게시판
           </div>
-          <Link href={`/boards/${boardName}/writeboard`} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
-            문의하기✏️
+          <Link href={`/boards/${boardName}/writeboard`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
+            <span className='hidden sm:block'>문의하기</span>
+            <FaPencil />
           </Link>
         </div>
         <div className="flex">
