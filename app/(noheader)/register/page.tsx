@@ -52,10 +52,10 @@ const Register = () => {
 
       case 'passwordHash':
         const passwordRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
+          /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
         return passwordRegex.test(value)
           ? ''
-          : '비밀번호는 대소문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
+          : '비밀번호는 영문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
 
       case 'email':
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -70,9 +70,11 @@ const Register = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    const filteredValue = name === 'phoneNumber' ? value.replace(/\D/g, '') : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: filteredValue,
       ...(name === 'role' && {
         department: '',
         deptCode: '',
@@ -245,6 +247,7 @@ const Register = () => {
               placeholder="'-'없이 전화번호를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
+              maxLength = {11}
             />
             <label className="block text-sm font-bold mb-2 mt-4">
               직책 <span className="text-red-500">*</span>
