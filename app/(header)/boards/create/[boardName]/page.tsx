@@ -6,18 +6,18 @@ import { useRouter } from "next/navigation"
 
 type Props = {
   params: Promise< {
-    boardname: string;
+    boardName: string;
   }>;
 }
 const WriteBoard = ({ params }: Props) => {
-  const { boardname } = use(params);
+  const { boardName } = use(params);
     const router = useRouter();
-    console.log(boardname);
+    console.log(boardName);
 
-    const placeholder = (boardname === "inquiry")
+    const placeholder = (boardName === "inquiry")
       ? `문의사항을 입력해 주세요. 사진을 첨부하시면 더 자세한 답변이 가능합니다.`
       : `공지사항을 입력해 주세요.`;
-    const topic = (boardname === "inquiry" ? '문의하기' : '공지하기')
+    const topic = (boardName === "inquiry" ? '문의하기' : '공지하기')
 
   return (
     <div>
