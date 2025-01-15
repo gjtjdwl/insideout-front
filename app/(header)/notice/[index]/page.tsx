@@ -1,27 +1,31 @@
+'use client'
+
 import { useRouter } from "next/navigation";
-import React,{ useEffect, useState } from "react";
+import React,{ use } from "react";
+import { FiChevronLeft } from 'react-icons/fi';
 
-const BoardDetail = ({ board }: any) => {
+//params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
+//React.use()로 params 언래핑
+type Props = {
+  params: Promise< {
+    index: number
+  } >;
+}
+const BoardDetail = ({ params }: Props) => {
   const router = useRouter();
-  // const { index } = router.query; // URL에서 'index'를 추출
-  const [selectIndex, setSelectIndex] = useState<number | null>(null);
-
-  
-  // useEffect(()=>{
-  //   if (index != undefined){
-  //     setSelectIndex(Number(index))
-  //   }
-  // },[index])
-  // if (selectIndex === null || !board[selectIndex]) {
-  //   return <p>해당 글을 찾을 수 없습니다.</p>;
-  // }
-  // const selectedPost = board[selectIndex];
+  const { index } = use(params);
 
   return (
-    <div>
-      <h2>{board.title}</h2>
-      <p>{board.content}</p>
-
+    <div className="p-5 w-full">
+      <FiChevronLeft type='button' onClick={() => router.push('/notice')} className="text-2xl mb-4 cursor-pointer"/>
+      <div className="flex flex-col justify-center items-center">
+        <div>
+          {index}번 째 게시물
+        </div>
+        <div>
+          내용입니다.
+        </div>
+      </div>
     </div>
   );
 };

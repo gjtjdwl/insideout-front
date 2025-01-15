@@ -3,21 +3,10 @@
 import React, { useState } from 'react'
 import BoardList from "../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
-import { useRouter } from 'next/navigation';
-import { useUser } from '../../hooks/useUser';
-import { IoSearch, IoClose } from "react-icons/io5";
 import { FiChevronLeft } from 'react-icons/fi';
 
 const Notice = () => {
-  const router = useRouter();
-  // const { user } = useUser();
-  const [searchValue, setSearchValue] = useState<string>("");
-  const user: string = 'ADMIN'
-  const [selectIndex, setSelectIndex] = useState<number | null>(null);
-
-  const handleClear = () => {
-    setSearchValue("");
-  }
+  const boardName = 'notice'
 
   const noticeList = [
     {
@@ -55,71 +44,13 @@ const Notice = () => {
   ]
 
   return (
-    <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center bg-white w-full p-10">
-        <div className="flex items-center justify-between p-4 border-b">
-          <div className="font-bold text-3xl">
-            공지사항
-          </div>
-          {!user ? (
-            <>
-              <div className="flex items-center relative">
-                <IoSearch className="absolute left-4 text-[#757575]" />
-                <input
-                  id="search"
-                  name="search"
-                  type="text"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  placeholder=""
-                  className="border border-[#D9D9D9] rounded-3xl block min-w-0 grow py-1.5 pr-6 pl-10 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
-                />
-                <IoClose onClick={handleClear} type="button" className="absolute right-3 cursor-pointer" />
-              </div>
-            </>
-          )
-            : (
-              <>
-                {user === 'ADMIN' && (
-                  <>
-                    <button onClick={() => router.push('/notice/writeboard')} className="py-2 pl-8 pr-6 text-sm border border-[#D9D9D9] rounded-2xl">
-                      공지하기✏️
-                    </button>
-                  </>
-                )
-                }
-              </>
-            )}
-
-        </div>
-        <div className="flex">
-          <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center px-14">
-            {selectIndex === null ? (
-              <>
-                <BoardList boardList={noticeList} onItemClick={setSelectIndex} name='notice' />
-                <div className="mt-10">
-                  <PaginationComponent totalPages={13} />
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <div onClick={() => setSelectIndex(null)}>
-                    <FiChevronLeft type="button" />
-                  </div>
-                  <div>
-                    {noticeList[selectIndex].title}
-                  </div>
-                  <div>
-                    {noticeList[selectIndex].role}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+    <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center px-14">
+      <BoardList boardList={noticeList} boardName='notice' />
+      <div className="mt-10">
+        <PaginationComponent totalPages={13} />
       </div>
     </div>
+
   )
 }
 
