@@ -49,19 +49,28 @@ const BoardDetail = ({ params }: Props) => {
     <div className="p-5 w-full flex flex-col">
       <FiChevronLeft type='button' onClick={() => router.push('/boards/notice')} className="text-sm md:text-xl mb-4 md:mb-8 cursor-pointer" />
       <div className="flex flex-col">
-        <div className="border-b w-full flex justify-center">
-          <div className="max-w-[900px] flex items-center justify-center p-4 text-base font-semibold md:text-2xl">
+        <div className="border-b w-full flex">
+          <div className="max-w-[1000px] flex items-center justify-center p-4 text-base font-semibold md:text-2xl">
             Inside Out에서 제공하는 유용한 정보에 대해서 안내드립니다.
           </div>
         </div>
-        <div className="flex justify-end p-4 text-xs md:text-base">
-          <span className="mr-2">관리자 </span>
+        <div className="flex justify-end p-4 text-xs md:text-base text-[#757575]">
+          <span className="mr-2 font-semibold">관리자 </span>
           <span>2024.11.12. 22:30 </span>
         </div>
-        <div className="w-full p-4 max-w-[1440px] flex justify-end">
+        <div className="w-full p-4 max-w-[1440px] flex">
           <div className="whitespace-pre-line text-sm md:text-base">
             {text}
           </div>
+        </div>
+        <div className="flex justify-end">
+        <button
+            type="submit"
+            onClick={() => router.push(`/boards/notice/modify/${inquiryId}`)}
+            className="rounded-lg bg-customPink px-5 py-2 text-sm md:text-base font-semibold hover:bg-customPinkHover"
+          >
+            수정
+          </button>
         </div>
       </div>
     </div>

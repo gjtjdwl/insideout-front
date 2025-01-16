@@ -25,7 +25,7 @@ export default function InquiryLayout({ children }: { children: React.ReactNode 
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="items-center bg-white w-full p-10">
         <div className="flex items-center justify-between p-4 border-b">
-          <div className="font-bold text-xl lg:text-3xl">
+          <div className="font-bold text-xl md:text-3xl" onClick={()=> router.push('/boards/notice')}>
             공지사항
           </div>
           {/* 버튼 조건부 렌더링  */}
