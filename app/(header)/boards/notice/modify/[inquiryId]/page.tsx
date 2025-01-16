@@ -93,7 +93,7 @@ InsideOut은 단순한 AI 상담 도구가 아니라, 공공 근로자들의 정
              placeholder="수정할 내용을 적어주세요. "
              value={formData.content}
              onChange={handleChange}
-             className="w-full p-2 resize-none border text-sm md:text-base  placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
+             className="w-full p-4 resize-none border text-sm md:text-base  placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
             />
           
         </div>
