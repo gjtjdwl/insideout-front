@@ -81,8 +81,8 @@ InsideOut은 단순한 AI 상담 도구가 아니라, 공공 근로자들의 정
           {/* </div> */}
         </div>
         <div className="flex justify-end p-4 text-xs md:text-base">
-          <span className="mr-2 text-xs lg:text-base font-semibold text-[#757575]">관리자 </span>
-          <span className="text-xs lg:text-base text-[#757575]">2024.11.12. 22:30 </span>
+          <span className="mr-2 text-xs lg:text-sm text-[#757575]">관리자 </span>
+          <span className="text-xs lg:text-sm text-[#757575]">2024.11.12. 22:30 </span>
         </div>
         <div className="w-full flex justify-center">
           
@@ -98,13 +98,13 @@ InsideOut은 단순한 AI 상담 도구가 아니라, 공공 근로자들의 정
           
         </div>
         <div className="flex justify-end p-4 text-sm md:text-lg">
-          <button onClick={() => router.back()} className="px-5 py-2 mr-3 text-sm md:text-base rounded-lg font-semibold text-gray-900 hover:bg-gray-200">
+          <button onClick={() => router.back()} className="px-5 py-2 mr-3 text-[#525252] text-sm md:text-base rounded-lg font-semibold hover:bg-gray-200">
             취소
           </button>
           <button
             type="submit"
             onClick={handleSubmit}
-            className="rounded-lg bg-customPink px-5 py-2 text-sm md:text-base font-semibold hover:bg-customPinkHover"
+            className="rounded-lg text-[#525252] bg-customPink px-5 py-2 text-sm md:text-base font-semibold hover:bg-customPinkHover"
           >
             수정 
           </button>

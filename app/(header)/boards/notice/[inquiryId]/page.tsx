@@ -54,24 +54,30 @@ const BoardDetail = ({ params }: Props) => {
             Inside Out에서 제공하는 유용한 정보에 대해서 안내드립니다.
           </div>
         </div>
-        <div className="flex justify-end p-4 text-xs md:text-base text-[#757575]">
-          <span className="mr-2 font-semibold">관리자 </span>
-          <span>2024.11.12. 22:30 </span>
+        <div className="flex justify-end p-4 mb-12 text-xs md:text-sm text-[#757575]">
+          <span className="mr-2 ">관리자 </span>
+          <span className='mr-2'>2024.11.12. 22:30 </span>
+          <button
+            type="submit"
+            onClick={() => router.push(`/boards/notice/modify/${inquiryId}`)}
+            className="mr-2 hover:text-[#757575]"
+          >
+            수정
+          </button>
+          <button
+            type="submit"
+            onClick={() => {}}
+            className="hover:text-[#757575]"
+          >
+            삭제
+          </button>
         </div>
         <div className="w-full p-4 max-w-[1440px] flex">
           <div className="whitespace-pre-line text-sm md:text-base">
             {text}
           </div>
         </div>
-        <div className="flex justify-end">
-        <button
-            type="submit"
-            onClick={() => router.push(`/boards/notice/modify/${inquiryId}`)}
-            className="rounded-lg bg-customPink px-5 py-2 text-sm md:text-base font-semibold hover:bg-customPinkHover"
-          >
-            수정
-          </button>
-        </div>
+        
       </div>
     </div>
   );
