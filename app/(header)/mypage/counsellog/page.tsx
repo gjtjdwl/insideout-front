@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
 interface AccordionItemProps {
@@ -97,7 +97,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
 
         <div className="mr-5 flex h-10 w-full max-w-[40px] items-center justify-center rounded-lg bg-primary/5 text-primary dark:bg-white/5">
           <ChevronDownIcon
-            className={`fill-primary stroke-primary duration-200 ease-in-out ${
+            className={`h-6 w-6 fill-primary stroke-primary duration-200 ease-in-out ${
               active ? 'rotate-180' : ''
             }`}
           />
@@ -116,6 +116,3 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
     </div>
   );
 };
-{
-  /*https://tailgrids.com/react/components/accordions*/
-}
