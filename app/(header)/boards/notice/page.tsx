@@ -18,7 +18,7 @@ const Notice = () => {
       role: '관리자',
     },
     {
-      title: 'Inside Out에서 제공하는 유용한 정보와 혜택에 대해서 안내드립니다.',
+      title: 'Inside Out에서 제공하는 유용한 정보에 대해서 안내드립니다.',
       role: '관리자',
     },
     {
