@@ -1,18 +1,19 @@
 'use client';
-
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Mypage() {
   const router = useRouter();
-  const handleClick = () => {
+  const navigateToVerify = () => {
     router.push('/mypage/verify');
+  };
+  const navigateToLogs = () => {
+    router.push('/mypage/counsellog');
   };
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="bg-white px-44 py-16">
         <div className="flex justify-center items-center px-4 sm:px-0">
-          <h3 className="text-4xl leading-loose font-semibold text-gray-900">
+          <h3 className="text-4xl leading-loose font-medium text-gray-900">
             마이페이지
           </h3>
         </div>
@@ -59,12 +60,15 @@ export default function Mypage() {
         </div>
         <div className="flex justify-center items-center mt-24">
           <button
-            onClick={handleClick}
+            onClick={navigateToVerify}
             className="bg-customPink w-[200px] text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
           >
             내 정보 수정
           </button>
-          <button className="bg-customPink w-[200px] text-black font-bold py-2 ml-10 rounded-lg hover:bg-customPinkHover focus:outline-none">
+          <button
+            onClick={navigateToLogs}
+            className="bg-customPink w-[200px] text-black font-bold py-2 ml-10 rounded-lg hover:bg-customPinkHover focus:outline-none"
+          >
             상담 결과 보기
           </button>
         </div>

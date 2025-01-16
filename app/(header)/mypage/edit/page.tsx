@@ -22,7 +22,7 @@ export default function EditProfilePage() {
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="bg-white px-44 py-16">
         <div className="flex justify-center items-center px-4 sm:px-0">
-          <h3 className="text-3xl leading-loose font-semibold text-gray-900">
+          <h3 className="text-4xl leading-loose font-medium text-gray-900">
             회원 정보 수정
           </h3>
         </div>
