@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 interface AccordionItemProps {
@@ -20,18 +21,19 @@ const Accordion = () => {
 
         <hr className="mb-12" />
         <div className="text-2xl pl-20 mb-10">허성지님의 상담 결과</div>
-        <div className="flex justify-center items-center">
-          <div>
-            <Image
-              src="/graph.png"
-              alt="그래프 들어갈 자리"
-              width={500}
-              height={300}
-              style={{ height: '330px' }}
-              className="mr-20"
-            />
-          </div>
-          <div className="flex flex-col justify-center items-cneter w-[50%] pl-8 ml-8 mt-8">
+        <div className="columns-2">
+          <Image
+            src="/graph.png"
+            alt="그래프 들어갈 자리"
+            width={500}
+            height={300}
+            style={{ height: '330px' }}
+            className="ml-20"
+          />
+
+          <div className="text-2xl pl-20 pt-10">변동량 : + 500%</div>
+
+          <div className="flex flex-col justify-center items-cneter  pl-8 ml-8 mt-8">
             <AccordionItem
               header="25년 1월 15일 상담"
               text="괜찮아 보입니다. 우울한 감정은 보이지 않습니다. 다만 이 프로젝트에 대한 짜증이 많은 것 같습니다. 짜증나!
@@ -66,7 +68,6 @@ const Accordion = () => {
             </button>
           </div>
         </div>
-        <div className="text-2xl pl-20 pt-10">변동량 : + 500%</div>
       </div>
     </div>
   );
@@ -83,7 +84,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
 
   return (
     <div
-      className={`mb-8 rounded-lg p-4 ${active ? 'bg-customPink' : 'bg-gray-200'}`}
+      className={`overflow-hidden mb-8 rounded-lg p-4 ${active ? 'bg-customPink' : 'bg-gray-200'}`}
     >
       <button
         className={`faq-btn flex w-full text-left`}
@@ -104,15 +105,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
         </div>
       </button>
 
-      <div
-        className={`px-[32px] duration-200 ease-in-out ${
-          active ? 'block' : 'hidden'
-        }`}
+      <motion.div
+        initial={false}
+        animate={{ height: active ? 'auto' : 0 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="overflow-hidden px-[32px]"
       >
         <p className="py-3 text-base leading-relaxed text-body-color dark:text-dark-6">
           {text}
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
