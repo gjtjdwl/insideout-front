@@ -8,14 +8,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const defaultNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '감정본부', href: '#' },
   { name: '문의게시판', href: '#' },
 ];
 
 const employeeNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '감정본부', href: '#' },
   { name: '문의게시판', href: '#' },
@@ -23,7 +23,7 @@ const employeeNav = [
 ];
 
 const employerNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
   { name: '문의게시판', href: '#' },
@@ -31,7 +31,7 @@ const employerNav = [
 ];
 
 const adminNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
   { name: '관리자페이지', href: '#' },
   { name: '문의게시판', href: '#' },
