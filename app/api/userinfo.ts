@@ -24,9 +24,16 @@ const user = (api: AxiosInstance) => ({
     return response.data;
   },
   editVerify: async (password: string) => {
-    const response = await api.post('/api/auth/login', {
-      password: password,
-    });
+    const token = getCookieValue('jwt');
+    const response = await api.post(
+      '/api/users/verify-password',
+      {
+        password: password,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   },
 });

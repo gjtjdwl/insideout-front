@@ -22,6 +22,7 @@ export default function Mypage() {
   });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
   useEffect(() => {
     const handleLoad = async () => {
       try {

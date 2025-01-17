@@ -1,6 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { UserAPI } from '@/app/api';
+
 interface updateValues {
   password: string;
   email?: string;
@@ -49,7 +51,7 @@ export default function EditProfilePage() {
               <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
                 <input
                   type="password"
-                  id="password"
+                  id="confirmPassword"
                   placeholder="새 비밀번호를 입력하세요."
                   className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                   required
