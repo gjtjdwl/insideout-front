@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const defaultNav = [
+
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '/boards/notice' },
   { name: '감정본부', href: '#' },
@@ -15,6 +16,7 @@ const defaultNav = [
 ];
 
 const employeeNav = [
+
   { name: '서비스소개', href: '#serviceInfo' },
   { name: '공지사항', href: '/boards/notice' },
   { name: '감정본부', href: '#' },

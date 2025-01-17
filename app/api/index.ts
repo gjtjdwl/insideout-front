@@ -1,5 +1,6 @@
 import axios from 'axios';
 import auth from './auth';
+import user from './userinfo';
 
 axios.defaults.withCredentials = true;
 
@@ -33,10 +34,11 @@ API.interceptors.response.use(
     if (error.response?.status === 401) {
       // 토큰이 만료된 경우
       localStorage.removeItem('jwt');
-      window.location.href = '/login';
+      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
 export const AuthAPI = auth(API);
+export const UserAPI = user(API);
