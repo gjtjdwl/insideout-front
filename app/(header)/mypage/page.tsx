@@ -25,7 +25,7 @@ export default function Mypage() {
   useEffect(() => {
     const handleLoad = async () => {
       try {
-        const response = await UserAPI.register();
+        const response = await UserAPI.userInfo();
         setUserinfo(response);
       } catch (error: unknown) {
         console.log(error);
