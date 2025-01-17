@@ -1,54 +1,42 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BoardList from "../../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
-import { FiChevronLeft } from 'react-icons/fi';
+import { InquiryData } from '@/app/types/auth';
+import { API } from '@/app/api';
 
 const Notice = () => {
-  const boardName = 'notice'
+  const [noticeList, setNoticeList] = useState<InquiryData[]>([])
+  const [pageSize, setPageSize] = useState<number>(1)
+  const notice = async () => {
+    try {
+      const res = await API.get<InquiryData[]>('/api/boards/notice');
+      setNoticeList(res.data)
+    } catch (error: unknown) {
+      console.error('공지하기 리스트 가져오는 중 오류 발생', error);
+      throw error;
+    }
+  }
 
-  const noticeList = [
-    {
-      title: '공지입니다.',
-      role: '관리자',
-    },
-    {
-      title: '도움이 필요할 때, 마음이 사용 가이드.',
-      role: '관리자',
-    },
-    {
-      title: 'Inside Out에서 제공하는 유용한 정보에 대해서 안내드립니다.',
-      role: '관리자',
-    },
-    {
-      title: '공지 계정 보호 및 보안 기능에 대해 안내 드립니다.',
-      role: '관리자',
-    },
-    {
-      title: '[해결 완료] SSO 설정 시 로그인 실패 현상',
-      role: '관리자',
-    },
-    {
-      title: '상담 지원 API 출시 안내',
-      role: '관리자',
-    },
-    {
-      title: '[안내] 정기 배포 작업 진행 (12/12)',
-      role: '관리자',
-    },
-    {
-      title: '[안내] 11/21(목) v4.1 정기 업데이트 시 PC앱 디자인 변경',
-      role: '관리자',
-    },
-  ]
+  useEffect(() => {
+    notice();
+  }, [])
 
   return (
-    <div className="pt-14 w-[90%] flex-grow flex flex-col justify-center px-14">
-      <BoardList boardList={noticeList} boardName='notice' />
-      <div className="mt-10">
-        <PaginationComponent totalPages={13} />
-      </div>
+    <div className="p-14 w-[90%] flex-grow flex flex-col justify-center">
+      {
+        noticeList.length === 0 ? (
+          <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
+        ) : (
+          <>
+            <BoardList boardList={noticeList} boardName='notice' />
+            <div className="mt-10">
+              <PaginationComponent totalPages={pageSize} />
+            </div>
+          </>
+        )
+      }
     </div>
 
   )

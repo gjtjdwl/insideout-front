@@ -1,59 +1,52 @@
 
-import React from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 import BoardList from "../../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
-
+import { InquiryData } from '@/app/types/auth';
+import { API } from "@/app/api";
+import { useUser } from "@/app/hooks/useUser";
+import InquiryContents from "@/app/components/InquiryContents";
 
 const Inquiry = () => {
-  const inquiryList = [
-    {
-      title: '문의합니다.',
-      role: '비회원',
-    },
-    {
-      title: '금액 관련 질문 있습니다..',
-      role: '부서장 ',
-    },
-    {
-      title: '부서원인데 상담 내역 체크를 잘못 해서 문의드립니다..',
-      role: '부서원',
-    },
-    {
-      title: '부서원인데 내역 체크를 잘못 해서 문의드립니다..',
-      role: '부서원',
-    },
-    {
-      title: '부서원 관리에 대한 질문입니다.',
-      role: '부서장 ',
-    },
-    {
-      title: '오류가 나서 문의합니다.',
-      role: '부서원',
-    },
-    {
-      title: '부서원인데 상담 내역 체크를 잘못 해서 문의드립니다..',
-      role: '부서원',
-    },
-    {
-      title: '문의합니다. 엄청 긴 문의 입니다. 제발 문의를 받아주세요 제발 제발료 내용은 바로 이러쿵저러쿵',
-      role: '부서원',
-    },
-    {
-      title: '너무 길어서 한 줄에 다 담을 수 없는 텍스트입니다. 말줄임표(...)를 사용해서 생략합니다.',
-      role: '부서원',
-    },
-    {
-      title: '문의합니다. 엄청 긴 문의 입니다. 제발 문의를 받아주세요 제발 제발료 내용은 바로 이러쿵저러쿵',
-      role: '부서원',
-    },
-  ]
+  const [ selectTab, setSelectTab ] = useState<string>('전체')
+  const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
+  const { user } = useUser();
+  const [pageSize, setPageSize] = useState<number>(1)
+
+  const inquiry = async (selectTab: string): Promise<void> => {
+    try {
+      const res = await API.get<InquiryData[]>('/api/boards/inquiry');
+      if (selectTab === '나의') {
+        setInquiryList(res.data.filter((inquiry) => inquiry.userId === user?.userId));
+      } else {
+        setInquiryList(res.data)
+      }
+    } catch (error: unknown) {
+      console.error('문의하기 리스트 가져오는 중 오류 발생', error);
+      throw error;
+    }
+  }
+  useEffect(() => {
+    inquiry(selectTab);
+  }, [selectTab])
+
 
   return (
-    <div>
-        <BoardList boardList={inquiryList} boardName='inquiry' />
-        <div className="mt-10">
-          <PaginationComponent totalPages={13} />
-        </div>
+    <div className="flex">
+      <InquiryContents setSelectTab={setSelectTab} />
+      <div className="mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+          {inquiryList.length === 0 ? (
+            <div className="min-h-[40vh]"> 문의 게시물이 없습니다. </div>
+          ) : (
+            <>
+              <BoardList boardList={inquiryList} boardName='inquiry' />
+              <div className="mt-10">
+                <PaginationComponent totalPages={pageSize} />
+              </div>
+            </>
+          )}
+      </div>
     </div>
 
   )
