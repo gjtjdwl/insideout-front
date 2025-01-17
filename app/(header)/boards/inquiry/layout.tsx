@@ -4,12 +4,13 @@ import React from 'react';
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
 import { FaPencil } from "react-icons/fa6";
+import { useUser } from '@/app/hooks/useUser';
 
 export default function InquiryLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const boardName = 'inquiry'
-
+  const { user } = useUser();
   const hideButton = pathname.startsWith('/boards/inquiry/')
 
   return (
@@ -19,7 +20,7 @@ export default function InquiryLayout({ children }: { children: React.ReactNode 
           <div className="font-bold text-xl md:text-3xl" onClick={()=> router.push('/boards/inquiry')}>
             문의게시판
           </div>
-          {!hideButton && (
+          {!hideButton && user && user.role != 'ADMIN' && (
             <Link href={`/boards/create/${boardName}`} className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl">
               <span className='hidden md:block'>문의하기</span>
               <FaPencil />
