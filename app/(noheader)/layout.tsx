@@ -1,7 +1,7 @@
-export default function layout({ children }: { children: React.ReactNode }) {
-  return (
-    <html className="scroll-smooth" lang="ko">
-      <body>{children}</body>
-    </html>
-  );
+export default function NoHeaderLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }

@@ -5,23 +5,30 @@ import { AuthAPI } from '../../api';
 import { useRouter } from 'next/navigation';
 import { UserRole } from '../../types/auth';
 import SuccessModal from '../../components/SuccessModal';
+import { FiChevronLeft } from 'react-icons/fi';
+import axios from 'axios';
 
 const Register = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     role: '' as UserRole,
-    user_id: '',
-    password: '',
+    userId: '',
+    passwordHash: '',
     confirmPassword: '',
     department: '',
-    departmentCode: '',
+    deptCode: '',
   });
   const [passwordError, setPasswordError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [countdown, setCountdown] = useState(3);
+  const [errors, setErrors] = useState({
+    userId: '',
+    passwordHash: '',
+    email: '',
+  });
 
   useEffect(() => {
     if (showSuccessModal && countdown > 0) {
@@ -35,15 +42,61 @@ const Register = () => {
     }
   }, [showSuccessModal, countdown, router]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'userId':
+        const userIdRegex = /^[a-z0-9]{4,12}$/;
+        return userIdRegex.test(value)
+          ? ''
+          : '아이디는 영어 소문자와 숫자 4~12자리여야 합니다';
 
-    if (name === 'password' || name === 'confirmPassword') {
-      if (name === 'confirmPassword' && value !== formData.password) {
+      case 'passwordHash':
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
+        return passwordRegex.test(value)
+          ? ''
+          : '비밀번호는 영문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
+
+      case 'email':
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(value) ? '' : '유효하지 않는 이메일 형식입니다.';
+
+      default:
+        return '';
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+
+    let filterNum = value;
+    if (name === 'phoneNumber') {
+      const numbers = value.replace(/\D/g, '');
+      // 하이픈 추가
+      if (numbers.length <= 3) {
+        filterNum = numbers;
+      } else if (numbers.length <= 7) {
+        filterNum = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+      } else {
+        filterNum = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+      }
+    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: filterNum,
+      ...(name === 'role' && {
+        department: '',
+        deptCode: '',
+      }),
+    }));
+
+    if (name === 'passwordHash' || name === 'confirmPassword') {
+      if (name === 'confirmPassword' && value !== formData.passwordHash) {
         setPasswordError('비밀번호가 일치하지 않습니다.');
       } else if (
-        name === 'password' &&
+        name === 'passwordHash' &&
         value !== formData.confirmPassword &&
         formData.confirmPassword
       ) {
@@ -51,6 +104,14 @@ const Register = () => {
       } else {
         setPasswordError('');
       }
+    }
+
+    if (['userId', 'passwordHash', 'email'].includes(name)) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
     }
   };
 
@@ -63,17 +124,17 @@ const Register = () => {
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.passwordHash !== formData.confirmPassword) {
       setPasswordError('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    if (formData.role === 'manager' && !formData.department) {
+    if (formData.role === 'MANAGER' && !formData.department) {
       alert('부서 이름을 입력해주세요.');
       return;
     }
 
-    if (formData.role === 'user' && !formData.departmentCode) {
+    if (formData.role === 'USER' && !formData.deptCode) {
       alert('부서 코드를 입력해주세요.');
       return;
     }
@@ -81,22 +142,26 @@ const Register = () => {
     try {
       // RegisterRequestData 형식에 맞게 데이터 정제
       const requestData = {
-        user_id: formData.user_id,
+        userId: formData.userId,
         name: formData.name,
         email: formData.email,
-        phone: formData.phone,
+        phoneNumber: formData.phoneNumber,
         role: formData.role as UserRole,
-        password: formData.password,
+        passwordHash: formData.passwordHash,
         department: formData.department,
-        departmentCode: formData.departmentCode,
+        deptCode: formData.deptCode,
       };
 
       const response = await AuthAPI.register(requestData);
       setShowSuccessModal(true);
-    } catch (error: any) {
-      alert(
-        error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        alert(
+          error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
+        );
+      } else {
+        alert('회원가입 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -109,18 +174,21 @@ const Register = () => {
     const baseFieldsValid =
       formData.name.trim() !== '' &&
       formData.email.trim() !== '' &&
-      formData.phone.trim() !== '' &&
-      formData.user_id.trim() !== '' &&
-      formData.password.trim() !== '' &&
+      formData.phoneNumber.trim() !== '' &&
+      formData.userId.trim() !== '' &&
+      formData.passwordHash.trim() !== '' &&
       formData.confirmPassword.trim() !== '' &&
       Boolean(formData.role) &&
-      formData.password === formData.confirmPassword;
+      formData.passwordHash === formData.confirmPassword &&
+      !errors.userId &&
+      !errors.passwordHash &&
+      !errors.email;
 
-    if (formData.role === 'manager') {
+    if (formData.role === 'MANAGER') {
       return baseFieldsValid && formData.department.trim() !== '';
     }
-    if (formData.role === 'user') {
-      return baseFieldsValid && formData.departmentCode.trim() !== '';
+    if (formData.role === 'USER') {
+      return baseFieldsValid && formData.deptCode.trim() !== '';
     }
     return baseFieldsValid;
   };
@@ -131,26 +199,13 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="relative bg-white shadow-md rounded-lg p-12 w-full max-w-6xl"
       >
-        <button
+        <FiChevronLeft
           type="button"
+          size={35}
+          cursor={'pointer'}
           onClick={() => router.back()}
-          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-        </button>
+          className="absolute top-5 left-4 text-gray-600 hover:text-gray-900"
+        />
 
         <h1 className="text-center text-3xl font-bold mb-8">회원가입</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -185,6 +240,9 @@ const Register = () => {
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
             <label
               htmlFor="phone"
               className="block text-sm font-bold mb-2 mt-4"
@@ -193,13 +251,14 @@ const Register = () => {
             </label>
             <input
               type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
               onChange={handleChange}
-              placeholder="전화번호를 입력해주세요"
+              placeholder="'-'없이 전화번호를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
+              maxLength={13}
             />
             <label className="block text-sm font-bold mb-2 mt-4">
               직책 <span className="text-red-500">*</span>
@@ -209,10 +268,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="manager"
+                  value="MANAGER"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === 'manager'}
+                  checked={formData.role === 'MANAGER'}
                   required
                 />
                 부서장
@@ -221,10 +280,10 @@ const Register = () => {
                 <input
                   type="radio"
                   name="role"
-                  value="user"
+                  value="USER"
                   onChange={handleChange}
                   className="mr-2"
-                  checked={formData.role === 'user'}
+                  checked={formData.role === 'USER'}
                   required
                 />
                 부서원
@@ -232,7 +291,7 @@ const Register = () => {
             </div>
 
             {/* 동적 입력 필드 */}
-            {formData.role === 'manager' && (
+            {formData.role === 'MANAGER' && (
               <div className="mt-4">
                 <label
                   htmlFor="department"
@@ -252,7 +311,7 @@ const Register = () => {
                 />
               </div>
             )}
-            {formData.role === 'user' && (
+            {formData.role === 'USER' && (
               <div className="mt-4">
                 <label
                   htmlFor="departmentCode"
@@ -262,9 +321,9 @@ const Register = () => {
                 </label>
                 <input
                   type="text"
-                  id="departmentCode"
-                  name="departmentCode"
-                  value={formData.departmentCode}
+                  id="deptCode"
+                  name="deptCode"
+                  value={formData.deptCode}
                   onChange={handleChange}
                   placeholder="부서 코드를 입력해주세요"
                   className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
@@ -281,14 +340,18 @@ const Register = () => {
             </label>
             <input
               type="text"
-              id="user_id"
-              name="user_id"
-              value={formData.user_id}
+              id="userId"
+              name="userId"
+              value={formData.userId}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
+            {errors.userId && (
+              <p className="text-red-500 text-sm mt-1">{errors.userId}</p>
+            )}
+
             <label
               htmlFor="password"
               className="block text-sm font-bold mb-2 mt-4"
@@ -297,14 +360,20 @@ const Register = () => {
             </label>
             <input
               type="password"
-              id="password"
-              name="password"
-              value={formData.password}
+              id="passwordHash"
+              name="passwordHash"
+              value={formData.passwordHash}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
+            {errors.passwordHash && (
+              <p className="text-red-500 text-xs mt-1 whitespace-pre-line">
+                {errors.passwordHash}
+              </p>
+            )}
+
             <label
               htmlFor="confirmPassword"
               className="block text-sm font-bold mb-2 mt-4"
@@ -329,11 +398,10 @@ const Register = () => {
         <button
           type="submit"
           disabled={!isFormValid()}
-          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${
-            isFormValid()
+          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${isFormValid()
               ? 'bg-customPink text-black hover:bg-customPinkHover'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
+            }`}
         >
           회원가입
         </button>
