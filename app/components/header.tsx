@@ -8,34 +8,36 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const defaultNav = [
-  { name: '서비스소개', href: '/#serviceInfo' },
-  { name: '공지사항', href: '#' },
+
+  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '공지사항', href: '/boards/notice' },
   { name: '감정본부', href: '#' },
-  { name: '문의게시판', href: '#' },
+  { name: '문의게시판', href: '/boards/inquiry' },
 ];
 
 const employeeNav = [
-  { name: '서비스소개', href: '/#serviceInfo' },
-  { name: '공지사항', href: '#' },
+
+  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '공지사항', href: '/boards/notice' },
   { name: '감정본부', href: '#' },
-  { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '/mypage' },
+  { name: '문의게시판', href: '/boards/inquiry' },
+  { name: '마이페이지', href: '#' },
 ];
 
 const employerNav = [
-  { name: '서비스소개', href: '/#serviceInfo' },
-  { name: '공지사항', href: '#' },
+  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '공지사항', href: '/boards/notice' },
   { name: '관리자페이지', href: '#' },
-  { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '/mypage' },
+  { name: '문의게시판', href: '/boards/inquiry' },
+  { name: '마이페이지', href: '#' },
 ];
 
 const adminNav = [
-  { name: '서비스소개', href: '/#serviceInfo' },
-  { name: '공지사항', href: '#' },
+  { name: '서비스소개', href: '#serviceInfo' },
+  { name: '공지사항', href: '/boards/notice' },
   { name: '관리자페이지', href: '#' },
-  { name: '문의게시판', href: '#' },
-  { name: '마이페이지', href: '/mypage' },
+  { name: '문의게시판', href: '/boards/inquiry' },
+  { name: '마이페이지', href: '#' },
 ];
 
 export default function Header() {
@@ -68,14 +70,14 @@ export default function Header() {
       <header className="bg-white z-50 relative">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-4 lg:p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5">
               <span className="sr-only">Your Company</span>
               <Image
                 alt="Company Logo"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                width={32}
-                height={32}
-                className="h-6 w-auto sm:h-8"
+                src="/hq_logo.svg"
+                width={30}
+                height={30}
+                className="w-14 h-14"
               />
             </Link>
           </div>

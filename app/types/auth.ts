@@ -30,3 +30,12 @@ export interface User {
   role: UserRole;
   department?: string;
 }
+
+export interface InquiryData {
+  userId : string
+  inquiryId: number;
+  title : string;
+  content: string;
+  createdTime: string | number;
+  modifiedTime: string | number;
+}

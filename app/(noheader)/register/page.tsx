@@ -52,10 +52,10 @@ const Register = () => {
 
       case 'passwordHash':
         const passwordRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
+          /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
         return passwordRegex.test(value)
           ? ''
-          : '비밀번호는 대소문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
+          : '비밀번호는 영문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
 
       case 'email':
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -70,9 +70,22 @@ const Register = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
+    let filterNum = value;
+    if (name === 'phoneNumber') {
+      const numbers = value.replace(/\D/g, '');
+      // 하이픈 추가
+      if (numbers.length <= 3) {
+        filterNum = numbers;
+      } else if (numbers.length <= 7) {
+        filterNum = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+      } else {
+        filterNum = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+      }
+    }
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: filterNum,
       ...(name === 'role' && {
         department: '',
         deptCode: '',
@@ -245,6 +258,7 @@ const Register = () => {
               placeholder="'-'없이 전화번호를 입력해주세요"
               className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
+              maxLength={13}
             />
             <label className="block text-sm font-bold mb-2 mt-4">
               직책 <span className="text-red-500">*</span>
@@ -384,11 +398,10 @@ const Register = () => {
         <button
           type="submit"
           disabled={!isFormValid()}
-          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${
-            isFormValid()
+          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${isFormValid()
               ? 'bg-customPink text-black hover:bg-customPinkHover'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
+            }`}
         >
           회원가입
         </button>
