@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { UserAPI } from '@/app/api';
-
+import axios from 'axios';
 export default function VerifyPage() {
   const router = useRouter();
   const [password, setPassword] = useState<string>('');
@@ -13,13 +13,18 @@ export default function VerifyPage() {
     try {
       const response = await UserAPI.editVerify(password);
       console.log(response);
-      router.replace('/mypage/edit');
+      if (response.message === '비밀번호가 확인되었습니다.') {
+        router.replace('/mypage/edit');
+      }
     } catch (error: unknown) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          alert('비밀번호가 틀렸습니다');
+        } else {
+          alert('일시적인 통신 오류, 잠시 후 시도 바랍니다.');
+        }
+      }
     }
-  };
-  const handleClick = () => {
-    router.replace('/mypage/edit');
   };
 
   return (

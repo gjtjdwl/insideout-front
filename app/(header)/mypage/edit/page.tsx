@@ -17,7 +17,7 @@ export default function EditProfilePage() {
     dept_code: '',
   });
   const handleClick = () => {
-    router.push('/mypage');
+    router.replace('/mypage');
   };
 
   return (

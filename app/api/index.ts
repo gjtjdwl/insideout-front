@@ -34,7 +34,7 @@ API.interceptors.response.use(
     if (error.response?.status === 401) {
       // 토큰이 만료된 경우
       localStorage.removeItem('jwt');
-      window.location.href = '/login';
+      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }
