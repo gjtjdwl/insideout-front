@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React,{useEffect} from 'react';
 import ButtonIcon from './components/ButtonIcon';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -13,6 +13,10 @@ import Image from 'next/image';
 export default function Home() {
   const router = useRouter();
   const { user, loading } = useUser();
+
+  useEffect(()=>{
+    console.log(user)
+  })
 
   // 로딩 중일 때는 아무것도 렌더링하지 않음
   if (loading) return null;
