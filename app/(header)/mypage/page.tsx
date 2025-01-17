@@ -1,14 +1,48 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { UserAPI } from '../../api';
+import { useEffect, useState } from 'react';
+interface myType {
+  userId: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  role: string;
+  deptCode: string;
+}
 
 export default function Mypage() {
+  const [userinfo, setUserinfo] = useState<myType>({
+    userId: '',
+    name: '',
+    email: '',
+    phoneNumber: '',
+    role: '',
+    deptCode: '',
+  });
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  useEffect(() => {
+    const handleLoad = async () => {
+      try {
+        const response = await UserAPI.register();
+        setUserinfo(response);
+      } catch (error: unknown) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handleLoad();
+  }, []);
+
   const navigateToVerify = () => {
     router.push('/mypage/verify');
   };
   const navigateToLogs = () => {
     router.push('/mypage/counsellog');
   };
+
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="bg-white px-44 py-16">
@@ -23,37 +57,41 @@ export default function Mypage() {
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">이름</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                허성지
+                {userinfo.name}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">아이디</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                gjtjdwl
+                {userinfo.userId}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">이메일</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                co4331@naver.com
+                {userinfo.email}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">전화번호</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                010-****-4331
+                {userinfo.phoneNumber}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">직무</dt>
               <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                부서장
+                {userinfo.role === 'ADMIN'
+                  ? '관리자'
+                  : userinfo.role === 'MANAGER'
+                    ? '부서장'
+                    : '부서원'}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm/6 font-medium text-gray-900">부서코드</dt>
               <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                #CCCCFF
+                {userinfo.deptCode}
               </dd>
             </div>
           </dl>

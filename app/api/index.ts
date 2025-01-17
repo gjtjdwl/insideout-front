@@ -1,5 +1,6 @@
 import axios from 'axios';
 import auth from './auth';
+import user from './userinfo';
 
 axios.defaults.withCredentials = true;
 
@@ -40,3 +41,4 @@ API.interceptors.response.use(
 );
 
 export const AuthAPI = auth(API);
+export const UserAPI = user(API);
