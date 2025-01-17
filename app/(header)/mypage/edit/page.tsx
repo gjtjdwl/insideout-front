@@ -6,6 +6,7 @@ import { UserAPI } from '@/app/api';
 interface updateValues {
   password: string;
   email?: string;
+  phoneNumber?: string;
   dept_code?: string;
 }
 
@@ -14,6 +15,7 @@ export default function EditProfilePage() {
   const [updateValues, setupdateValues] = useState<updateValues>({
     password: '',
     email: '',
+    phoneNumber: '',
     dept_code: '',
   });
   const handleClick = () => {

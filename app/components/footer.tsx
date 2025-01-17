@@ -1,5 +1,6 @@
 'use client';
 import { useUser } from '../hooks/useUser';
+import Image from 'next/image';
 const defaultNav = [
   { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
@@ -30,7 +31,6 @@ const adminNav = [
   { name: '문의게시판', href: '#' },
   { name: '마이페이지', href: '/mypage' },
 ];
-
 
 export default function Footer() {
   const { user, logout } = useUser();
