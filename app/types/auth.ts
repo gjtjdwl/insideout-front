@@ -31,6 +31,23 @@ export interface User {
   department?: string;
 }
 
+export interface RegisterFormData {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  role: UserRole | '';
+  userId: string;
+  passwordHash: string;
+  confirmPassword: string;
+  department: string;
+  deptCode: string;
+}
+
+export interface RegisterFormErrors {
+  userId: string;
+  passwordHash: string;
+  email: string;
+}
 export interface InquiryData {
   userId : string
   inquiryId: number;
