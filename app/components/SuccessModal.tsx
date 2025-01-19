@@ -20,7 +20,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ message, onClose }) => {
         <p className="text-center text-lg font-semibold">{message}</p>
         <button
           onClick={onClose}
-          className="mt-4 w-full bg-customPink text-white py-2 px-4 rounded hover:bg-customPinkHover"
+          className="mt-4 w-full bg-customPink text-black py-2 px-4 rounded hover:bg-customPinkHover"
         >
           닫기
         </button>
