@@ -1,13 +1,5 @@
 import { AxiosInstance } from 'axios';
-
-interface myType {
-  userId: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-  deptCode: string;
-}
+import { mypageType, mypageEditType } from '../types/mypage';
 
 function getCookieValue(cookieName: string): string | null {
   const cookies = document.cookie.split('; ');
@@ -16,9 +8,9 @@ function getCookieValue(cookieName: string): string | null {
 }
 
 const user = (api: AxiosInstance) => ({
-  userInfo: async (): Promise<myType> => {
+  userInfo: async (): Promise<mypageType> => {
     const token = getCookieValue('jwt'); // 쿠키에서 토큰 가져오기
-    const response = await api.get<myType>('api/users/me', {
+    const response = await api.get<mypageType>('api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
@@ -29,6 +21,22 @@ const user = (api: AxiosInstance) => ({
       '/api/users/verify-password',
       {
         password: password,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  },
+  edit: async (data: mypageEditType) => {
+    const token = getCookieValue('jwt'); // 쿠키에서 토큰 가져오기
+    const response = await api.put(
+      'api/users/me',
+      {
+        newPassword: data.newPassword,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        deptCode: data.deptCode,
       },
       {
         headers: { Authorization: `Bearer ${token}` },
