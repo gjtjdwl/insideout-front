@@ -2,11 +2,10 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { UserAPI } from '@/app/api';
-import { mypageType } from '@/app/types/mypage';
+import { mypageType, mypageEditType } from '@/app/types/mypage';
 import axios from 'axios';
 
 export default function EditProfilePage() {
-  //userinfo에 password 추가하는 거 조금 그렇지 않나? 타입 손봐야 할듯
   const [userinfo, setUserinfo] = useState<mypageType>({
     userId: '',
     name: '',
@@ -14,12 +13,15 @@ export default function EditProfilePage() {
     phoneNumber: '',
     role: '',
     deptCode: '',
-    password: '',
   });
-
+  const [updateValues, setUpdateValues] = useState<mypageEditType>({
+    newPassword: '',
+    email: '',
+    phoneNumber: '',
+    deptCode: '',
+  });
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -42,22 +44,23 @@ export default function EditProfilePage() {
   ) => {
     const { name, value } = e.target;
 
-    setUserinfo((prevValues) => ({
+    setUpdateValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
 
-    if (confirmPassword !== userinfo.password) {
+    if (confirmPassword !== updateValues.newPassword) {
       setPasswordError('비밀번호가 일치하지 않습니다.');
     }
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const requestData = {
-      newPassword: userinfo.password || '', // 타입 손보고 얘도 손보기 ? 때매 undefined 허용됨
-      email: userinfo.email,
-      phoneNumber: userinfo.phoneNumber,
-      deptCode: userinfo.deptCode,
+      newPassword: updateValues.newPassword,
+      email: updateValues.email,
+      phoneNumber: updateValues.phoneNumber,
+      deptCode: updateValues.deptCode,
     };
     try {
       const response = await UserAPI.edit(requestData);
@@ -108,7 +111,9 @@ export default function EditProfilePage() {
                 <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
                   <input
                     type="password"
-                    id="password"
+                    name="newPassword"
+                    value={updateValues.newPassword}
+                    onChange={handleChange}
                     placeholder="새 비밀번호를 입력하세요."
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     required
@@ -123,6 +128,11 @@ export default function EditProfilePage() {
                 <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
                   <input
                     type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                    }}
                     placeholder="비밀번호를 한번 더 입력해 주세요."
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     required
@@ -137,6 +147,9 @@ export default function EditProfilePage() {
                 <dt className="text-sm/6 font-medium text-gray-900">이메일</dt>
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
+                    name="email"
+                    value={updateValues.email}
+                    onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={userinfo.email || '이메일을 입력하세요.'}
                   />
@@ -148,6 +161,9 @@ export default function EditProfilePage() {
                 </dt>
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
+                    name="phoneNumber"
+                    value={updateValues.phoneNumber}
+                    onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={
                       userinfo.phoneNumber || '전화번호를 입력하세요.'

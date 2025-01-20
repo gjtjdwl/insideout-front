@@ -5,12 +5,11 @@ export interface mypageType {
   phoneNumber: string;
   role: string;
   deptCode?: string;
-  password?: string;
 }
 
 export interface mypageEditType {
   newPassword: string;
-  email?: string;
-  phoneNumber?: string;
-  deptCode?: string;
+  email: string;
+  phoneNumber: string;
+  deptCode: string;
 }
