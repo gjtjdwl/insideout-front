@@ -50,7 +50,11 @@ const WriteBoard = ({ params }: Props) => {
         const response = await BoardAPI.createBoard(form);
         
         alert(response.message)
-        router.push('/boards/notice')
+        if(boardName === 'inquiry'){
+          router.push('/boards/inquiry')
+        } else {
+          router.push('/boards/notice')
+        }
       } catch (error: unknown) {
         console.error('글 작성 중 오류 발생', error);
         throw error;
