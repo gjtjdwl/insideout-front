@@ -3,14 +3,18 @@
 import React, { useState, useEffect } from 'react';
 import { AuthAPI } from '../../api';
 import { useRouter } from 'next/navigation';
-import { UserRole } from '../../types/auth';
+import {
+  RegisterFormData,
+  RegisterFormErrors,
+  UserRole,
+} from '../../types/auth';
 import SuccessModal from '../../components/SuccessModal';
 import { FiChevronLeft } from 'react-icons/fi';
 import axios from 'axios';
 
 const Register = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
     phoneNumber: '',
