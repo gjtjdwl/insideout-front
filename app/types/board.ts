@@ -1,10 +1,11 @@
 export interface InquiryData {
-  userId: string;
+  userId: string | undefined;
   inquiryId: number;
   title: string;
   content: string;
-  createdTime: string | number;
-  modifiedTime: string | number;
+  createdTime?: string | number;
+  modifiedTime?: string | number;
+  message?: string;
 }
 
 export interface IFormData {

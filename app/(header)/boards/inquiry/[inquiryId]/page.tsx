@@ -59,8 +59,9 @@ const BoardDetail = ({ params }: Props) => {
       //유저아이디 추가되면 게시물 유저아이디랑 내 아이디랑 비교해서 보기권한 설정하기
 
       setDetail(response);
-      const formattedTime = formatDateTime(String(response.createdTime));
+      const formattedTime = formatDateTime(String(response.modifiedTime));
       setFormattedTime(formattedTime);
+      
     } catch (error: unknown) {
       console.error('문의 상세 가져오는 중 오류 발생', error);
       throw error;

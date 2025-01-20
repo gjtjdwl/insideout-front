@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import Link from 'next/link'
-import { InquiryData } from '@/app/types/auth';
+import { InquiryData } from '@/app/types/board';
 
 type BoardListProps = {
   boardList: InquiryData[]; // any 대신 명확한 타입을 정의하는 것이 좋음
