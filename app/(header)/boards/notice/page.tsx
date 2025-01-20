@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import BoardList from "../../../components/BoardList"
 import PaginationComponent from "@/app/components/PagenationComponent";
-import { InquiryData } from '@/app/types/auth';
+import { InquiryData } from '@/app/types/board';
 import { API } from '@/app/api';
 
 const Notice = () => {

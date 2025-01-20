@@ -4,10 +4,9 @@ import { useUser } from '@/app/hooks/useUser';
 import { useRouter } from 'next/navigation';
 import React, { use, useState, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { InquiryData } from '@/app/types/auth';
-import { API } from '@/app/api';
+import { InquiryData } from '@/app/types/board';
+import { BoardAPI } from '@/app/api';
 import InquiryContents from '@/app/components/InquiryContents';
-import moment from 'moment';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 
 type Props = {
@@ -55,13 +54,12 @@ const BoardDetail = ({ params }: Props) => {
   //문의 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-      const res = await API.get<InquiryData>(
-        `/api/boards/inquiry/${inquiryId}`
-      );
+
+      const response = await BoardAPI.inquiryDetail(inquiryId);
       //유저아이디 추가되면 게시물 유저아이디랑 내 아이디랑 비교해서 보기권한 설정하기
 
-      setDetail(res.data);
-      const formattedTime = formatDateTime(String(res.data.createdTime));
+      setDetail(response);
+      const formattedTime = formatDateTime(String(response.createdTime));
       setFormattedTime(formattedTime);
     } catch (error: unknown) {
       console.error('문의 상세 가져오는 중 오류 발생', error);

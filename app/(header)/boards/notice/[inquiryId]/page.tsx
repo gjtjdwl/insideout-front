@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '@/app/hooks/useUser';
-import { InquiryData } from '@/app/types/auth';
+import { InquiryData } from '@/app/types/board';
 import { API } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 //params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
