@@ -2,10 +2,10 @@
 import { useRouter } from 'next/navigation';
 import { UserAPI } from '../../api';
 import { useEffect, useState } from 'react';
-import { mypageType } from '@/app/types/mypage';
+import { mypageData } from '@/app/types/mypage';
 
 export default function Mypage() {
-  const [userinfo, setUserinfo] = useState<mypageType>({
+  const [userinfo, setUserinfo] = useState<mypageData>({
     userId: '',
     name: '',
     email: '',

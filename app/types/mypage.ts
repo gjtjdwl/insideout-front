@@ -1,4 +1,4 @@
-export interface mypageType {
+export interface mypageData {
   userId: string;
   name: string;
   email: string;
@@ -7,9 +7,17 @@ export interface mypageType {
   deptCode?: string;
 }
 
-export interface mypageEditType {
+export interface editRequestData {
   newPassword: string;
   email: string;
   phoneNumber: string;
   deptCode: string;
+}
+
+export interface editFormData {
+  newPassword: string;
+  email: string;
+  phoneNumber: string;
+  deptCode: string;
+  confirmPassword: string;
 }

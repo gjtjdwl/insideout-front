@@ -2,11 +2,11 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { UserAPI } from '@/app/api';
-import { mypageType, mypageEditType } from '@/app/types/mypage';
+import { mypageData, editRequestData, editFormData } from '@/app/types/mypage';
 import axios from 'axios';
 
 export default function EditProfilePage() {
-  const [userinfo, setUserinfo] = useState<mypageType>({
+  const [userinfo, setUserinfo] = useState<mypageData>({
     userId: '',
     name: '',
     email: '',
@@ -14,14 +14,18 @@ export default function EditProfilePage() {
     role: '',
     deptCode: '',
   });
-  const [updateValues, setUpdateValues] = useState<mypageEditType>({
+  const [formData, setFormData] = useState<editFormData>({
     newPassword: '',
+    confirmPassword: '',
     email: '',
     phoneNumber: '',
     deptCode: '',
   });
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const [errors, setErrors] = useState({
+    newPassword: '',
+    email: '',
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -38,30 +42,77 @@ export default function EditProfilePage() {
     };
     handleLoad();
   }, []);
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'newPassword':
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,32}$/;
+        return passwordRegex.test(value)
+          ? ''
+          : '비밀번호는 영문자, 숫자, 특수문자를 각각 1개 이상 포함하고 8~32자여야 합니다.';
 
+      case 'email':
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(value) ? '' : '유효하지 않는 이메일 형식입니다.';
+
+      default:
+        return '';
+    }
+  };
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    let refinedData = value;
 
-    setUpdateValues((prevValues) => ({
+    if (name === 'phoneNumber') {
+      const numbers = value.replace(/\D/g, '');
+      // 하이픈 추가
+      if (numbers.length <= 3) {
+        refinedData = numbers;
+      } else if (numbers.length <= 7) {
+        refinedData = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+      } else {
+        refinedData = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+      }
+    }
+    setFormData((prevValues) => ({
       ...prevValues,
-      [name]: value,
+      [name]: refinedData,
     }));
 
-    if (confirmPassword !== updateValues.newPassword) {
-      setPasswordError('비밀번호가 일치하지 않습니다.');
+    if (name === 'newPassword' || name === 'confirmPassword') {
+      if (name === 'confirmPassword' && value !== formData.newPassword) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else if (
+        name === 'newPassword' &&
+        value !== formData.confirmPassword &&
+        formData.confirmPassword
+      ) {
+        setPasswordError('비밀번호가 일치하지 않습니다.');
+      } else {
+        setPasswordError('');
+      }
+    }
+
+    if (['newPassword', 'email'].includes(name)) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
     }
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const requestData = {
-      newPassword: updateValues.newPassword,
-      email: updateValues.email,
-      phoneNumber: updateValues.phoneNumber,
-      deptCode: updateValues.deptCode,
+      newPassword: formData.newPassword,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      deptCode: formData.deptCode,
     };
+
     try {
       const response = await UserAPI.edit(requestData);
       alert('수정이 완료되었습니다!');
@@ -113,12 +164,17 @@ export default function EditProfilePage() {
                   <input
                     type="password"
                     name="newPassword"
-                    value={updateValues.newPassword}
+                    value={formData.newPassword}
                     onChange={handleChange}
                     placeholder="새 비밀번호를 입력하세요."
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     required
                   />
+                  {errors.newPassword && (
+                    <p className="text-red-500 text-xs mt-1 whitespace-pre-line">
+                      {errors.newPassword}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -130,10 +186,8 @@ export default function EditProfilePage() {
                   <input
                     type="password"
                     name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                    }}
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
                     placeholder="비밀번호를 한번 더 입력해 주세요."
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     required
@@ -149,11 +203,14 @@ export default function EditProfilePage() {
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
                     name="email"
-                    value={updateValues.email}
+                    value={formData.email}
                     onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={userinfo.email || '이메일을 입력하세요.'}
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -163,7 +220,7 @@ export default function EditProfilePage() {
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
                     name="phoneNumber"
-                    value={updateValues.phoneNumber}
+                    value={formData.phoneNumber}
                     onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={
@@ -189,7 +246,7 @@ export default function EditProfilePage() {
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
                     name="deptCode"
-                    value={updateValues.deptCode}
+                    value={formData.deptCode}
                     onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={userinfo.deptCode || '부서 코드를 입력하세요.'}
