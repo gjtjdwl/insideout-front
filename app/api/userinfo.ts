@@ -9,7 +9,7 @@ function getCookieValue(cookieName: string): string | null {
 
 const user = (api: AxiosInstance) => ({
   userInfo: async (): Promise<mypageType> => {
-    const token = getCookieValue('jwt'); // 쿠키에서 토큰 가져오기
+    const token = getCookieValue('jwt');
     const response = await api.get<mypageType>('api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -29,19 +29,21 @@ const user = (api: AxiosInstance) => ({
     return response.data;
   },
   edit: async (data: mypageEditType) => {
-    const token = getCookieValue('jwt'); // 쿠키에서 토큰 가져오기
+    const token = getCookieValue('jwt');
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([_, value]) => value !== '' && value !== undefined
+      )
+    );
     const response = await api.put(
       'api/users/me',
-      {
-        newPassword: data.newPassword,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        deptCode: data.deptCode,
-      },
+
+      filteredData,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    console.log(response.data);
     return response.data;
   },
 });

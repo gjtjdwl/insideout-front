@@ -64,6 +64,7 @@ export default function EditProfilePage() {
     };
     try {
       const response = await UserAPI.edit(requestData);
+      alert('수정이 완료되었습니다!');
       router.replace('/mypage');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -187,6 +188,9 @@ export default function EditProfilePage() {
                 </dt>
                 <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <input
+                    name="deptCode"
+                    value={updateValues.deptCode}
+                    onChange={handleChange}
                     className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                     placeholder={userinfo.deptCode || '부서 코드를 입력하세요.'}
                   />
