@@ -1,6 +1,6 @@
 import { RiMailSendFill } from 'react-icons/ri';
 
-export default function feedback() {
+const feedback = () => {
   const products = [
     {
       main: '개선사항1',
@@ -68,4 +68,6 @@ export default function feedback() {
       </div>
     </div>
   );
-}
+};
+
+export default feedback;
