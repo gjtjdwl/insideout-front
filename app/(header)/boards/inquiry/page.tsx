@@ -11,12 +11,11 @@ const Inquiry = () => {
   const [selectTab, setSelectTab] = useState<string>('전체');
   const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
   const { user } = useUser();
-  const [pageSize, setPageSize] = useState<number>(1);
+  const pageSize = Number(Math.ceil(inquiryList.length / 10))
 
   const inquiry = async (selectTab: string): Promise<void> => {
     try {
       const response = await BoardAPI.inquiry();
-      
       if (selectTab === '나의') {
         setInquiryList(
           response.filter((inquiry) => inquiry.userId === user?.userId)
@@ -44,7 +43,7 @@ const Inquiry = () => {
           <>
             <BoardList boardList={inquiryList} boardName="inquiry" />
             <div className="mt-10">
-              <PaginationComponent totalPages={pageSize} />
+              <PaginationComponent totalPages={pageSize} boardName='inquiry' />
             </div>
           </>
         )}

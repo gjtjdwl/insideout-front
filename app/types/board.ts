@@ -15,3 +15,8 @@ export interface IFormData {
   file: File | null;
   message?: string;
 }
+
+export interface apiData {
+  inquiryId: number;
+  userId?: string;
+}

@@ -4,26 +4,26 @@ import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '@/app/hooks/useUser';
-import { InquiryData } from '@/app/types/board';
-import { API, BoardAPI } from '@/app/api';
+import { apiData, InquiryData } from '@/app/types/board';
+import { BoardAPI } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 //params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
 //React.use()로 params 언래핑
 type Props = {
   params: Promise<{
     inquiryId: number;
-    boardName: string;
-    userId: string;
-    title: string;
   }>;
 };
 const BoardDetail = ({ params }: Props) => {
   const router = useRouter();
   const { user } = useUser();
-  const { boardName, inquiryId, userId, title } = use(params);
+  const { inquiryId } = use(params);
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData);
   const [formattedTime, setFormattedTime] = useState<string>('');
-
+  const [deleteData, setDeleteData] = useState<apiData>({
+    inquiryId: inquiryId,
+    userId: user?.userId,
+  });
   //공지 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
@@ -39,16 +39,16 @@ const BoardDetail = ({ params }: Props) => {
     }
   };
 
-  const handleDelete = async (boardName: string, inquiryId: number) => {
+  const handleDelete = async () => {
+    console.log(deleteData)
     try {
-      const response = await BoardAPI.deleteBoard(boardName, inquiryId);
+      const response = await BoardAPI.deleteBoard('notice', deleteData);
       alert(response.message);
-      router.push('/boards/notice')
+      router.push('/boards/notice');
     } catch (error) {
-      console.error("삭제 실패:", error);
+      console.error('삭제 실패:', error);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (inquiryId) {
@@ -85,7 +85,7 @@ const BoardDetail = ({ params }: Props) => {
               </button>
               <button
                 type="submit"
-                onClick={() => handleDelete(boardName, inquiryId)}
+                onClick={handleDelete}
                 className="hover:text-[#757575]"
               >
                 삭제

@@ -18,16 +18,13 @@ const BoardModify = ({ params }: Props) => {
   const router = useRouter();
   const { user } = useUser();
   const { inquiryId } = use(params);
-  const [editformData, seteditFormData] = useState<InquiryData>(
-    {
-      userId : '',
-      inquiryId : inquiryId,
-      title: '',
-      content: '',
-    }
-  );
+  const [editformData, seteditFormData] = useState<InquiryData>({
+    userId: '',
+    inquiryId: inquiryId,
+    title: '',
+    content: '',
+  });
   const [formattedTime, setFormattedTime] = useState<string>('');
-
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,23 +34,19 @@ const BoardModify = ({ params }: Props) => {
       ...prev,
       [name]: value, //name에따라 상태 업데이트
     }));
-
   };
 
   const handleSubmit = async () => {
     console.log('수정된 데이터', editformData);
     try {
-      
-      const response = await BoardAPI.modifyBoard(inquiryId, editformData);
-      console.log('res',response);
-      alert(response.message)
+      const response = await BoardAPI.modifyBoard(editformData);
+      console.log('res', response);
+      alert(response.message);
 
       router.push(`/boards/notice/${inquiryId}`);
-
     } catch (error: unknown) {
-      console.log('수정 에러', error );
+      console.log('수정 에러', error);
     }
-    
   };
 
   useEffect(() => {
