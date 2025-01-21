@@ -49,10 +49,8 @@ const BoardModify = ({ params }: Props) => {
       title,
       content,
     };
-    console.log('data', filteredData);
     try {
       const response = await BoardAPI.modifyBoard(filteredData);
-      console.log('res', response);
       alert(response.message);
       router.push(`/boards/notice/${inquiryId}`);
     } catch (error: unknown) {
