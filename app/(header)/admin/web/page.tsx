@@ -1,8 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import DepartmentCard from '@/app/components/DepartmentCard';
+
 export default function webAdminPage() {
   return (
     <>
@@ -39,32 +40,8 @@ export default function webAdminPage() {
           </div>
           <div className="mt-24 font-medium text-2xl">부서</div>
 
-          <div className="relative mt-8 px-8 flex justify-between border rounded-md border-gray-400">
-            <div className="py-8">
-              <div className="text-xl font-bold">부서 이름</div>
-              <div className="mt-2 text">부서장 이름</div>
-            </div>
-            <Cog6ToothIcon className="absolute h-6 w-6 top-3 right-4" />
-
-            <div className="py-14">
-              <button className="bg-customPink w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none">
-                세부사항
-              </button>
-            </div>
-          </div>
-          <div className="relative mt-8 px-8 flex justify-between border rounded-md border-gray-400">
-            <div className="py-8">
-              <div className="text-xl font-bold">부서 이름</div>
-              <div className="mt-2 text">부서장 이름</div>
-            </div>
-            <Cog6ToothIcon className="absolute h-6 w-6 top-3 right-4" />
-
-            <div className="py-14">
-              <button className="bg-customPink w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none">
-                세부사항
-              </button>
-            </div>
-          </div>
+          <DepartmentCard />
+          <DepartmentCard />
         </div>
       </div>
     </>
