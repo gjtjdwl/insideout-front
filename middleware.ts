@@ -10,6 +10,9 @@ const roleBasedRoutes: Record<string, UserRole[]> = {
 };
 
 export function middleware(request: NextRequest) {
+  // 쿠키를 가져오기 전에 잠시 대기
+  const response = NextResponse.next();
+
   const token = request.cookies.get('jwt')?.value;
   const userRole = request.cookies.get('role')?.value;
   const path = request.nextUrl.pathname;
@@ -27,7 +30,7 @@ export function middleware(request: NextRequest) {
 
   // 보호된 경로가 아닌 경우 그대로 진행
   if (!protectedPath) {
-    return NextResponse.next();
+    return response;
   }
 
   // 보호된 경로인데 토큰이 없는 경우
@@ -39,12 +42,12 @@ export function middleware(request: NextRequest) {
   const allowedRoles =
     roleBasedRoutes[protectedPath as keyof typeof roleBasedRoutes];
   if (!allowedRoles.includes(userRole as UserRole)) {
-    const response = NextResponse.redirect(new URL('/', request.url));
-    response.cookies.set('error', '잘못된 접근입니다.');
-    return response;
+    const redirectResponse = NextResponse.redirect(new URL('/', request.url));
+    redirectResponse.cookies.set('error', '잘못된 접근입니다.');
+    return redirectResponse;
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
