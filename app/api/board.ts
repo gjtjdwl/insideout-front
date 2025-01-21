@@ -36,9 +36,9 @@ const board = (api: AxiosInstance) => ({
     formData.append('inquiryId', String(modifiedData.inquiryId));
     formData.append('title', modifiedData.title);
     formData.append('content', modifiedData.content);
- 
+    console.log(modifiedData);
     const response = await api.put<IFormData>(
-      `/api/boards/notice/modify/${modifiedData.inquiryId}`,
+      `/api/boards/modify/${modifiedData.inquiryId}`,
       modifiedData
     );
 
