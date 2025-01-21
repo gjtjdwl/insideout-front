@@ -28,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         password: password,
       });
 
-      login(
+      await login(
         {
           userId: response.userId,
           name: response.name,
@@ -37,7 +37,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         response.jwt
       );
 
+      // 쿠키가 완전히 설정될 때까지 대기
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       onLoginSuccess(response.name);
+
+      // window.location.href를 사용하여 전체 페이지 새로고침
+      window.location.href = '/';
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
