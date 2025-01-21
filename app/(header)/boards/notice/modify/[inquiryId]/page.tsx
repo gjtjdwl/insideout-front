@@ -25,7 +25,7 @@ const BoardModify = ({ params }: Props) => {
     content: '',
     file: null,
   });
-  const editform = new FormData();
+
   const [formattedTime, setFormattedTime] = useState<string>('');
 
   const handleChange = (
@@ -49,7 +49,7 @@ const BoardModify = ({ params }: Props) => {
       title,
       content,
     };
-
+    console.log('data', filteredData);
     try {
       const response = await BoardAPI.modifyBoard(filteredData);
       console.log('res', response);

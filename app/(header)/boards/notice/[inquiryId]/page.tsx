@@ -32,8 +32,8 @@ const BoardDetail = ({ params }: Props) => {
       setDetail(response);
       setDeleteData((prev) => ({
         ...prev,
-        userId: response.userId
-      }))
+        userId: response.userId,
+      }));
       const formattedTime = formatDateTime(String(response.modifiedTime));
       setFormattedTime(formattedTime);
     } catch (error: unknown) {
@@ -74,7 +74,7 @@ const BoardDetail = ({ params }: Props) => {
         <div className="flex justify-end p-4 mb-12 text-xs md:text-sm text-[#757575]">
           <span className="mr-2 ">{detail.userId} </span>
           <span className="mr-2">{formattedTime}</span>
-          {user && user.role === 'ADMIN' && detail.userId === user.userId && (
+          {user && user.role === 'ADMIN' && (
             <>
               <button
                 type="submit"
