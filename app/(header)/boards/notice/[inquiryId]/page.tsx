@@ -5,8 +5,9 @@ import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '@/app/hooks/useUser';
 import { apiData, InquiryData } from '@/app/types/board';
-import { BoardAPI } from '@/app/api';
+import { BoardAPI, UserAPI } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
+import { User } from '@/app/types/auth';
 //params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
 //React.use()로 params 언래핑
 type Props = {
@@ -22,15 +23,17 @@ const BoardDetail = ({ params }: Props) => {
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [deleteData, setDeleteData] = useState<apiData>({
     inquiryId: inquiryId,
-    userId: user?.userId,
+    userId: '',
   });
   //공지 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
       const response = await BoardAPI.noticeDetail(inquiryId);
-      //유저아이디 추가되면 게시물 유저아이디랑 내 아이디랑 비교해서 보기권한 설정하기
-
       setDetail(response);
+      setDeleteData((prev) => ({
+        ...prev,
+        userId: response.userId
+      }))
       const formattedTime = formatDateTime(String(response.modifiedTime));
       setFormattedTime(formattedTime);
     } catch (error: unknown) {
@@ -40,7 +43,6 @@ const BoardDetail = ({ params }: Props) => {
   };
 
   const handleDelete = async () => {
-    console.log(deleteData)
     try {
       const response = await BoardAPI.deleteBoard('notice', deleteData);
       alert(response.message);

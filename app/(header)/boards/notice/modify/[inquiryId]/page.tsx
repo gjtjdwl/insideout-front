@@ -37,9 +37,19 @@ const BoardModify = ({ params }: Props) => {
   };
 
   const handleSubmit = async () => {
-    console.log('수정된 데이터', editformData);
+    // 필요한 데이터만 추출
+    const { userId, title, content } = editformData;
+
+    // 새로운 객체로 정리
+    const filteredData = {
+      userId,
+      inquiryId,
+      title,
+      content,
+    };
+
     try {
-      const response = await BoardAPI.modifyBoard(editformData);
+      const response = await BoardAPI.modifyBoard(filteredData);
       console.log('res', response);
       alert(response.message);
 
@@ -52,14 +62,11 @@ const BoardModify = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await BoardAPI.noticeDetail(inquiryId);
-      console.log(response);
       seteditFormData(response);
       setFormattedTime(formatDateTime(String(response.modifiedTime)));
     };
+    fetchData();
 
-    if (inquiryId) {
-      fetchData();
-    }
   }, [inquiryId]);
 
   return (
