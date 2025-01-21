@@ -9,8 +9,6 @@ type BoardListProps = {
 };
 
 export default function BoardList({ boardList, boardName }: BoardListProps) {
-
-
   return (
     <ul role="list" className=" min-h-[40vh]">
       {boardList.map((board,index) => (

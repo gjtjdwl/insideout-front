@@ -18,6 +18,7 @@ const WriteBoard = ({ params }: Props) => {
   const { user } = useUser();
   const [formData, setFormData] = useState<IFormData>({
     userId: '',
+    inquiryId: 0,
     title: '',
     content: '',
     file: null,
@@ -36,8 +37,6 @@ const WriteBoard = ({ params }: Props) => {
 
     if (user) {
       formData.userId = user.userId;
-      console.log('form', formData);
-
       form.append('userId', formData.userId);
       form.append('title', formData.title);
       form.append('content', formData.content);

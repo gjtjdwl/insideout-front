@@ -11,17 +11,18 @@ const Inquiry = () => {
   const [selectTab, setSelectTab] = useState<string>('전체');
   const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
   const { user } = useUser();
-  const pageSize = Number(Math.ceil(inquiryList.length / 10))
+  const pageSize = Number(Math.ceil(inquiryList.length / 10));
 
   const inquiry = async (selectTab: string): Promise<void> => {
     try {
       const response = await BoardAPI.inquiry();
+      const reversedList = [...response].reverse();
       if (selectTab === '나의') {
         setInquiryList(
-          response.filter((inquiry) => inquiry.userId === user?.userId)
+          reversedList.filter((inquiry) => inquiry.userId === user?.userId)
         );
       } else {
-        setInquiryList(response);
+        setInquiryList(reversedList);
       }
     } catch (error: unknown) {
       console.error('문의하기 리스트 가져오는 중 오류 발생', error);
@@ -43,7 +44,7 @@ const Inquiry = () => {
           <>
             <BoardList boardList={inquiryList} boardName="inquiry" />
             <div className="mt-10">
-              <PaginationComponent totalPages={pageSize} boardName='inquiry' />
+              <PaginationComponent totalPages={pageSize} boardName="inquiry" />
             </div>
           </>
         )}

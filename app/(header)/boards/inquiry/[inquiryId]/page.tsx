@@ -30,7 +30,7 @@ const BoardDetail = ({ params }: Props) => {
         '안녕하세요. 관리자입니다.\n 답변해드렸습니다.감사합니다.\n 부서장님도 새해 복 많이 받으세요.',
     },
     {
-      id: '부서장',
+      id: 'testuser01',
       time: '2024.10.22. 01:34',
       comment: '네 관리자님 답변 감사바리 셰키바리 ~ ',
     },
@@ -40,12 +40,12 @@ const BoardDetail = ({ params }: Props) => {
       comment: '셰키요? ',
     },
     {
-      id: '부서장',
+      id: 'testuser01',
       time: '2024.10.22. 02:10',
       comment: '아아... 죄송합니다. 텍스트 대치 때문에.. 안녕히개새 요.. ',
     },
     {
-      id: '부서장',
+      id: 'testuser01',
       time: '2024.10.22. 02:10',
       comment: '계세요! ',
     },
@@ -54,14 +54,10 @@ const BoardDetail = ({ params }: Props) => {
   //문의 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-
       const response = await BoardAPI.inquiryDetail(inquiryId);
-      //유저아이디 추가되면 게시물 유저아이디랑 내 아이디랑 비교해서 보기권한 설정하기
-
       setDetail(response);
       const formattedTime = formatDateTime(String(response.modifiedTime));
       setFormattedTime(formattedTime);
-      
     } catch (error: unknown) {
       console.error('문의 상세 가져오는 중 오류 발생', error);
       throw error;
@@ -123,10 +119,17 @@ const BoardDetail = ({ params }: Props) => {
                 <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
                   {comt.id}
                 </span>
+                <div className='flex'>
                 <span className="text-xs lg:text-sm text-[#757575]">
                   {comt.time}
                 </span>
+                {
+                  user && user.userId === comt.id &&
+                  <button className="ml-3 text-xs lg:text-sm text-[#757575]">삭제</button>
+                }
+                </div>
               </div>
+              
               <div className="text-sm lg:text-base">{comt.comment}</div>
             </div>
           ))}

@@ -6,13 +6,15 @@ export interface InquiryData {
   createdTime?: string | number;
   modifiedTime?: string | number;
   message?: string;
+  file?: File | null;
 }
 
 export interface IFormData {
-  userId: string;
+  userId: string | undefined;
+  inquiryId: number;
   title: string;
   content: string;
-  file: File | null;
+  file?: File | null;
   message?: string;
 }
 

@@ -4,7 +4,7 @@ import { BoardAPI } from '@/app/api';
 import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { InquiryData } from '@/app/types/board';
+import { IFormData } from '@/app/types/board';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 import { useUser } from '@/app/hooks/useUser';
 //params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
@@ -18,12 +18,14 @@ const BoardModify = ({ params }: Props) => {
   const router = useRouter();
   const { user } = useUser();
   const { inquiryId } = use(params);
-  const [editformData, seteditFormData] = useState<InquiryData>({
+  const [editformData, seteditFormData] = useState<IFormData>({
     userId: '',
     inquiryId: inquiryId,
     title: '',
     content: '',
+    file: null,
   });
+  const editform = new FormData();
   const [formattedTime, setFormattedTime] = useState<string>('');
 
   const handleChange = (
@@ -52,7 +54,6 @@ const BoardModify = ({ params }: Props) => {
       const response = await BoardAPI.modifyBoard(filteredData);
       console.log('res', response);
       alert(response.message);
-
       router.push(`/boards/notice/${inquiryId}`);
     } catch (error: unknown) {
       console.log('수정 에러', error);
@@ -66,7 +67,6 @@ const BoardModify = ({ params }: Props) => {
       setFormattedTime(formatDateTime(String(response.modifiedTime)));
     };
     fetchData();
-
   }, [inquiryId]);
 
   return (

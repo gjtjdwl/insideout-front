@@ -30,10 +30,15 @@ const board = (api: AxiosInstance) => ({
     return response.data;
   },
 
-  modifyBoard: async (modifiedData: InquiryData) => {
-    const response = await api.put<InquiryData>(
+  modifyBoard: async (modifiedData: IFormData) => {
+    const formData = new FormData();
+    formData.append('userId', String(modifiedData.userId));
+    formData.append('inquiryId', String(modifiedData.inquiryId));
+    formData.append('title', modifiedData.title);
+    formData.append('content', modifiedData.content);
+    const response = await api.put<IFormData>(
       `/api/boards/notice/modify/${modifiedData.inquiryId}`,
-      modifiedData
+      formData
     );
     return response.data;
   },
