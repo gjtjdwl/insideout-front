@@ -16,6 +16,7 @@ const Inquiry = () => {
   const inquiry = async (selectTab: string): Promise<void> => {
     try {
       const res = await API.get<InquiryData[]>('/api/boards/inquiry');
+      console.log(res);
       if (selectTab === '나의') {
         setInquiryList(
           res.data.filter((inquiry) => inquiry.userId === user?.userId)

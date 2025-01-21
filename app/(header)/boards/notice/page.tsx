@@ -1,45 +1,43 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
-import BoardList from "../../../components/BoardList"
-import PaginationComponent from "@/app/components/PagenationComponent";
+import React, { useEffect, useState } from 'react';
+import BoardList from '../../../components/BoardList';
+import PaginationComponent from '@/app/components/PagenationComponent';
 import { InquiryData } from '@/app/types/auth';
 import { API } from '@/app/api';
 
 const Notice = () => {
-  const [noticeList, setNoticeList] = useState<InquiryData[]>([])
-  const [pageSize, setPageSize] = useState<number>(1)
+  const [noticeList, setNoticeList] = useState<InquiryData[]>([]);
+  const [pageSize, setPageSize] = useState<number>(1);
   const notice = async () => {
     try {
       const res = await API.get<InquiryData[]>('/api/boards/notice');
-      setNoticeList(res.data)
+      setNoticeList(res.data);
+      console.log(res.data);
     } catch (error: unknown) {
       console.error('공지하기 리스트 가져오는 중 오류 발생', error);
       throw error;
     }
-  }
+  };
 
   useEffect(() => {
     notice();
-  }, [])
+  }, []);
 
   return (
     <div className="p-14 w-[90%] flex-grow flex flex-col justify-center">
-      {
-        noticeList.length === 0 ? (
-          <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
-        ) : (
-          <>
-            <BoardList boardList={noticeList} boardName='notice' />
-            <div className="mt-10">
-              <PaginationComponent totalPages={pageSize} />
-            </div>
-          </>
-        )
-      }
+      {noticeList.length === 0 ? (
+        <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
+      ) : (
+        <>
+          <BoardList boardList={noticeList} boardName="notice" />
+          <div className="mt-10">
+            <PaginationComponent totalPages={pageSize} />
+          </div>
+        </>
+      )}
     </div>
+  );
+};
 
-  )
-}
-
-export default Notice
+export default Notice;
