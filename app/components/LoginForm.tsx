@@ -37,7 +37,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         response.jwt
       );
 
-      // 쿠키가 완전히 설정될 때까지 대기
+      // storage 이벤트를 수동으로 발생시켜 다른 컴포넌트에서도 상태 업데이트
+      window.dispatchEvent(new Event('storage'));
+
+      // 쿠키와 상태가 완전히 설정될 때까지 대기
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       onLoginSuccess(response.name);
