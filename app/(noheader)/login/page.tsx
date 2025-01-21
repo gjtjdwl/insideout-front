@@ -19,9 +19,9 @@ const LoginPage: React.FC = () => {
 
       return () => clearInterval(timer);
     } else if (showSuccessModal && countdown === 0) {
-      router.push('/');
+      window.location.href = '/';
     }
-  }, [showSuccessModal, countdown, router]);
+  }, [showSuccessModal, countdown]);
 
   const handleLoginSuccess = (userId: string) => {
     setUserId(userId);
