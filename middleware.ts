@@ -9,9 +9,10 @@ const roleBasedRoutes: Record<string, UserRole[]> = {
   '/chat': ['USER'],
 };
 
-export function middleware(request: NextRequest) {
-  // 쿠키를 가져오기 전에 잠시 대기
-  const response = NextResponse.next();
+export async function middleware(request: NextRequest) {
+  // 쿠키 확인을 위한 지연 추가
+  const waitForCookies = new Promise((resolve) => setTimeout(resolve, 200));
+  await waitForCookies;
 
   const token = request.cookies.get('jwt')?.value;
   const userRole = request.cookies.get('role')?.value;
@@ -22,6 +23,8 @@ export function middleware(request: NextRequest) {
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL('/', request.url));
   }
+
+  const response = NextResponse.next();
 
   // 보호된 경로 체크
   const protectedPath = Object.keys(roleBasedRoutes).find((route) =>

@@ -59,17 +59,30 @@ export function useUser() {
     };
 
     setUser(userToStore);
-    localStorage.setItem('user', JSON.stringify(userToStore));
+    try {
+      // 쿠키 설정
+      document.cookie = `jwt=${token}; path=/; secure; samesite=strict; max-age=86400`;
+      document.cookie = `role=${userData.role}; path=/; secure; samesite=strict; max-age=86400`;
 
-    // 쿠키 설정
-    document.cookie = `jwt=${token}; path=/; secure; samesite=strict`;
-    document.cookie = `role=${userData.role}; path=/; secure; samesite=strict`;
+      // 쿠키가 설정될 때까지 더 긴 대기 시간 설정
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // 쿠키가 완전히 설정될 때까지 잠시 대기
-    await new Promise((resolve) => setTimeout(resolve, 100));
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
 
-    // storage 이벤트를 수동으로 발생
-    window.dispatchEvent(new Event('storage'));
+      // storage 이벤트를 수동으로 발생
+      window.dispatchEvent(new Event('storage'));
+
+      // 쿠키가 제대로 설정되었는지 확인
+      const cookieCheck =
+        document.cookie.includes('jwt') && document.cookie.includes('role');
+      if (!cookieCheck) {
+        throw new Error('쿠키 설정 실패');
+      }
+    } catch (error) {
+      console.error('로그인 처리 중 오류:', error);
+      throw error;
+    }
   };
 
   const logout = () => {
