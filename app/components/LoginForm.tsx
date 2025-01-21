@@ -41,9 +41,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       onLoginSuccess(response.name);
-
-      // window.location.href를 사용하여 전체 페이지 새로고침
-      window.location.href = '/';
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
