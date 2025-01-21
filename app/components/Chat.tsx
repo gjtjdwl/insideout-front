@@ -22,6 +22,7 @@ const Chat: React.FC<ChatProps> = ({
 }) => {
   const [message, setMessage] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<MessageResponse[]>(initialMessages);
   const [isListening, setIsListening] = useState(false);
@@ -48,7 +49,8 @@ const Chat: React.FC<ChatProps> = ({
     if (!message.trim()) return;
 
     const currentMessage = message.trim();
-    setMessage(''); // 입력창 즉시 비우기
+    setMessage('');
+    setIsTyping(true);
 
     // 임시 메시지 ID 생성
     const tempMessageId = Date.now();
@@ -101,6 +103,8 @@ const Chat: React.FC<ChatProps> = ({
       // 에러 발생 시 마지막 메시지 제거
       setMessages((prev) => prev.filter((msg) => msg.id !== tempMessageId));
       setMessage(currentMessage);
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -214,6 +218,27 @@ const Chat: React.FC<ChatProps> = ({
                   )}
                 </motion.div>
               ))}
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-start gap-4 mb-6"
+                >
+                  <div className="flex items-start gap-2">
+                    <div className="w-8 h-8 flex justify-center items-center text-lg">
+                      🤗
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm text-gray-500 mb-1">마음이</span>
+                      <div className="bg-gray-100 px-4 py-2 rounded-2xl rounded-tl-none">
+                        상담사가 답변을 작성중입니다...
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </>
           )}
         </AnimatePresence>
