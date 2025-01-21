@@ -34,7 +34,7 @@ export default function feedback() {
           <div className="font-bold text-xl md:text-3xl">개선 사항</div>
         </div>
         <div className="flex justify-center flex-col items-center ">
-          <div className="m-6 mt-14 max-w-[1200px] grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-20">
+          <div className="m-6 mt-28 max-w-[1200px] grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-20">
             {products.map((product, index) => (
               <div
                 key={product.main}
