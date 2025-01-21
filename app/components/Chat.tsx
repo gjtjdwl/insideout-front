@@ -38,7 +38,7 @@ const Chat: React.FC<ChatProps> = ({
     setMessages(
       [...initialMessages].sort(
         (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       )
     );
   }, [initialMessages]);
@@ -59,13 +59,13 @@ const Chat: React.FC<ChatProps> = ({
       sessionId: currentSessionId,
       authorType: 'USER',
       content: currentMessage,
-      timestamp: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     };
 
     setMessages((prev) =>
       [...prev, userMessage].sort(
         (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       )
     );
 
@@ -87,12 +87,12 @@ const Chat: React.FC<ChatProps> = ({
           sessionId: currentSessionId,
           authorType: response.authorType,
           content: response.content,
-          timestamp: response.timestamp,
+          createdAt: response.createdAt,
         };
         setMessages((prev) =>
           [...prev, aiMessage].sort(
             (a, b) =>
-              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           )
         );
       }
