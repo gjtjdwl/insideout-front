@@ -4,7 +4,7 @@ export interface InquiryData {
   title: string;
   content: string;
   createdTime: string | number;
-  modifiedTime?: string | number;
+  modifiedTime?: string | null;
   message: string;
   file?: File | null;
   comments: CommentData[];
@@ -24,12 +24,17 @@ export interface apiData {
   userId?: string;
 }
 
+export interface delData {
+  commentId: number;
+  userId: string;
+}
+
 export interface CommentData {
-  userId?: string;
+  userId: string;
   inquiryId: number;
   commentId: number;
   content: string;
   createdTime?: string | number;
-  modifiedTime?: string | number;
+  modifiedTime?: string | null;
   message: string;
 }

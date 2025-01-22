@@ -1,5 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { InquiryData, IFormData, apiData, CommentData } from '../types/board';
+import {
+  InquiryData,
+  IFormData,
+  apiData,
+  CommentData,
+  delData,
+} from '../types/board';
 
 const board = (api: AxiosInstance) => ({
   inquiry: async () => {
@@ -52,19 +58,27 @@ const board = (api: AxiosInstance) => ({
     return response.data;
   },
 
-  modifyComment: async(commentId: number, modifiedComment: string) => {
-    const response = await api.put<string>(`/api/comments/${commentId}`,modifiedComment )
+  modifyComment: async (commentId: number, modifiedComment: string) => {
+    const response = await api.put<string>(
+      `/api/comments/${commentId}`,
+      modifiedComment
+    );
     return response.data;
   },
-  createComment: async(inquiryId: number, comment: CommentData) => {
-    const response = await api.post<CommentData>(`/api/comments/${inquiryId}`, comment )
+  createComment: async (inquiryId: number, comment: CommentData) => {
+    const response = await api.post<CommentData>(
+      `/api/comments/${inquiryId}`,
+      comment
+    );
     return response.data;
   },
 
-  deleteComment: async() => {
-    const response = await api.delete('/api/comments/delete')
+  deleteComment: async (deleteData: delData) => {
+    const response = await api.delete('/api/comments/delete', {
+      data: deleteData,
+    });
     return response.data;
-  }
+  },
 });
 
 export default board;

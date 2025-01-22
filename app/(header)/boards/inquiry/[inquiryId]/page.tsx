@@ -4,7 +4,7 @@ import { useUser } from '@/app/hooks/useUser';
 import { useRouter } from 'next/navigation';
 import React, { use, useState, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { CommentData, InquiryData } from '@/app/types/board';
+import { CommentData, InquiryData, apiData } from '@/app/types/board';
 import { BoardAPI } from '@/app/api';
 import InquiryContents from '@/app/components/InquiryContents';
 import { formatDateTime } from '@/app/utils/dataFormatter';
@@ -30,6 +30,10 @@ const BoardDetail = ({ params }: Props) => {
     message: '',
   });
   const [comments, setComments] = useState<CommentData[]>([]);
+  const [deleteData, setDeleteData] = useState<apiData>({
+    inquiryId: inquiryId,
+    userId: '',
+  });
 
   //문의 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
@@ -37,21 +41,41 @@ const BoardDetail = ({ params }: Props) => {
       const response = await BoardAPI.inquiryDetail(inquiryId);
       setDetail(response);
       setComments(response.comments);
-      const formattedTime = formatDateTime(String(response.modifiedTime));
-
-      setFormattedTime(formattedTime);
+      if (response.modifiedTime === null) {
+        const formattedTime = formatDateTime(String(response.createdTime));
+        setFormattedTime(formattedTime);
+      } else {
+        const formattedTime = formatDateTime(String(response.modifiedTime));
+        setFormattedTime(formattedTime);
+      }
     } catch (error: unknown) {
       console.error('문의 상세 가져오는 중 오류 발생', error);
       throw error;
     }
   };
+  //문의 삭제
+  const handleDelete = async () => {
+    try {
+      setDeleteData((prev) => ({
+        ...prev,
+        userId: user?.userId,
+      }));
+      const response = await BoardAPI.deleteBoard('inquriy', deleteData);
+      alert(response.message);
+      router.push('/boards/inquiry');
+    } catch (error) {
+      console.error('삭제 실패:', error);
+    }
+  };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment((prev) => ({
-      ...prev,
-      userId: user?.userId,
-      content: e.target.value,
-    }));
+    if (user) {
+      setComment((prev) => ({
+        ...prev,
+        userId: user.userId,
+        content: e.target.value,
+      }));
+    }
   };
 
   // 댓글 작성
@@ -77,10 +101,15 @@ const BoardDetail = ({ params }: Props) => {
     }
   };
   // 댓글 삭제
-  const handleCommentDelete = async () => {
+  const handleCommentDelete = async (commentId: number, userId: string) => {
     try {
-      // const response = await BoardAPI.deleteComment()
-      console.log('기달.. ');
+      const reqDelet = {
+        commentId,
+        userId,
+      };
+      const response = await BoardAPI.deleteComment(reqDelet);
+      alert('댓글 삭제 완료');
+      await inquiryDetail(Number(inquiryId));
     } catch (error: unknown) {
       console.log('댓글 삭제 오류', error);
     }
@@ -122,9 +151,21 @@ const BoardDetail = ({ params }: Props) => {
                 </div>
               </div>
               <div>
-                <div className="flex flex-col text-xs lg:text-sm text-[#757575] mt-3">
+                <div className="text-xs lg:text-sm text-[#757575] mt-3">
                   <span> {detail.userId} </span>
-                  <span>{formattedTime}</span>
+                  <div>
+                    <span>{formattedTime}</span>
+                    {user && user.role === 'ADMIN' && (
+                      <button
+                        onClick={() => {
+                          handleDelete();
+                        }}
+                        className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                      >
+                        삭제
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,6 +180,9 @@ const BoardDetail = ({ params }: Props) => {
             </div>
           </div>
           {/* 답변 */}
+          {comments.length === 0 && (
+            <div className="p-4 h-[120px]"> 댓글이 없습니다. </div>
+          )}
           {comments.map((comt, index) => {
             const formattedDate = moment(comt.createdTime).format(
               'YYYY-MM-DD HH:mm:ss'
@@ -149,21 +193,43 @@ const BoardDetail = ({ params }: Props) => {
                 className={`p-4 w-full ${comt.userId === user?.userId ? 'bg-[#f5f5f5]' : ''}`}
               >
                 <div className="flex flex-col mb-3">
-                  <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
-                    {comt.userId}
-                  </span>
+                  {user &&
+                    (comt.role === 'ADMIN' ? (
+                      <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                        {user?.role}
+                      </span>
+                    ) : (
+                      <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                        {comt.userId}
+                      </span>
+                    ))}
+
                   <div className="flex">
                     <span className="text-xs lg:text-sm text-[#757575]">
                       {formattedDate}
                     </span>
-                    {user && user.userId === comt.userId && (
+                    {user && user.role === 'ADMIN' && (
                       <button
-                        onClick={handleCommentDelete}
-                        className="ml-3 text-xs lg:text-sm text-[#757575]"
+                        onClick={() => {
+                          handleCommentDelete(comt.commentId, comt.userId);
+                        }}
+                        className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
                       >
-                        삭제
+                        수정
                       </button>
                     )}
+                    {user &&
+                      (user.role === 'ADMIN' ||
+                        user.userId === comt.userId) && (
+                        <button
+                          onClick={() => {
+                            handleCommentDelete(comt.commentId, comt.userId);
+                          }}
+                          className="ml-1 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                        >
+                          삭제
+                        </button>
+                      )}
                   </div>
                 </div>
 
@@ -175,7 +241,7 @@ const BoardDetail = ({ params }: Props) => {
           <div className="w-full mt-4">
             <div className="border p-4 ">
               <span className="lg:text-base text-sm font-semibold text-gray-700">
-                {user?.name ? user.name : '가입안하심'}
+                {user ? user.name : '가입안하심'}
               </span>
               <div className="flex flex-col sm:flex-row mt-4 ">
                 <textarea
