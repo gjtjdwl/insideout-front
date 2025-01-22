@@ -41,6 +41,10 @@ const BoardDetail = ({ params }: Props) => {
       const response = await BoardAPI.inquiryDetail(inquiryId);
       setDetail(response);
       setComments(response.comments);
+      setDeleteData((prev) => ({
+        ...prev,
+        userId: user?.userId,
+      }));
       if (response.modifiedTime === null) {
         const formattedTime = formatDateTime(String(response.createdTime));
         setFormattedTime(formattedTime);
@@ -56,10 +60,6 @@ const BoardDetail = ({ params }: Props) => {
   //문의 삭제
   const handleDelete = async () => {
     try {
-      setDeleteData((prev) => ({
-        ...prev,
-        userId: user?.userId,
-      }));
       const response = await BoardAPI.deleteBoard('inquriy', deleteData);
       alert(response.message);
       router.push('/boards/inquiry');
@@ -68,6 +68,7 @@ const BoardDetail = ({ params }: Props) => {
     }
   };
 
+  // 댓글 감지
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (user) {
       setComment((prev) => ({
@@ -100,6 +101,14 @@ const BoardDetail = ({ params }: Props) => {
       }));
     }
   };
+
+  // 엔터 키 감지
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCommentSubmit();
+    }
+  };
+
   // 댓글 삭제
   const handleCommentDelete = async (commentId: number, userId: string) => {
     try {
@@ -155,11 +164,10 @@ const BoardDetail = ({ params }: Props) => {
                   <span> {detail.userId} </span>
                   <div>
                     <span>{formattedTime}</span>
+                    {detail.modifiedTime && <span> 수정됨 </span>}
                     {user && user.role === 'ADMIN' && (
                       <button
-                        onClick={() => {
-                          handleDelete();
-                        }}
+                        onClick={handleDelete}
                         className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
                       >
                         삭제
@@ -181,7 +189,10 @@ const BoardDetail = ({ params }: Props) => {
           </div>
           {/* 답변 */}
           {comments.length === 0 && (
-            <div className="p-4 h-[120px]"> 댓글이 없습니다. </div>
+            <div className="p-4 h-[120px] text-[#757575]">
+              {' '}
+              댓글이 없습니다.{' '}
+            </div>
           )}
           {comments.map((comt, index) => {
             const formattedDate = moment(comt.createdTime).format(
@@ -193,16 +204,16 @@ const BoardDetail = ({ params }: Props) => {
                 className={`p-4 w-full ${comt.userId === user?.userId ? 'bg-[#f5f5f5]' : ''}`}
               >
                 <div className="flex flex-col mb-3">
-                  {user &&
+                  {/* {user &&
                     (comt.role === 'ADMIN' ? (
                       <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
                         {user?.role}
                       </span>
-                    ) : (
-                      <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
-                        {comt.userId}
-                      </span>
-                    ))}
+                    ) : ( */}
+                  <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                    {comt.userId}
+                  </span>
+                  {/* ))} */}
 
                   <div className="flex">
                     <span className="text-xs lg:text-sm text-[#757575]">
@@ -249,8 +260,9 @@ const BoardDetail = ({ params }: Props) => {
                   name="comment"
                   placeholder="추가 문의가 있으시면 답글을 남겨주세요"
                   onChange={handleCommentChange}
+                  onKeyDown={handleKeyPress}
                   value={comment.content}
-                  className="w-full resize-none mr-[3px] min-h-20 placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
+                  className="w-full resize-none p-2 mr-[3px] min-h-20 placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
                 />
                 <button
                   onClick={handleCommentSubmit}
