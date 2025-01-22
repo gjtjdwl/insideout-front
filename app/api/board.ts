@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { InquiryData, IFormData, apiData } from '../types/board';
+import { InquiryData, IFormData, apiData, CommentData } from '../types/board';
 
 const board = (api: AxiosInstance) => ({
   inquiry: async () => {
@@ -51,6 +51,20 @@ const board = (api: AxiosInstance) => ({
     );
     return response.data;
   },
+
+  modifyComment: async(commentId: number, modifiedComment: string) => {
+    const response = await api.put<string>(`/api/comments/${commentId}`,modifiedComment )
+    return response.data;
+  },
+  createComment: async(inquiryId: number, comment: string) => {
+    const response = await api.post<CommentData>(`/api/comments/${inquiryId}`, comment )
+    return response.data;
+  },
+
+  deleteComment: async() => {
+    const response = await api.delete('/api/comments/delete')
+    return response.data;
+  }
 });
 
 export default board;

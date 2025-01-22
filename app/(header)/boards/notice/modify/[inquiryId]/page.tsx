@@ -24,6 +24,7 @@ const BoardModify = ({ params }: Props) => {
     title: '',
     content: '',
     file: null,
+    message:'',
   });
 
   const [formattedTime, setFormattedTime] = useState<string>('');

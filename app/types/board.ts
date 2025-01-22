@@ -3,9 +3,9 @@ export interface InquiryData {
   inquiryId: number;
   title: string;
   content: string;
-  createdTime?: string | number;
+  createdTime: string | number;
   modifiedTime?: string | number;
-  message?: string;
+  message: string;
   file?: File | null;
 }
 
@@ -21,4 +21,14 @@ export interface IFormData {
 export interface apiData {
   inquiryId: number;
   userId?: string;
+}
+
+export interface CommentData {
+  userId: string;
+  commentId: number;
+  inquiryId?: number;
+  content: string;
+  createdTime?: string | number;
+  modifiedTime?: string | number;
+  message: string;
 }

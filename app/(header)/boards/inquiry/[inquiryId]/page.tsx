@@ -4,7 +4,7 @@ import { useUser } from '@/app/hooks/useUser';
 import { useRouter } from 'next/navigation';
 import React, { use, useState, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
-import { InquiryData } from '@/app/types/board';
+import { CommentData, InquiryData } from '@/app/types/board';
 import { BoardAPI } from '@/app/api';
 import InquiryContents from '@/app/components/InquiryContents';
 import { formatDateTime } from '@/app/utils/dataFormatter';
@@ -12,16 +12,24 @@ import { formatDateTime } from '@/app/utils/dataFormatter';
 type Props = {
   params: Promise<{
     inquiryId: number;
-    userId: string;
   }>;
 };
 const BoardDetail = ({ params }: Props) => {
   const router = useRouter();
-  const { inquiryId, userId } = use(params);
+  const { inquiryId } = use(params);
   const { user } = useUser();
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData); // 여기 타입좀 봐주실분 .. ..
   const [selectTab, setSelectTab] = useState<string>('전체');
   const [formattedTime, setFormattedTime] = useState<string>('');
+  const [comment, setComment] = useState<string>('');
+  const [commentBody, setCommentBody] = useState<CommentData>({
+    commentId: 0,
+    inquiryId: 0,
+    userId: '',
+    content: '',
+    message: '',
+  })
+  const [comments, setComments] = useState<CommentData[]>([]);
   const commentList = [
     {
       id: '관리자',
@@ -56,6 +64,8 @@ const BoardDetail = ({ params }: Props) => {
     try {
       const response = await BoardAPI.inquiryDetail(inquiryId);
       setDetail(response);
+      // setComments(response.comments)
+      console.log(response);
       const formattedTime = formatDateTime(String(response.modifiedTime));
       setFormattedTime(formattedTime);
     } catch (error: unknown) {
@@ -63,6 +73,27 @@ const BoardDetail = ({ params }: Props) => {
       throw error;
     }
   };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleCommentSubmit = async () => {
+    if (!comment.trim()) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await BoardAPI.createComment(inquiryId, comment);
+      alert(response.message);
+      setComment('');
+      await inquiryDetail(Number(inquiryId));
+    } catch (error: unknown) {
+      console.error('댓글 작성 오류', error);
+    }
+  };
+
   useEffect(() => {
     if (inquiryId) {
       inquiryDetail(Number(inquiryId));
@@ -119,17 +150,18 @@ const BoardDetail = ({ params }: Props) => {
                 <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
                   {comt.id}
                 </span>
-                <div className='flex'>
-                <span className="text-xs lg:text-sm text-[#757575]">
-                  {comt.time}
-                </span>
-                {
-                  user && user.userId === comt.id &&
-                  <button className="ml-3 text-xs lg:text-sm text-[#757575]">삭제</button>
-                }
+                <div className="flex">
+                  <span className="text-xs lg:text-sm text-[#757575]">
+                    {comt.time}
+                  </span>
+                  {user && user.userId === comt.id && (
+                    <button className="ml-3 text-xs lg:text-sm text-[#757575]">
+                      삭제
+                    </button>
+                  )}
                 </div>
               </div>
-              
+
               <div className="text-sm lg:text-base">{comt.comment}</div>
             </div>
           ))}
@@ -144,9 +176,14 @@ const BoardDetail = ({ params }: Props) => {
                   id="comment"
                   name="comment"
                   placeholder="추가 문의가 있으시면 답글을 남겨주세요"
+                  onChange={handleCommentChange}
+                  value={comment}
                   className="w-full resize-none mr-[3px] min-h-20 placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
                 />
-                <button className="bg-customPink rounded-md w-full sm:w-[10%] text-sm lg:text-base">
+                <button
+                  onClick={handleCommentSubmit}
+                  className="bg-customPink rounded-md w-full sm:w-[10%] text-sm lg:text-base"
+                >
                   등록
                 </button>
               </div>
