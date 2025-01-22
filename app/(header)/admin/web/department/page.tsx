@@ -4,13 +4,18 @@ import {
   ClipboardDocumentListIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { useState } from 'react';
+import CounselListModal from '@/app/components/CounselListModal';
+
 export default function Department() {
+  const [showModal, setShowModal] = useState<Boolean>(false);
+
   const handleDelete = () => {
     alert('부서원이 삭제 되었습니다.');
   };
 
   const handleModal = () => {
-    alert('열려라 모달창! 오픈 쎗서미!!');
+    setShowModal(!showModal);
   };
 
   return (
@@ -71,6 +76,7 @@ export default function Department() {
               ))}
             </tbody>
           </table>
+          {showModal && <CounselListModal onClose={handleModal} />}
         </div>
       </div>
     </>
