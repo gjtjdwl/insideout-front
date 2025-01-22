@@ -1,17 +1,27 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 
-export default function DepartmentCard() {
+interface DepartmentCardProps {
+  route: string;
+  name: string;
+  id: string;
+}
+
+export default function DepartmentCard({
+  route,
+  name,
+  id,
+}: DepartmentCardProps) {
   const router = useRouter();
   const handleClick = () => {
-    router.push('/admin/web/department');
+    router.push(route);
   };
   return (
     <>
       <div className="relative mt-8 px-8 flex justify-between border rounded-md border-gray-400">
         <div className="py-8">
-          <div className="text-xl font-bold">부서 이름</div>
-          <div className="mt-2 text">부서장 이름</div>
+          <div className="text-xl font-bold">{name}</div>
+          <div className="mt-2 text">{id}</div>
         </div>
         <Cog6ToothIcon className="absolute h-6 w-6 top-3 right-4" />
         <div className="py-14">

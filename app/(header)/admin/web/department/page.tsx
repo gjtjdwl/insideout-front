@@ -1,10 +1,18 @@
+'use client';
 import mock from '@/app/mock.json';
 import {
   ClipboardDocumentListIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 export default function Department() {
-  const managerStyle = '';
+  const handleDelete = () => {
+    alert('부서원이 삭제 되었습니다.');
+  };
+
+  const handleModal = () => {
+    alert('열려라 모달창! 오픈 쎗서미!!');
+  };
+
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -48,8 +56,15 @@ export default function Department() {
                     className={`px-4 py-4 ${item.role === 'MANAGER' ? 'border-y border-r border-pink-400' : 'border-b'}`}
                   >
                     <div className="flex justify-center">
-                      <ClipboardDocumentListIcon className="h-6 w-6 cursor-pointer mr-5 text-gray-500" />
-                      <XMarkIcon className="h-6 w-6 cursor-pointer text-red-500" />
+                      <ClipboardDocumentListIcon
+                        onClick={handleModal}
+                        className="h-6 w-6 cursor-pointer mr-5 text-gray-500"
+                      />
+
+                      <XMarkIcon
+                        onClick={handleDelete}
+                        className="h-6 w-6 cursor-pointer text-red-500"
+                      />
                     </div>
                   </td>
                 </tr>
