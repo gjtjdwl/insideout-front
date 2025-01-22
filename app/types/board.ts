@@ -7,6 +7,7 @@ export interface InquiryData {
   modifiedTime?: string | number;
   message: string;
   file?: File | null;
+  comments: CommentData[];
 }
 
 export interface IFormData {
@@ -24,9 +25,9 @@ export interface apiData {
 }
 
 export interface CommentData {
-  userId: string;
+  userId?: string;
+  inquiryId: number;
   commentId: number;
-  inquiryId?: number;
   content: string;
   createdTime?: string | number;
   modifiedTime?: string | number;

@@ -56,7 +56,7 @@ const board = (api: AxiosInstance) => ({
     const response = await api.put<string>(`/api/comments/${commentId}`,modifiedComment )
     return response.data;
   },
-  createComment: async(inquiryId: number, comment: string) => {
+  createComment: async(inquiryId: number, comment: CommentData) => {
     const response = await api.post<CommentData>(`/api/comments/${inquiryId}`, comment )
     return response.data;
   },
