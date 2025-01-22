@@ -43,7 +43,7 @@ const BoardDetail = ({ params }: Props) => {
       setComments(response.comments);
       setDeleteData((prev) => ({
         ...prev,
-        userId: user?.userId,
+        userId: response.userId,
       }));
       if (response.modifiedTime === null) {
         const formattedTime = formatDateTime(String(response.createdTime));
@@ -148,7 +148,7 @@ const BoardDetail = ({ params }: Props) => {
                     {' '}
                     {detail.title}{' '}
                   </span>
-                  {comments.length > 0 ? (
+                  {/* {comments.length > 0 ? (
                     <span className="text-xs lg:text-sm text-[#5173fd]">
                       답변완료
                     </span>
@@ -156,7 +156,7 @@ const BoardDetail = ({ params }: Props) => {
                     <span className="text-xs lg:text-sm text-[#FD5151]">
                       답변중
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div>
@@ -188,71 +188,76 @@ const BoardDetail = ({ params }: Props) => {
             </div>
           </div>
           {/* 답변 */}
-          {comments.length === 0 && (
+          {(!comments || comments.length > 0) && (
             <div className="p-4 h-[120px] text-[#757575]">
               {' '}
               댓글이 없습니다.{' '}
             </div>
           )}
-          {comments.map((comt, index) => {
-            const formattedDate = moment(comt.createdTime).format(
-              'YYYY-MM-DD HH:mm:ss'
-            );
-            return (
-              <div
-                key={index}
-                className={`p-4 w-full ${comt.userId === user?.userId ? 'bg-[#f5f5f5]' : ''}`}
-              >
-                <div className="flex flex-col mb-3">
-                  {/* {user &&
+          {comments &&
+            comments.map((comt, index) => {
+              const formattedDate = moment(comt.createdTime).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              return (
+                <div
+                  key={index}
+                  className={`p-4 w-full ${comt.userId === user?.userId ? 'bg-[#f5f5f5]' : ''}`}
+                >
+                  <div className="flex flex-col mb-3">
+                    {/* {user &&
                     (comt.role === 'ADMIN' ? (
                       <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
                         {user?.role}
                       </span>
                     ) : ( */}
-                  <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
-                    {comt.userId}
-                  </span>
-                  {/* ))} */}
-
-                  <div className="flex">
-                    <span className="text-xs lg:text-sm text-[#757575]">
-                      {formattedDate}
+                    <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                      {comt.userId}
                     </span>
-                    {user && user.role === 'ADMIN' && (
-                      <button
-                        onClick={() => {
-                          handleCommentDelete(comt.commentId, comt.userId);
-                        }}
-                        className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
-                      >
-                        수정
-                      </button>
-                    )}
-                    {user &&
-                      (user.role === 'ADMIN' ||
-                        user.userId === comt.userId) && (
+                    {/* ))} */}
+
+                    <div className="flex">
+                      <span className="text-xs lg:text-sm text-[#757575]">
+                        {formattedDate}
+                      </span>
+                      {user && user.role === 'ADMIN' && (
                         <button
                           onClick={() => {
                             handleCommentDelete(comt.commentId, comt.userId);
                           }}
-                          className="ml-1 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                          className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
                         >
-                          삭제
+                          수정
                         </button>
                       )}
+                      {user &&
+                        (user.role === 'ADMIN' ||
+                          user.userId === comt.userId) && (
+                          <button
+                            onClick={() => {
+                              handleCommentDelete(comt.commentId, comt.userId);
+                            }}
+                            className="ml-1 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                          >
+                            삭제
+                          </button>
+                        )}
+                    </div>
                   </div>
-                </div>
 
-                <div className="text-sm lg:text-base">{comt.content}</div>
-              </div>
-            );
-          })}
+                  <div className="text-sm lg:text-base">{comt.content}</div>
+                </div>
+              );
+            })}
           {/* 답글창 */}
           <div className="w-full mt-4">
             <div className="border p-4 ">
               <span className="lg:text-base text-sm font-semibold text-gray-700">
-                {user ? user.name : '가입안하심'}
+                {user
+                  ? user.role === 'ADMIN'
+                    ? user.role
+                    : user.name
+                  : '가입안하심'}
               </span>
               <div className="flex flex-col sm:flex-row mt-4 ">
                 <textarea
