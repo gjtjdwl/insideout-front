@@ -113,6 +113,16 @@ export default function Home() {
                     onClick={() => router.push('/chat')}
                   />
                 )}
+                {user.role === 'ADMIN' && (
+                  <ButtonIcon
+                    label="관리자 페이지"
+                    bgColor="bg-customPink"
+                    hoverColor="hover:bg-customPinkHover"
+                    textColor="text-black"
+                    width="w-[240px]"
+                    onClick={() => router.push('/admin/web')}
+                  />
+                )}
               </>
             )}
           </div>
