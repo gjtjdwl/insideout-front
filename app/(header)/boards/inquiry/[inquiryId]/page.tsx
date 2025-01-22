@@ -7,7 +7,6 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { InquiryData } from '@/app/types/auth';
 import { API } from '@/app/api';
 import InquiryContents from '@/app/components/InquiryContents';
-import moment from 'moment';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 
 type Props = {
