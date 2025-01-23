@@ -1,13 +1,5 @@
 import { AxiosInstance } from 'axios';
-
-interface myType {
-  userId: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-  deptCode: string;
-}
+import { mypageData, editRequestData } from '../types/mypage';
 
 function getCookieValue(cookieName: string): string | null {
   const cookies = document.cookie.split('; ');
@@ -16,9 +8,9 @@ function getCookieValue(cookieName: string): string | null {
 }
 
 const user = (api: AxiosInstance) => ({
-  userInfo: async (): Promise<myType> => {
-    const token = getCookieValue('jwt'); // 쿠키에서 토큰 가져오기
-    const response = await api.get<myType>('api/users/me', {
+  userInfo: async (): Promise<mypageData> => {
+    const token = getCookieValue('jwt');
+    const response = await api.get<mypageData>('api/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
@@ -34,6 +26,19 @@ const user = (api: AxiosInstance) => ({
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    return response.data;
+  },
+  edit: async (data: editRequestData) => {
+    const token = getCookieValue('jwt');
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([_, value]) => value !== '' && value !== undefined
+      )
+    ); //빈 객체 제거
+    const response = await api.put('api/users/me', filteredData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log(response.data);
     return response.data;
   },
 });

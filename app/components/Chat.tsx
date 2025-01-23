@@ -35,7 +35,12 @@ const Chat: React.FC<ChatProps> = ({
   }, [messages]);
 
   useEffect(() => {
-    setMessages(initialMessages);
+    setMessages(
+      [...initialMessages].sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      )
+    );
   }, [initialMessages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +61,13 @@ const Chat: React.FC<ChatProps> = ({
       content: currentMessage,
       timestamp: new Date().toISOString(),
     };
-    setMessages((prev) => [...prev, userMessage]);
+
+    setMessages((prev) =>
+      [...prev, userMessage].sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      )
+    );
 
     try {
       const now = new Date();
@@ -78,7 +89,12 @@ const Chat: React.FC<ChatProps> = ({
           content: response.content,
           timestamp: response.timestamp,
         };
-        setMessages((prev) => [...prev, aiMessage]);
+        setMessages((prev) =>
+          [...prev, aiMessage].sort(
+            (a, b) =>
+              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+          )
+        );
       }
     } catch (error) {
       console.error('Failed to send message:', error);
