@@ -8,8 +8,8 @@ export default function webAdminPage() {
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center flex justify-center bg-white w-full p-10">
-        <div className="max-w-[1200px] w-full">
+        <div className="items-center flex justify-center bg-white w-full p-10">
+          <div className="max-w-[1200px] w-full">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="font-bold text-xl md:text-3xl">사이트 관리</div>
             </div>
@@ -27,22 +27,22 @@ export default function webAdminPage() {
                     style={{ height: '330px' }}
                     className=""
                   />
-                  <div className="mt-5 text-base lg:text-2xl text-center">
+                  <div className="mt-5 text-base md:text-2xl text-center">
                     전 월 대비 SRS 점수 변동량 : - 70%
                   </div>
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
                   <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center">
-                    <div className="text-base lg:text-2xl ">
+                    <div className="text-base md:text-2xl ">
                       SRS 점수 평균 : 10점
                     </div>
-                    <div className="text-base lg:text-2xl">
+                    <div className="text-base md:text-2xl">
                       SRS 점수 분산 : 4
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mt-24 font-medium text-lg lg:text-2xl">부서</div>
+              <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
                 <DepartmentCard route={route} name={'부서1'} id={'부서장'} />
                 <DepartmentCard

@@ -27,22 +27,22 @@ export default function managerAdminPage() {
                     style={{ height: '330px' }}
                     className=""
                   />
-                  <div className="mt-5 text-base lg:text-2xl text-center">
+                  <div className="mt-5 text-base md:text-2xl text-center">
                     전 월 대비 ORS 점수 변동량 : - 400%
                   </div>
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
                   <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center">
-                    <div className="text-base lg:text-2xl ">
+                    <div className="text-base md:text-2xl ">
                       ORS 점수 평균 : 36점
                     </div>
-                    <div className="text-base lg:text-2xl">
+                    <div className="text-base md:text-2xl">
                       ORS 점수 분산 : 4
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mt-24 font-medium text-lg lg:text-2xl">
+              <div className="mt-24 font-medium text-lg md:text-2xl">
                 부서원
               </div>
               <div className="grid grid-cols-2 gap-x-6 gap-y-4 mt-9">
