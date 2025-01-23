@@ -33,7 +33,7 @@ export default function DepartmentCard({
         <div className="">
           <button
             onClick={handleClick}
-            className="bg-customPink max-w-[200px] px-6 md:px-16 text-black font-semibold py-2 md:py-3 rounded-lg text-xs md:text-base hover:bg-customPinkHover focus:outline-none"
+            className="bg-customPink max-w-[200px] px-6 md:px-8 lg:px-16 text-black font-semibold py-2 md:py-3 rounded-lg text-xs md:text-base hover:bg-customPinkHover focus:outline-none"
           >
             세부사항
           </button>
