@@ -134,145 +134,155 @@ export default function EditProfilePage() {
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="bg-white px-44 py-16">
-        <div className="max-w-[1200px] mx-auto">
-        <form onSubmit={handleSubmit}>
-          <div className="flex justify-center items-center px-4 sm:px-0">
-            <h3 className="text-4xl leading-loose font-medium text-gray-900">
-              회원 정보 수정
-            </h3>
-          </div>
-          <hr className="mb-12" />
-          <div className="mt-6 px-24 border-b border-gray-100">
-            <dl className="divide-y divide-gray-100">
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">이름</dt>
-                <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  {userinfo.name}
-                </dd>
-              </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">아이디</dt>
-                <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  {userinfo.userId}
-                </dd>
-              </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
-                  비밀번호
-                </label>
-                <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={formData.newPassword}
-                    onChange={handleChange}
-                    placeholder="새 비밀번호를 입력하세요."
-                    className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
-                    required
-                  />
-                  {errors.newPassword && (
-                    <p className="text-red-500 text-xs mt-1 whitespace-pre-line">
-                      {errors.newPassword}
-                    </p>
-                  )}
+      <div className="bg-white py-16 flex justify-center min-h-[70vh]">
+        <div className="max-w-[1200px] w-full">
+          <form onSubmit={handleSubmit}>
+            <div className="flex justify-center items-center px-4 sm:px-0">
+              <h3 className="text-4xl leading-loose font-medium text-gray-900">
+                회원 정보 수정
+              </h3>
+            </div>
+            <hr className="mb-12" />
+            <div className="mt-6 px-24 border-b border-gray-100">
+              <dl className="divide-y divide-gray-100">
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">이름</dt>
+                  <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
+                    {userinfo.name}
+                  </dd>
                 </div>
-              </div>
-
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
-                  비밀번호 확인
-                </label>
-                <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="비밀번호를 한번 더 입력해 주세요."
-                    className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
-                    required
-                  />
-                  {passwordError && (
-                    <p className="text-red-500 text-sm mt-1">{passwordError}</p>
-                  )}
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">
+                    아이디
+                  </dt>
+                  <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
+                    {userinfo.userId}
+                  </dd>
                 </div>
-              </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
+                    비밀번호
+                  </label>
+                  <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={formData.newPassword}
+                      onChange={handleChange}
+                      placeholder="새 비밀번호를 입력하세요."
+                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      required
+                    />
+                    {errors.newPassword && (
+                      <p className="text-red-500 text-xs mt-1 whitespace-pre-line">
+                        {errors.newPassword}
+                      </p>
+                    )}
+                  </div>
+                </div>
 
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">이메일</dt>
-                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
-                    placeholder={userinfo.email || '이메일을 입력하세요.'}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                  )}
-                </dd>
-              </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">
-                  전화번호
-                </dt>
-                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  <input
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleChange}
-                    className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
-                    placeholder={
-                      userinfo.phoneNumber || '전화번호를 입력하세요.'
-                    }
-                  />
-                </dd>
-              </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">직무</dt>
-                <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  {userinfo.role === 'ADMIN'
-                    ? '관리자'
-                    : userinfo.role === 'MANAGER'
-                      ? '부서장'
-                      : '부서원'}
-                </dd>
-              </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt className="text-sm/6 font-medium text-gray-900">
-                  부서코드
-                </dt>
-                <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  <input
-                    name="deptCode"
-                    value={formData.deptCode}
-                    onChange={handleChange}
-                    className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
-                    placeholder={userinfo.deptCode || '부서 코드를 입력하세요.'}
-                  />
-                </dd>
-              </div>
-            </dl>
-          </div>
-          <div className="flex justify-center items-center mt-24">
-            <button
-              type="submit"
-              className="bg-customPink w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
-            >
-              수정하기
-            </button>
-            <button
-              onClick={handleClick}
-              type="button"
-              className="bg-gray-300 w-[200px] text-black font-semibold py-2 ml-10 rounded-lg hover:bg-gray-400 focus:outline-none"
-            >
-              취소
-            </button>
-          </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
+                    비밀번호 확인
+                  </label>
+                  <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="비밀번호를 한번 더 입력해 주세요."
+                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      required
+                    />
+                    {passwordError && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {passwordError}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">
+                    이메일
+                  </dt>
+                  <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <input
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      placeholder={userinfo.email || '이메일을 입력하세요.'}
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.email}
+                      </p>
+                    )}
+                  </dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">
+                    전화번호
+                  </dt>
+                  <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <input
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
+                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      placeholder={
+                        userinfo.phoneNumber || '전화번호를 입력하세요.'
+                      }
+                    />
+                  </dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">직무</dt>
+                  <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
+                    {userinfo.role === 'ADMIN'
+                      ? '관리자'
+                      : userinfo.role === 'MANAGER'
+                        ? '부서장'
+                        : '부서원'}
+                  </dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">
+                    부서코드
+                  </dt>
+                  <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <input
+                      name="deptCode"
+                      value={formData.deptCode}
+                      onChange={handleChange}
+                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      placeholder={
+                        userinfo.deptCode || '부서 코드를 입력하세요.'
+                      }
+                    />
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <div className="flex justify-center items-center mt-24">
+              <button
+                type="submit"
+                className="bg-customPink w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
+              >
+                수정하기
+              </button>
+              <button
+                onClick={handleClick}
+                type="button"
+                className="bg-gray-300 w-[200px] text-black font-semibold py-2 ml-10 rounded-lg hover:bg-gray-400 focus:outline-none"
+              >
+                취소
+              </button>
+            </div>
+          </form>
         </div>
-        </form>
       </div>
     </div>
   );

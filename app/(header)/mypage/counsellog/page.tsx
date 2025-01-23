@@ -5,9 +5,9 @@ import Accordion from '@/app/components/Accordion';
 
 export default function CounselLogPage() {
   return (
-    <div className="bg-customPink">
-      <div className=" bg-white mx-[50px] px-44 py-16">
-        <div className="max-w-[1200px] mx-auto">
+    <div className="bg-customPink px-4 sm:px-[50px]">
+      <div className=" bg-white py-16 flex justify-center min-h-[70vh]">
+        <div className="max-w-[1200px] w-full">
           <div className="flex justify-center items-center px-4 sm:px-0">
             <h3 className="text-4xl leading-loose font-medium text-gray-900">
               상담 결과
