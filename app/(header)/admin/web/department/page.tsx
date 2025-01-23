@@ -21,10 +21,12 @@ export default function Department() {
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center flex justify-center bg-white w-full p-10">
+      <div className="flex justify-center bg-white w-full p-10 min-h-[70vh]">
         <div className="max-w-[1200px] w-full">
-
-          <div className="mt-8 mb-12 ml-6 font-medium text-3xl">
+        <div className="flex items-center justify-between p-4 border-b">
+              <div className="font-bold text-xl md:text-3xl">팀원 리스트</div>
+            </div>
+          <div className="mt-8 mb-12 ml-6 font-medium text-2xl">
             프론트 엔드 팀
           </div>
           <table className="table-auto w-full border-collapse px-12">
