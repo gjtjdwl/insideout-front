@@ -6,36 +6,59 @@ import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 
-const defaultNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
-  { name: '공지사항', href: '/boards/notice' },
-  { name: '감정본부', href: '/chat' },
-  { name: '문의게시판', href: '/boards/inquiry' },
+type NavigationItem =
+  | { name: string; href: string; isDropdown: false } // 일반 링크
+  | {
+      name: string;
+      isDropdown: true;
+      dropDownItems: { name: string; href: string | undefined }[];
+    }; // 드롭다운 메뉴
+
+const defaultNav: NavigationItem[] = [
+  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '공지사항', href: '/boards/notice', isDropdown: false },
+  { name: '감정본부', href: '/chat', isDropdown: false },
+  { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
 ];
 
-const employeeNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
-  { name: '공지사항', href: '/boards/notice' },
-  { name: '감정본부', href: '/chat' },
-  { name: '문의게시판', href: '/boards/inquiry' },
-  { name: '마이페이지', href: '/mypage' },
+const employeeNav: NavigationItem[] = [
+  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '공지사항', href: '/boards/notice', isDropdown: false },
+  { name: '감정본부', href: '/chat', isDropdown: false },
+  { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
+  {
+    name: '마이페이지',
+    isDropdown: true,
+    dropDownItems: [
+      { name: '내 정보', href: '/mypage' },
+      { name: '상담 결과', href: '/mypage/counsellog' },
+    ],
+  },
 ];
 
-const employerNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
-  { name: '공지사항', href: '/boards/notice' },
-  { name: '관리자페이지', href: '/admin' },
-  { name: '문의게시판', href: '/boards/inquiry' },
-  { name: '마이페이지', href: '/mypage' },
+const employerNav: NavigationItem[] = [
+  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '공지사항', href: '/boards/notice', isDropdown: false },
+  { name: '관리자페이지', href: '/admin', isDropdown: false },
+  { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
+  { name: '마이페이지', href: '/mypage', isDropdown: false },
 ];
 
-const adminNav = [
-  { name: '서비스소개', href: '#serviceInfo' },
-  { name: '공지사항', href: '/boards/notice' },
-  { name: '관리자페이지', href: '/admin/web' },
-  { name: '문의게시판', href: '/boards/inquiry' },
-  { name: '마이페이지', href: '/mypage' },
+const adminNav: NavigationItem[] = [
+  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '공지사항', href: '/boards/notice', isDropdown: false },
+  {
+    name: '관리자페이지',
+    isDropdown: true,
+    dropDownItems: [
+      { name: '부서 관리', href: '/manage/department' },
+      { name: '개선 사항', href: '/manage/feedback' },
+    ],
+  },
+  { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
+  { name: '마이페이지', href: '/mypage', isDropdown: false },
 ];
 
 export default function Header() {
@@ -44,7 +67,9 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // 사용자 역할에 따른 네비게이션 선택
+
   let navigation = defaultNav;
+
   if (user) {
     switch (user.role) {
       case 'MANAGER':
@@ -58,7 +83,10 @@ export default function Header() {
         break;
     }
   }
-
+  const solutions = [
+    { name: '부서 관리', href: '#' },
+    { name: '개선 사항', href: '#' },
+  ];
   const handleLogout = () => {
     logout();
   };
@@ -93,28 +121,98 @@ export default function Header() {
               )}
             </button>
           </div>
+
           <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm/6 font-semibold text-gray-900"
-              >
-                {item.name}
-              </Link>
+            {navigation.map((item, index) => (
+              <div key={index} className="relative">
+                {item.isDropdown ? (
+                  <Popover className="relative">
+                    <PopoverButton className="inline-flex items-center outline-none gap-x-1 text-sm/6 font-semibold text-gray-900 ">
+                      <span>{item.name}</span>
+                      {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
+                    </PopoverButton>
+                    <PopoverPanel
+                      transition
+                      className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+                    >
+                      <div className="w-full flex-auto overflow-hidden rounded-2xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
+                        <div className="p-4">
+                          {item.dropDownItems.map((items) => (
+                            <div
+                              key={items.name}
+                              className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50 "
+                            >
+                              <div>
+                                <a
+                                  href={items.href}
+                                  className="font-semibold text-gray-900 hover:text-[#FE6767]"
+                                >
+                                  {items.name}
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </PopoverPanel>
+                  </Popover>
+                ) : (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-sm/6 font-semibold text-gray-900"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
           {mobileMenuOpen && (
             <div className="lg:hidden absolute top-full left-0 w-full bg-white border-t">
               <div className="space-y-1 px-4 py-3">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block py-2 text-base font-medium text-gray-900"
-                  >
-                    {item.name}
-                  </Link>
+                {navigation.map((item,index) => (
+                  <div key={index} className="relative">
+                  {item.isDropdown ? (
+                    <div className="relative">
+                      <div className="inline-flex items-center outline-none gap-x-1 pt-2 text-base font-medium text-gray-900">
+                        <span>{item.name}</span>
+                        {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
+                      </div>
+                      <div
+                        className="z-10 flex w-screen max-w-max"
+                      >
+                        <div className="w-full flex-auto overflow-hidden bg-white text-sm/6 font-medium ring-gray-900/5">
+                          <div className="pl-4">
+                            {item.dropDownItems.map((items) => (
+                              <div
+                                key={items.name}
+                                className="relative flex hover:bg-gray-50 "
+                              >
+                                <div>
+                                  <a
+                                    href={items.href}
+                                    className="text-gray-900 hover:text-[#FE6767]"
+                                  >
+                                    {items.name}
+                                  </a>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block py-2 text-base font-medium text-gray-900"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </div>
                 ))}
               </div>
             </div>
