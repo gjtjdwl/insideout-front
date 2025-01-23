@@ -133,19 +133,19 @@ export default function Header() {
                     </PopoverButton>
                     <PopoverPanel
                       transition
-                      className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+                      className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 pl-6 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
                     >
-                      <div className="w-full flex-auto overflow-hidden rounded-2xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
-                        <div className="p-4">
+                      <div className="w-full flex-auto overflow-hidden rounded-md bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
+                        <div className="px-3 pt-3">
                           {item.dropDownItems.map((items) => (
                             <div
                               key={items.name}
-                              className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50 "
+                              className="group relative flex gap-x-6 rounded-sm p-2 pr-6 mb-3 "
                             >
                               <div>
                                 <a
                                   href={items.href}
-                                  className="font-semibold text-gray-900 hover:text-[#FE6767]"
+                                  className=" text-[#5F5F5F] hover:text-[#FE6767]"
                                 >
                                   {items.name}
                                 </a>
@@ -171,48 +171,46 @@ export default function Header() {
           {mobileMenuOpen && (
             <div className="lg:hidden absolute top-full left-0 w-full bg-white border-t">
               <div className="space-y-1 px-4 py-3">
-                {navigation.map((item,index) => (
+                {navigation.map((item, index) => (
                   <div key={index} className="relative">
-                  {item.isDropdown ? (
-                    <div className="relative">
-                      <div className="inline-flex items-center outline-none gap-x-1 pt-2 text-base font-medium text-gray-900">
-                        <span>{item.name}</span>
-                        {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
-                      </div>
-                      <div
-                        className="z-10 flex w-screen max-w-max"
-                      >
-                        <div className="w-full flex-auto overflow-hidden bg-white text-sm/6 font-medium ring-gray-900/5">
-                          <div className="pl-4">
-                            {item.dropDownItems.map((items) => (
-                              <div
-                                key={items.name}
-                                className="relative flex hover:bg-gray-50 "
-                              >
-                                <div>
-                                  <a
-                                    href={items.href}
-                                    className="text-gray-900 hover:text-[#FE6767]"
-                                  >
-                                    {items.name}
-                                  </a>
+                    {item.isDropdown ? (
+                      <div className="relative">
+                        <div className="inline-flex items-center outline-none gap-x-1 pt-2 text-base font-medium text-gray-900">
+                          <span>{item.name}</span>
+                          {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
+                        </div>
+                        <div className="z-10 flex w-screen max-w-max">
+                          <div className="w-full flex-auto overflow-hidden bg-white text-sm/6 font-medium ring-gray-900/5">
+                            <div className="pl-4">
+                              {item.dropDownItems.map((items) => (
+                                <div
+                                  key={items.name}
+                                  className="relative flex hover:bg-gray-50 "
+                                >
+                                  <div>
+                                    <a
+                                      href={items.href}
+                                      className="text-gray-900 hover:text-[#FE6767]"
+                                    >
+                                      {items.name}
+                                    </a>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="block py-2 text-base font-medium text-gray-900"
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="block py-2 text-base font-medium text-gray-900"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
