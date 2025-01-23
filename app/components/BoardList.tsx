@@ -16,7 +16,7 @@ export default function BoardList({ boardList, boardName }: BoardListProps) {
     <ul role="list" className=" min-h-[40vh]">
       {boardList.map((board, index) => {
         const handlePower = (e: React.MouseEvent) => {
-          if (user?.role != 'ADMIN' && user?.userId !== board.userId) {
+          if (user?.role != 'ADMIN' && user?.userId !== board.userId && boardName === 'inquiry') {
             e.preventDefault(); // 네비게이션 막기
             alert('본인이 작성한 글이 아니거나 관리자가 아닙니다.');
           }
