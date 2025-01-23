@@ -24,6 +24,7 @@ const BoardDetail = ({ params }: Props) => {
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [comment, setComment] = useState<CommentData>({
     userId: '',
+    role:'',
     inquiryId: Number(inquiryId),
     content: '',
     commentId: 0,
@@ -88,6 +89,7 @@ const BoardDetail = ({ params }: Props) => {
     try {
       const response = await BoardAPI.createComment(inquiryId, comment);
       alert(response.message);
+
       await inquiryDetail(Number(inquiryId));
       setComment((prev) => ({
         ...prev,
@@ -148,7 +150,7 @@ const BoardDetail = ({ params }: Props) => {
                     {' '}
                     {detail.title}{' '}
                   </span>
-                  {/* {comments.length > 0 ? (
+                  {comments.length > 0 ? (
                     <span className="text-xs lg:text-sm text-[#5173fd]">
                       답변완료
                     </span>
@@ -156,7 +158,7 @@ const BoardDetail = ({ params }: Props) => {
                     <span className="text-xs lg:text-sm text-[#FD5151]">
                       답변중
                     </span>
-                  )} */}
+                  )}
                 </div>
               </div>
               <div>
@@ -188,7 +190,7 @@ const BoardDetail = ({ params }: Props) => {
             </div>
           </div>
           {/* 답변 */}
-          {(!comments || comments.length > 0) && (
+          {(!comments || comments.length === 0) && (
             <div className="p-4 h-[120px] text-[#757575]">
               {' '}
               댓글이 없습니다.{' '}
@@ -205,16 +207,16 @@ const BoardDetail = ({ params }: Props) => {
                   className={`p-4 w-full ${comt.userId === user?.userId ? 'bg-[#f5f5f5]' : ''}`}
                 >
                   <div className="flex flex-col mb-3">
-                    {/* {user &&
-                    (comt.role === 'ADMIN' ? (
-                      <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
-                        {user?.role}
-                      </span>
-                    ) : ( */}
-                    <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
-                      {comt.userId}
-                    </span>
-                    {/* ))} */}
+                    {user &&
+                      (comt.role === 'ADMIN' ? (
+                        <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                          관리자
+                        </span>
+                      ) : (
+                        <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                          {comt.userId}
+                        </span>
+                      ))}
 
                     <div className="flex">
                       <span className="text-xs lg:text-sm text-[#757575]">
@@ -255,7 +257,7 @@ const BoardDetail = ({ params }: Props) => {
               <span className="lg:text-base text-sm font-semibold text-gray-700">
                 {user
                   ? user.role === 'ADMIN'
-                    ? user.role
+                    ? '관리자'
                     : user.name
                   : '가입안하심'}
               </span>

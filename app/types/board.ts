@@ -31,6 +31,7 @@ export interface delData {
 
 export interface CommentData {
   userId: string;
+  role: string;
   inquiryId: number;
   commentId: number;
   content: string;
