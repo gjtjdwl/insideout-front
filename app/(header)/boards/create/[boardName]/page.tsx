@@ -23,8 +23,8 @@ const WriteBoard = ({ params }: Props) => {
   return (
     <div>
       <div className="bg-customPink px-4 sm:px-[50px]">
-        <div className="items-center bg-white w-full p-10">
-          <div className="max-w-[1200px] mx-auto">
+        <div className="items-center flex justify-center bg-white w-full p-10">
+          <div className="max-w-[1200px] w-full">
             <div className="flex flex-col items-center justify-center">
               <div className="text-3xl p-6">{topic}</div>
               <div className="w-full">

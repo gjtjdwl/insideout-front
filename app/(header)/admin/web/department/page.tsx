@@ -21,7 +21,9 @@ export default function Department() {
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
-        <div className="bg-white px-44 py-16">
+      <div className="items-center flex justify-center bg-white w-full p-10">
+        <div className="max-w-[1200px] w-full">
+
           <div className="mt-8 mb-12 ml-6 font-medium text-3xl">
             프론트 엔드 팀
           </div>
@@ -77,6 +79,7 @@ export default function Department() {
             </tbody>
           </table>
           {showModal && <CounselListModal onClose={handleModal} />}
+        </div>
         </div>
       </div>
     </>

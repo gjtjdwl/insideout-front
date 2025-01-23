@@ -27,11 +27,11 @@ export default function InquiryLayout({
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center px-44 py-16 bg-white w-full p-10 min-h-[50vh]">
-        <div className="max-w-[1200px] mx-auto">
+      <div className="items-center flex justify-center bg-white w-full p-10">
+        <div className="max-w-[1200px] w-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div
-              className="font-bold text-xl md:text-3xl"
+              className="font-bold text-2xl md:text-3xl"
               onClick={() => router.push('/boards/notice')}
             >
               공지사항
