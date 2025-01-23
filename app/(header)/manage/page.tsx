@@ -45,7 +45,7 @@ export default function managerAdminPage() {
               <div className="mt-24 font-medium text-lg md:text-2xl">
                 부서원
               </div>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4 mt-9">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
                 <DepartmentCard route={route} name={'부서원1'} id={'아이디1'} />
                 <DepartmentCard route={route} name={'부서원2'} id={'아이디2'} />
                 <DepartmentCard route={route} name={'부서원2'} id={'아이디2'} />
