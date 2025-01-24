@@ -22,6 +22,10 @@ const manage = (api: AxiosInstance) => ({
   sessionChat: async (sessionID: number) => {
     const response = await api.get<MessageResponse[]>(`/chat/${sessionID}/messages`)
     return response.data;
+  },
+  statsORS: async (userId: string) => {
+    const response = await api.get(`/manage/statistics/ors/${userId}`)
+    return response.data;
   }
 });
 
