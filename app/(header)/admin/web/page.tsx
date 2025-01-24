@@ -2,9 +2,29 @@
 
 import Image from 'next/image';
 import DepartmentCard from '@/app/components/DepartmentCard';
+import { webManageAPI } from '@/app/api';
+import { useEffect, useState } from 'react';
+import { departmentData } from '@/app/types/webManage';
 
 export default function webAdminPage() {
-  const route = '/admin/web/department';
+  const [loading, setLoading] = useState(true);
+  const [departments, setDepartments] = useState<departmentData[]>([]);
+
+  useEffect(() => {
+    const handleLoad = async () => {
+      try {
+        const response = await webManageAPI.departments();
+        setDepartments(response);
+      } catch (error: unknown) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handleLoad();
+  }, []);
+
+  console.log(departments);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -43,14 +63,21 @@ export default function webAdminPage() {
                 </div>
               </div>
               <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
-              <div className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
-                <DepartmentCard route={route} name={'부서1'} id={'부서장'} />
-                <DepartmentCard
-                  route={route}
-                  name={'프론트엔드'}
-                  id={'김성미'}
-                />
-              </div>
+              <ul className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
+                {departments.map((department, index) => {
+                  let route = '/admin/web/department/' + department.deptCode;
+                  console.log(route);
+                  return (
+                    <li key={index} className="my-2">
+                      <DepartmentCard
+                        route={route}
+                        name={department.departmentName}
+                        id={department.managerName}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </div>

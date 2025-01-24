@@ -1,21 +1,18 @@
 import { AxiosInstance } from 'axios';
-
-interface departmentType {
-  deptCode: string;
-  departmentName: string;
-  managerName: string;
-}
-interface departmentUserType {
-  userId: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-}
+import { departmentData, departmentUserData } from '../types/webManage';
 
 const webManage = (api: AxiosInstance) => ({
-  departments: async (): Promise<departmentType> => {
-    const response = await api.get<departmentType>('manage/departments');
+  departments: async (): Promise<departmentData[]> => {
+    const response = await api.get<departmentData[]>('manage/departments');
+    return response.data;
+  },
+  departmentUsers: async (
+    departmentName: string
+  ): Promise<departmentUserData> => {
+    const response = await api.get<departmentUserData>(
+      'manage/department/users',
+      { params: { departmentName } }
+    );
     return response.data;
   },
 });
