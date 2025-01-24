@@ -38,15 +38,15 @@ const employeeNav: NavigationItem[] = [
   },
 ];
 
-const employerNav: NavigationItem[] = [
+const adminNav: NavigationItem[] = [
   { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
-  { name: '관리자페이지', href: '/admin', isDropdown: false },
+  { name: '관리자페이지', href: '/admin/web', isDropdown: false },
   { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
   { name: '마이페이지', href: '/mypage', isDropdown: false },
 ];
 
-const adminNav: NavigationItem[] = [
+const employerNav: NavigationItem[] = [
   { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
   {
@@ -83,10 +83,7 @@ export default function Header() {
         break;
     }
   }
-  const solutions = [
-    { name: '부서 관리', href: '#' },
-    { name: '개선 사항', href: '#' },
-  ];
+
   const handleLogout = () => {
     logout();
   };
