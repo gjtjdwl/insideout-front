@@ -66,7 +66,6 @@ export default function webAdminPage() {
                 {departments.map((department, index) => {
                   let route =
                     '/admin/web/department/' + department.departmentName;
-                  console.log(route);
                   return (
                     <li key={index} className="my-2">
                       <DepartmentCard
