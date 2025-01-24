@@ -11,7 +11,7 @@ export default function departmentMember({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { memberId } = useParams();
+  
   useEffect(() => {}, []);
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">

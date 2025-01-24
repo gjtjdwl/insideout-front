@@ -17,7 +17,6 @@ const chatSession = () => {
     try {
       const response = await ManageAPI.sessionChat(Number(sessionId));
       setMessages(response);
-      console.log(response);
     } catch (error: unknown) {
       console.log('상담 내용 가져오는 중 오류 발생', error);
     }
