@@ -24,7 +24,6 @@ export default function webAdminPage() {
     handleLoad();
   }, []);
 
-  console.log(departments);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -65,7 +64,8 @@ export default function webAdminPage() {
               <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
               <ul className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
                 {departments.map((department, index) => {
-                  let route = '/admin/web/department/' + department.deptCode;
+                  let route =
+                    '/admin/web/department/' + department.departmentName;
                   console.log(route);
                   return (
                     <li key={index} className="my-2">

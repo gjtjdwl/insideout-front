@@ -4,12 +4,18 @@ import {
   ClipboardDocumentListIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { webManageAPI } from '@/app/api';
 import CounselListModal from '@/app/components/CounselListModal';
+import { departmentUserData } from '@/app/types/webManage';
 
-export default function Department(deptCode?: string) {
+export default function Department() {
+  const { departmentName } = useParams();
+  const deptname = decodeURIComponent(departmentName as string);
+  const [users, setUsers] = useState<departmentUserData[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState<Boolean>(false);
-
   const handleDelete = () => {
     alert('부서원이 삭제 되었습니다.');
   };
@@ -17,6 +23,20 @@ export default function Department(deptCode?: string) {
   const handleModal = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => {
+    const handleLoad = async () => {
+      try {
+        const response = await webManageAPI.departmentUsers(deptname);
+        setUsers(response);
+      } catch (error: unknown) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handleLoad();
+  }, []);
 
   return (
     <>
@@ -39,30 +59,30 @@ export default function Department(deptCode?: string) {
                 </tr>
               </thead>
               <tbody>
-                {mock.map((item) => (
-                  <tr key={item.userid}>
+                {users.map((item, index) => (
+                  <tr key={index}>
                     <td
-                      className={`px-12 py-4 ${item.role === 'MANAGER' ? 'border-y border-l border-pink-400' : 'border-b'}`}
+                      className={`px-12 py-4 border-b ${item.role === 'MANAGER' ? 'bg-customPink' : ''}`}
                     >
                       {item.name}
                     </td>
                     <td
-                      className={`px-12 py-4 ${item.role === 'MANAGER' ? 'border-y border-pink-400' : 'border-b'}`}
+                      className={`px-12 py-4 border-b ${item.role === 'MANAGER' ? 'bg-customPink' : ''}`}
                     >
-                      {item.userid}
+                      {item.userId}
                     </td>
                     <td
-                      className={`px-4 py-4 ${item.role === 'MANAGER' ? 'border-y border-pink-400' : 'border-b'}`}
+                      className={`px-4 py-4 border-b ${item.role === 'MANAGER' ? 'bg-customPink' : ''}`}
                     >
                       {item.email}
                     </td>
                     <td
-                      className={`px-4 py-4 ${item.role === 'MANAGER' ? 'border-y border-pink-400' : 'border-b'}`}
+                      className={`px-4 py-4 border-b ${item.role === 'MANAGER' ? 'bg-customPink' : ''}`}
                     >
                       {item.phoneNumber}
                     </td>
                     <td
-                      className={`px-4 py-4 ${item.role === 'MANAGER' ? 'border-y border-r border-pink-400' : 'border-b'}`}
+                      className={`px-4 py-4 border-b ${item.role === 'MANAGER' ? 'bg-customPink' : ''}`}
                     >
                       <div className="flex justify-center">
                         <ClipboardDocumentListIcon

@@ -8,8 +8,8 @@ const webManage = (api: AxiosInstance) => ({
   },
   departmentUsers: async (
     departmentName: string
-  ): Promise<departmentUserData> => {
-    const response = await api.get<departmentUserData>(
+  ): Promise<departmentUserData[]> => {
+    const response = await api.get<departmentUserData[]>(
       'manage/department/users',
       { params: { departmentName } }
     );
