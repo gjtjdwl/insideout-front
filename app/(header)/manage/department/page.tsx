@@ -2,14 +2,34 @@
 
 import Image from 'next/image';
 import DepartmentCard from '@/app/components/DepartmentCard';
+import { ManageAPI } from '@/app/api';
+import { useEffect, useState } from 'react';
+import { useUser } from '@/app/hooks/useUser';
+import { MemberData } from '@/app/types/manage';
 
 export default function managerAdminPage() {
-  const route = '/manage/accepted';
+  const route = `/manage/accepted/`;
+  const { user } = useUser();
+  const [memberList, setMemberList] = useState<MemberData[]>([]);
+
+  const member = async () => {
+    try {
+      if (user) {
+        const response = await ManageAPI.departmentUser(user?.userId);
+        setMemberList(response);
+      }
+    } catch (error: unknown) {
+      console.log('부서원 불러오는 중 오류 발생', error);
+    }
+  };
+  useEffect(() => {
+    member();
+  }, [user]);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center flex justify-center bg-white w-full p-10">
-        <div className="max-w-[1200px] w-full">
+        <div className="items-center flex justify-center bg-white w-full p-10">
+          <div className="max-w-[1200px] w-full">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="font-bold text-xl md:text-3xl">부서 관리</div>
             </div>
@@ -45,12 +65,19 @@ export default function managerAdminPage() {
               <div className="mt-24 font-medium text-lg md:text-2xl">
                 부서원
               </div>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
-                <DepartmentCard route={route} name={'부서원1'} id={'아이디1'} />
-                <DepartmentCard route={route} name={'부서원2'} id={'아이디2'} />
-                <DepartmentCard route={route} name={'부서원2'} id={'아이디2'} />
-                <DepartmentCard route={route} name={'부서원2'} id={'아이디2'} />
-              </div>
+              {memberList.length === 0 ? (
+                <div className='mt-9 min-h-[30vh]'>부서원이 없습니다.</div>
+              ) : (
+                <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
+                  {memberList.map((person, index) => (
+                    <DepartmentCard
+                      route={`${route}${person.userId}`}
+                      name={person.name}
+                      id={person.userId}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
