@@ -1,13 +1,13 @@
 'use client';
 import { ManageAPI } from '@/app/api';
-import { sType } from '@/app/types/manage';
+import { SessionIdResponse } from '@/app/types/manage';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const member = () => {
   const { memberId } = useParams();
-  const [sessionList, setSessionList] = useState<sType[]>([]);
+  const [sessionList, setSessionList] = useState<SessionIdResponse[]>([]);
 
   const userSession = async () => {
     try {

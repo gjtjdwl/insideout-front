@@ -5,26 +5,36 @@ import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
-import { MemberData } from '@/app/types/manage';
+import { MemberData, ORSRequest } from '@/app/types/manage';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted/`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
-
-  const member = async () => {
+  const [ors, setOrs] = useState<ORSRequest[]>();
+  //ors
+  const orsStats = async () => {
     try {
-      if (user) {
-        const response = await ManageAPI.departmentUser(user?.userId);
-        setMemberList(response);
-      }
+      const response = await ManageAPI.statsORS(String(user?.userId));
+      setOrs(response);
+      console.log(response);
     } catch (error: unknown) {
-      console.log('부서원 불러오는 중 오류 발생', error);
+      console.error('ORS통계 불러오는 중 오류 발생', error);
     }
   };
+  const member = async () => {
+    try {
+      const response = await ManageAPI.departmentUser(String(user?.userId));
+      setMemberList(response);
+    } catch (error: unknown) {
+      console.error('부서원 불러오는 중 오류 발생', error);
+    }
+  };
+
   useEffect(() => {
     member();
-  }, [user]);
+    orsStats();
+  }, []);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -44,8 +54,6 @@ export default function managerAdminPage() {
                     alt="그래프 들어갈 자리"
                     width={500}
                     height={300}
-                    style={{ height: '330px' }}
-                    className=""
                   />
                   <div className="mt-5 text-base md:text-2xl text-center">
                     전 월 대비 ORS 점수 변동량 : - 400%
@@ -66,7 +74,7 @@ export default function managerAdminPage() {
                 부서원
               </div>
               {memberList.length === 0 ? (
-                <div className='mt-9 min-h-[30vh]'>부서원이 없습니다.</div>
+                <div className="mt-9 min-h-[30vh]">부서원이 없습니다.</div>
               ) : (
                 <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
                   {memberList.map((person, index) => (

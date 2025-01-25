@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MemberData, sType } from '../types/manage';
+import { MemberData, ORSRequest, SessionIdResponse } from '../types/manage';
 import { MessageResponse } from '../types/chat';
 
 const manage = (api: AxiosInstance) => ({
@@ -12,7 +12,7 @@ const manage = (api: AxiosInstance) => ({
     return response.data;
   },
   userSession: async (userId:string) => {
-    const response = await api.get<sType[]>('/manage/accepted', {
+    const response = await api.get<SessionIdResponse[]>('/manage/accepted', {
       params: {
         userId: userId,
       },
@@ -24,7 +24,7 @@ const manage = (api: AxiosInstance) => ({
     return response.data;
   },
   statsORS: async (userId: string) => {
-    const response = await api.get(`/manage/statistics/ors/${userId}`)
+    const response = await api.get<ORSRequest[]>(`/manage/statistics/ors/${userId}`)
     return response.data;
   }
 });
