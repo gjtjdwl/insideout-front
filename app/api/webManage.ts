@@ -15,5 +15,9 @@ const webManage = (api: AxiosInstance) => ({
     );
     return response.data;
   },
+  deleteUser: async (userId: string) => {
+    const response = await api.delete(`/api/users/${userId}/delete`);
+    return response.data;
+  },
 });
 export default webManage;

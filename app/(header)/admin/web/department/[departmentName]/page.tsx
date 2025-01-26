@@ -5,19 +5,27 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { webManageAPI } from '@/app/api';
 import CounselListModal from '@/app/components/CounselListModal';
 import { departmentUserData } from '@/app/types/webManage';
 
 export default function Department() {
   const { departmentName } = useParams();
+  const router = useRouter();
   const deptname = decodeURIComponent(departmentName as string);
   const [users, setUsers] = useState<departmentUserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState<Boolean>(false);
-  const handleDelete = () => {
-    alert('부서원이 삭제 되었습니다.');
+
+  const handleDelete = async (userId: string) => {
+    try {
+      const response = await webManageAPI.deleteUser(userId);
+      alert('부서원이 삭제 되었습니다.');
+      window.location.reload();
+    } catch (error: unknown) {
+      console.log(error);
+    }
   };
 
   const handleModal = () => {
@@ -91,7 +99,7 @@ export default function Department() {
                         />
 
                         <XMarkIcon
-                          onClick={handleDelete}
+                          onClick={() => handleDelete(item.userId)}
                           className="h-6 w-6 cursor-pointer text-red-500"
                         />
                       </div>
