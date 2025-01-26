@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { ChatAPI } from '../api';
 import mock from '@/app/counselmock.json';
 import { StarIcon } from '@heroicons/react/24/outline';
+import { SessionInfo } from '../types/chat';
+
 interface CounselModalProps {
   onClose: () => void;
+  userId: string;
 }
+
 function dateFormat(date: string): string {
   let originDate = new Date(date);
   let formatDate =
@@ -16,10 +21,29 @@ function dateFormat(date: string): string {
     '일';
   return formatDate;
 }
-const CounselListModal: React.FC<CounselModalProps> = ({ onClose }) => {
+
+const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
+  const [sessions, setSessions] = useState<SessionInfo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSessions = async () => {
+      try {
+        const response = await ChatAPI.getSessions(userId);
+        setSessions(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSessions();
+  }, []);
+
   const handleDelete = () => {
     alert('상담기록이 삭제 되었습니다');
   };
+
   return (
     <div className="z-50 fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
       <motion.div
@@ -32,12 +56,12 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose }) => {
         <p className="text-center text-lg font-semibold">상담 기록</p>
 
         <ul role="list" className="mt-10 min-h-[40vh] mx-6">
-          {mock.map((item) => {
-            let date = dateFormat(item.createdAt);
+          {sessions.map((item) => {
+            let date = dateFormat(item.date);
             return (
-              <li key={item.sessionId} className="my-2">
+              <li key={item.id} className="my-2">
                 <div className="flex justify-center items-center px-4 py-3 gap-x-4 border border-black rounded-md">
-                  <StarIcon className=" h-6 w-6" />
+                  <span>{item.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
                   <div className="font-medium  text-gray-900 mr-6">{date}</div>
                   <button
                     onClick={handleDelete}

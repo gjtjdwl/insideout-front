@@ -12,10 +12,10 @@ import { departmentUserData } from '@/app/types/webManage';
 
 export default function Department() {
   const { departmentName } = useParams();
-  const router = useRouter();
   const deptname = decodeURIComponent(departmentName as string);
   const [users, setUsers] = useState<departmentUserData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string>('');
   const [showModal, setShowModal] = useState<Boolean>(false);
 
   const handleDelete = async (userId: string) => {
@@ -28,6 +28,10 @@ export default function Department() {
     }
   };
 
+  const handleModalAndProps = (userId: string) => {
+    setShowModal(!showModal);
+    setUserId(userId);
+  };
   const handleModal = () => {
     setShowModal(!showModal);
   };
@@ -94,7 +98,7 @@ export default function Department() {
                     >
                       <div className="flex justify-center">
                         <ClipboardDocumentListIcon
-                          onClick={handleModal}
+                          onClick={() => handleModalAndProps(item.userId)}
                           className="h-6 w-6 cursor-pointer mr-5 text-gray-500"
                         />
 
@@ -108,7 +112,9 @@ export default function Department() {
                 ))}
               </tbody>
             </table>
-            {showModal && <CounselListModal onClose={handleModal} />}
+            {showModal && (
+              <CounselListModal onClose={handleModal} userId={userId} />
+            )}
           </div>
         </div>
       </div>
