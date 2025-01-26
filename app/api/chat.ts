@@ -78,6 +78,14 @@ const chat = (api: AxiosInstance) => ({
       throw error;
     }
   },
+  deleteSession: async (sessionId: number) => {
+    try {
+      await api.delete(`chat/session/${sessionId}/delete`);
+    } catch (error) {
+      console.error('Failed to cancel session:', error);
+      throw error;
+    }
+  },
 });
 
 export default chat;

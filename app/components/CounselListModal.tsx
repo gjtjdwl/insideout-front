@@ -40,8 +40,17 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
     loadSessions();
   }, []);
 
-  const handleDelete = () => {
-    alert('상담기록이 삭제 되었습니다');
+  const handleDelete = async (sessionId: number) => {
+    try {
+      const response = await ChatAPI.deleteSession(sessionId);
+      setSessions((prev) =>
+        prev.filter((sessions) => sessions.id !== sessionId)
+      );
+      alert('상담기록이 삭제 되었습니다');
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -64,7 +73,7 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
                   <span>{item.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
                   <div className="font-medium  text-gray-900 mr-6">{date}</div>
                   <button
-                    onClick={handleDelete}
+                    onClick={() => handleDelete(item.id)}
                     className="border rounded-lg px-3 py-[1px] text-white bg-red-500 "
                   >
                     삭제
