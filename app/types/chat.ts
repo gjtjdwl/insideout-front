@@ -28,7 +28,7 @@ export interface MessageResponse {
   sessionId: number;
   authorType: 'USER' | 'AI';
   content: string;
-  timestamp: string;
+  createdAt: string;
 }
 
 export interface ORSRequest {

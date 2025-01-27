@@ -19,18 +19,21 @@ const LoginPage: React.FC = () => {
 
       return () => clearInterval(timer);
     } else if (showSuccessModal && countdown === 0) {
-      router.push('/');
+      window.location.href = '/';
     }
-  }, [showSuccessModal, countdown, router]);
+  }, [showSuccessModal, countdown]);
 
   const handleLoginSuccess = (userId: string) => {
     setUserId(userId);
     setShowSuccessModal(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
     setShowSuccessModal(false);
-    router.push('/');
+    // 상태가 완전히 업데이트될 때까지 대기
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    // 전체 페이지 새로고침으로 상태 초기화
+    window.location.href = '/';
   };
 
   return (
@@ -67,14 +70,14 @@ const LoginPage: React.FC = () => {
                 안녕 난 성미야 😊
               </div>
               <div className="w-10 h-10 rounded-full border-2 text-lg lg:text-2xl flex justify-center items-center text-white font-bold">
-              🐰
+                🐰
               </div>
             </div>
 
             {/* 대화 3 */}
             <div className="flex items-start gap-2">
               <div className="w-10 h-10 rounded-full border-2 text-base lg:text-xl flex justify-center items-center text-white font-bold">
-              🤗
+                🤗
               </div>
               <div className="bg-gray-100 px-6 py-3 mt-4 text-xs lg:text-base  rounded-tr-3xl rounded-bl-3xl rounded-br-3xl shadow-lg max-w-[75%]">
                 안녕, 성미야. 요즘 무슨 고민이 있어?
@@ -94,7 +97,7 @@ const LoginPage: React.FC = () => {
             {/* 대화 5 */}
             <div className="flex items-start gap-2">
               <div className="w-10 h-10 rounded-full border-2 text-base lg:text-xl flex justify-center items-center text-white font-bold">
-              🤗
+                🤗
               </div>
               <div className="bg-gray-100 px-6 py-3 mt-4 text-xs lg:text-base  rounded-tr-3xl rounded-bl-3xl rounded-br-3xl  shadow-lg max-w-[75%]">
                 연애를 어떻게 하면 되는지 고민인가 보네. 연애를 하기 위해 어떤
@@ -108,7 +111,7 @@ const LoginPage: React.FC = () => {
                 있는데 깊게 생각해 본 적 없어서 잘 모르겠어.
               </div>
               <div className="w-10 h-10 rounded-full border-2 text-lg lg:text-2xl flex justify-center items-center text-white font-bold">
-              🐰
+                🐰
               </div>
             </div>
 
