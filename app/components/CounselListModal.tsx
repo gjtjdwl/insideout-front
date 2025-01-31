@@ -64,23 +64,31 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
         <p className="text-center text-lg font-semibold">상담 기록</p>
 
         <ul role="list" className="mt-10 min-h-[40vh] mx-6">
-          {sessions.map((item) => {
-            let date = dateFormat(item.date);
-            return (
-              <li key={item.id} className="my-2">
-                <div className="flex justify-center items-center px-4 py-3 gap-x-4 border border-black rounded-md">
-                  <span>{item.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
-                  <div className="font-medium  text-gray-900 mr-6">{date}</div>
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="border rounded-lg px-3 py-[1px] text-white bg-red-500 "
-                  >
-                    삭제
-                  </button>
-                </div>
-              </li>
-            );
-          })}
+          {sessions.length === 0 ? (
+            <div className="min-w-[270px] text-center">
+              진행한 상담이 없습니다
+            </div>
+          ) : (
+            sessions.map((item) => {
+              let date = dateFormat(item.date);
+              return (
+                <li key={item.id} className="my-2">
+                  <div className="flex justify-center items-center px-4 py-3 gap-x-4 border border-black rounded-md">
+                    <span>{item.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
+                    <div className="font-medium  text-gray-900 mr-6">
+                      {date}
+                    </div>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="border rounded-lg px-3 py-[1px] text-white bg-red-500 "
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </li>
+              );
+            })
+          )}
         </ul>
         <button
           onClick={onClose}
