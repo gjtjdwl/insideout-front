@@ -50,7 +50,6 @@ const BoardDetail = ({ params }: Props) => {
   const handleDelete = async () => {
     try {
       const response = await BoardAPI.deleteBoard('notice', deleteData);
-
       alert(response.message);
       router.push('/boards/notice');
     } catch (error) {
@@ -62,7 +61,7 @@ const BoardDetail = ({ params }: Props) => {
     if (inquiryId) {
       inquiryDetail(Number(inquiryId));
     }
-  }, []);
+  }, [inquiryId]);
 
   return (
     <div className="p-5 w-full flex flex-col min-h-[70vh] ">

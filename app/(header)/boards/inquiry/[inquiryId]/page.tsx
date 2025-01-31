@@ -40,7 +40,6 @@ const BoardDetail = ({ params }: Props) => {
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
       const response = await BoardAPI.inquiryDetail(inquiryId);
-      console.log(response);
       setDetail(response);
       setComments(response.comments);
       setDeleteData((prev) => ({
@@ -174,6 +173,7 @@ const BoardDetail = ({ params }: Props) => {
 
                     {user && user.role === 'ADMIN' && (
                       <button
+                        type="submit"
                         onClick={handleDelete}
                         className="ml-2 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
                       >
@@ -284,15 +284,17 @@ const BoardDetail = ({ params }: Props) => {
                 <textarea
                   id="comment"
                   name="comment"
-                  placeholder="추가 문의가 있으시면 답글을 남겨주세요"
+                  placeholder={user?.role === 'ADMIN' ? "문의 답변을 남겨주세요." : "추가 문의가 있으시면 답글을 남겨주세요."}
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}
                   value={comment.content}
                   className="w-full resize-none p-2 mr-[3px] min-h-20 placeholder:text-sm md:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
+                  disabled={user?.role !== 'ADMIN' && comments.length === 0}
                 />
                 <button
                   onClick={handleCommentSubmit}
                   className="bg-customPink rounded-md w-full sm:w-[10%] text-sm md:text-base"
+                  disabled={user?.role !== 'ADMIN' && comments.length === 0}
                 >
                   등록
                 </button>
