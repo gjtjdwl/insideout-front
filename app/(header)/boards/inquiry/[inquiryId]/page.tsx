@@ -140,8 +140,7 @@ const BoardDetail = ({ params }: Props) => {
 
   return (
     <div className="flex">
-      <InquiryContents setSelectTab={setSelectTab} />
-      <div className="mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+      <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
         <FiChevronLeft
           type="button"
           onClick={() => router.push('/boards/inquiry')}
@@ -152,23 +151,23 @@ const BoardDetail = ({ params }: Props) => {
             <div className="px-4 py-2">
               <div>
                 <div>
-                  <span className="lg:text-xl font-bold mr-2">
+                  <span className="md:text-xl font-bold mr-2">
                     {' '}
                     {detail.title}{' '}
                   </span>
                   {comments.length > 0 ? (
-                    <span className="text-xs lg:text-sm text-[#5173fd]">
+                    <span className="text-xs md:text-sm text-[#5173fd]">
                       답변완료
                     </span>
                   ) : (
-                    <span className="text-xs lg:text-sm text-[#FD5151]">
+                    <span className="text-xs md:text-sm text-[#FD5151]">
                       답변중
                     </span>
                   )}
                 </div>
               </div>
               <div>
-                <div className="text-xs lg:text-sm text-[#757575] mt-3">
+                <div className="text-xs md:text-sm text-[#757575] mt-3">
                   <span> {detail.userId} </span>
                   <div>
                     <span>{formattedTime}</span>
@@ -176,7 +175,7 @@ const BoardDetail = ({ params }: Props) => {
                     {user && user.role === 'ADMIN' && (
                       <button
                         onClick={handleDelete}
-                        className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                        className="ml-2 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
                       >
                         삭제
                       </button>
@@ -187,11 +186,25 @@ const BoardDetail = ({ params }: Props) => {
             </div>
           </div>
           {/* 내용 */}
-          <div className="p-4 min-h-96 text-sm lg:text-base">
-            {detail.content}
+          <div className="p-4 min-h-[40vh] ">
+            <div className="whitespace-pre-line text-sm md:text-base mb-16">
+              {detail.content}
+            </div>
+            {detail.filePath && (
+              <div>
+                {detail.filePath.map((path, index) => (
+                  <img
+                    key={index}
+                    src={path}
+                    alt={`File ${index}`}
+                    style={{}}
+                  />
+                ))}
+              </div>
+            )}
           </div>
           <div className="border-b w-full">
-            <div className="px-4 py-2 font-semibold text-sm lg:text-lg">
+            <div className="px-4 py-2 font-semibold text-sm md:text-lg">
               <span>답변</span>
             </div>
           </div>
@@ -215,17 +228,17 @@ const BoardDetail = ({ params }: Props) => {
                   <div className="flex flex-col mb-3">
                     {user &&
                       (comt.role === 'ADMIN' ? (
-                        <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                        <span className="text-sm md:text-lg font-semibold text-gray-700 ">
                           관리자
                         </span>
                       ) : (
-                        <span className="text-sm lg:text-lg font-semibold text-gray-700 ">
+                        <span className="text-sm md:text-lg font-semibold text-gray-700 ">
                           {comt.userId}
                         </span>
                       ))}
 
                     <div className="flex">
-                      <span className="text-xs lg:text-sm text-[#757575]">
+                      <span className="text-xs md:text-sm text-[#757575]">
                         {formattedDate}
                       </span>
                       {/* {user && user.role === 'ADMIN' && (
@@ -245,7 +258,7 @@ const BoardDetail = ({ params }: Props) => {
                             onClick={() => {
                               handleCommentDelete(comt.commentId, comt.userId);
                             }}
-                            className="ml-1 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
+                            className="ml-1 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
                           >
                             삭제
                           </button>
@@ -253,14 +266,14 @@ const BoardDetail = ({ params }: Props) => {
                     </div>
                   </div>
 
-                  <div className="text-sm lg:text-base">{comt.content}</div>
+                  <div className="text-sm md:text-base">{comt.content}</div>
                 </div>
               );
             })}
           {/* 답글창 */}
           <div className="w-full mt-4">
             <div className="border p-4 ">
-              <span className="lg:text-base text-sm font-semibold text-gray-700">
+              <span className="md:text-base text-sm font-semibold text-gray-700">
                 {user
                   ? user.role === 'ADMIN'
                     ? '관리자'
@@ -275,11 +288,11 @@ const BoardDetail = ({ params }: Props) => {
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}
                   value={comment.content}
-                  className="w-full resize-none p-2 mr-[3px] min-h-20 placeholder:text-sm lg:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
+                  className="w-full resize-none p-2 mr-[3px] min-h-20 placeholder:text-sm md:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
                 />
                 <button
                   onClick={handleCommentSubmit}
-                  className="bg-customPink rounded-md w-full sm:w-[10%] text-sm lg:text-base"
+                  className="bg-customPink rounded-md w-full sm:w-[10%] text-sm md:text-base"
                 >
                   등록
                 </button>

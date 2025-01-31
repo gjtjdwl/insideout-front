@@ -30,7 +30,6 @@ const BoardDetail = ({ params }: Props) => {
     try {
       const response = await BoardAPI.noticeDetail(inquiryId);
       setDetail(response);
-      console.log(response);
       setDeleteData((prev) => ({
         ...prev,
         userId: response.userId,
@@ -104,10 +103,17 @@ const BoardDetail = ({ params }: Props) => {
             </>
           )}
         </div>
-        <div className="w-full p-4 max-w-[1440px] flex">
-          <div className="whitespace-pre-line text-sm md:text-base">
+        <div className="w-full p-4 max-w-[1440px] flex flex-col">
+          <div className="whitespace-pre-line text-sm md:text-base mb-16">
             {detail.content}
           </div>
+          {detail.filePath && (
+            <div>
+              {detail.filePath.map((path, index) => (
+                <img key={index} src={path} alt={`File ${index}`} style={{}} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

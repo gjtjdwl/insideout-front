@@ -6,7 +6,7 @@ export interface InquiryData {
   createdTime: string | number;
   modifiedTime?: string | null;
   message: string;
-  file?: File | null;
+  filePath: string[] | null;
   comments: CommentData[];
 }
 

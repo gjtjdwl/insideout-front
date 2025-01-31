@@ -35,9 +35,9 @@ const Inquiry = () => {
   }, [selectTab]);
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <InquiryContents setSelectTab={setSelectTab} />
-      <div className="mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+      <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
         {inquiryList.length === 0 ? (
           <div className="min-h-[40vh]"> 문의 게시물이 없습니다. </div>
         ) : (
