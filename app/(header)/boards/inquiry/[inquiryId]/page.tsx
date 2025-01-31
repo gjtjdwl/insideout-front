@@ -40,6 +40,7 @@ const BoardDetail = ({ params }: Props) => {
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
       const response = await BoardAPI.inquiryDetail(inquiryId);
+      console.log(response);
       setDetail(response);
       setComments(response.comments);
       setDeleteData((prev) => ({
@@ -122,7 +123,14 @@ const BoardDetail = ({ params }: Props) => {
       alert('댓글 삭제 완료');
       await inquiryDetail(Number(inquiryId));
     } catch (error: unknown) {
-      console.log('댓글 삭제 오류', error);
+      console.error('댓글 삭제 오류', error);
+    }
+  };
+  //댓글 수정
+  const handleCommentModify = async () => {
+    try {
+    } catch (error: unknown) {
+      console.error('댓글 수정 오류', error);
     }
   };
 
@@ -164,7 +172,7 @@ const BoardDetail = ({ params }: Props) => {
                   <span> {detail.userId} </span>
                   <div>
                     <span>{formattedTime}</span>
-                    
+
                     {user && user.role === 'ADMIN' && (
                       <button
                         onClick={handleDelete}
@@ -220,16 +228,16 @@ const BoardDetail = ({ params }: Props) => {
                       <span className="text-xs lg:text-sm text-[#757575]">
                         {formattedDate}
                       </span>
-                      {user && user.role === 'ADMIN' && (
+                      {/* {user && user.role === 'ADMIN' && (
                         <button
                           onClick={() => {
-                            handleCommentDelete(comt.commentId, comt.userId);
+                            handleCommentModify;
                           }}
                           className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
                         >
                           수정
                         </button>
-                      )}
+                      )} */}
                       {user &&
                         (user.role === 'ADMIN' ||
                           user.userId === comt.userId) && (

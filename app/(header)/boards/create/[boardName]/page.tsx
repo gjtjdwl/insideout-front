@@ -37,22 +37,27 @@ const WriteBoard = ({ params }: Props) => {
 
     if (user) {
       formData.userId = user.userId;
-      form.append('userId', formData.userId);
-      form.append('title', formData.title);
-      form.append('content', formData.content);
-      // 파일이 있을 경우 file을 FormData에 추가
+      const request = {
+        userId: String(formData.userId),
+        inquiryId: Number(formData.inquiryId),
+        title: formData.title,
+      };
+      form.append('request', JSON.stringify(request));
       if (formData.file) {
-        form.append('file', formData.file);
+        form.append('imageFile', formData.file);
       }
 
+      // for (let i of form.entries()) {
+      //   console.log(i[0], i[1]);
+      // }
       try {
         const response = await BoardAPI.createBoard(form);
-        
-        alert(response.message)
-        if(boardName === 'inquiry'){
-          router.push('/boards/inquiry')
+
+        alert(response.message);
+        if (boardName === 'inquiry') {
+          router.push('/boards/inquiry');
         } else {
-          router.push('/boards/notice')
+          router.push('/boards/notice');
         }
       } catch (error: unknown) {
         console.error('글 작성 중 오류 발생', error);
