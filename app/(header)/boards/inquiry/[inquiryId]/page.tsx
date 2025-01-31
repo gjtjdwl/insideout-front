@@ -6,7 +6,6 @@ import React, { use, useState, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { CommentData, InquiryData, apiData } from '@/app/types/board';
 import { BoardAPI } from '@/app/api';
-import InquiryContents from '@/app/components/InquiryContents';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 import moment from 'moment';
 

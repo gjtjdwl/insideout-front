@@ -15,7 +15,6 @@ const Notice = () => {
   const notice = async (): Promise<void> => {
     try {
       const res = await BoardAPI.notice();
-      console.log(res);
       const reversedList = [...res].reverse();
       setNoticeList(reversedList);
     } catch (error: unknown) {
