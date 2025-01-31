@@ -15,13 +15,9 @@ export default function InquiryLayout({
   const boardName = 'notice';
   const router = useRouter();
   const { user } = useUser();
-  const [searchValue, setSearchValue] = useState<string>('');
 
   const pathname = usePathname();
 
-  const handleClear = () => {
-    setSearchValue('');
-  };
   // 특정 경로에서 버튼 숨김  오.. 쩐다. . ..
   const hideButton = pathname.startsWith('/boards/notice/');
 
