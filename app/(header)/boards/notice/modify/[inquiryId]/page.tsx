@@ -24,7 +24,7 @@ const BoardModify = ({ params }: Props) => {
     title: '',
     content: '',
     file: null,
-    message:'',
+    message: '',
   });
 
   const [formattedTime, setFormattedTime] = useState<string>('');
@@ -63,7 +63,13 @@ const BoardModify = ({ params }: Props) => {
     const fetchData = async () => {
       const response = await BoardAPI.noticeDetail(inquiryId);
       seteditFormData(response);
-      setFormattedTime(formatDateTime(String(response.modifiedTime)));
+      if (response.modifiedTime === null) {
+        const formattedTime = formatDateTime(String(response.createdTime));
+        setFormattedTime(formattedTime);
+      } else {
+        const formattedTime = formatDateTime(String(response.modifiedTime));
+        setFormattedTime(formattedTime);
+      }
     };
     fetchData();
   }, [inquiryId]);

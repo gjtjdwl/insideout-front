@@ -10,7 +10,7 @@ const Notice = () => {
   const [noticeList, setNoticeList] = useState<InquiryData[]>([]);
   const pageSize = Math.ceil(noticeList.length / 10);
 
-  const notice = async () => {
+  const notice = async (): Promise<void>  => {
     try {
       const res = await BoardAPI.notice();
       const reversedList = [...res].reverse();

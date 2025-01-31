@@ -34,8 +34,13 @@ const BoardDetail = ({ params }: Props) => {
         ...prev,
         userId: response.userId,
       }));
-      const formattedTime = formatDateTime(String(response.modifiedTime));
-      setFormattedTime(formattedTime);
+      if (response.modifiedTime === null) {
+        const formattedTime = formatDateTime(String(response.createdTime));
+        setFormattedTime(formattedTime);
+      } else {
+        const formattedTime = formatDateTime(String(response.modifiedTime));
+        setFormattedTime(formattedTime);
+      }
     } catch (error: unknown) {
       console.error('공지 상세 가져오는 중 오류 발생', error);
       throw error;
@@ -72,8 +77,10 @@ const BoardDetail = ({ params }: Props) => {
           </div>
         </div>
         <div className="flex justify-end p-4 mb-12 text-xs md:text-sm text-[#757575]">
-          <span className="mr-2 ">{detail.userId} </span>
+          {detail.modifiedTime && <span> 수정됨 </span>}
+          <span className="mx-2 ">{detail.userId} </span>
           <span className="mr-2">{formattedTime}</span>
+
           {user && user.role === 'ADMIN' && (
             <>
               <button

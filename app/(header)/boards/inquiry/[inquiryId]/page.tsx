@@ -24,7 +24,7 @@ const BoardDetail = ({ params }: Props) => {
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [comment, setComment] = useState<CommentData>({
     userId: '',
-    role:'',
+    role: '',
     inquiryId: Number(inquiryId),
     content: '',
     commentId: 0,
@@ -127,10 +127,8 @@ const BoardDetail = ({ params }: Props) => {
   };
 
   useEffect(() => {
-    if (inquiryId) {
-      inquiryDetail(Number(inquiryId));
-    }
-  }, []);
+    inquiryDetail(Number(inquiryId));
+  }, [inquiryId]);
 
   return (
     <div className="flex">
@@ -166,7 +164,7 @@ const BoardDetail = ({ params }: Props) => {
                   <span> {detail.userId} </span>
                   <div>
                     <span>{formattedTime}</span>
-                    {detail.modifiedTime && <span> 수정됨 </span>}
+                    
                     {user && user.role === 'ADMIN' && (
                       <button
                         onClick={handleDelete}
