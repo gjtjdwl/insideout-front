@@ -36,11 +36,10 @@ const WriteBoard = ({ params }: Props) => {
     e.preventDefault(); // 기본 동작 차단
 
     if (user) {
-      formData.userId = user.userId;
       const request = {
-        userId: String(formData.userId),
-        inquiryId: Number(formData.inquiryId),
+        userId: String(user.userId),
         title: formData.title,
+        content: formData.content,
       };
       form.append('request', JSON.stringify(request));
       if (formData.file) {

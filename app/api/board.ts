@@ -38,13 +38,15 @@ const board = (api: AxiosInstance) => ({
 
   modifyBoard: async (modifiedData: IFormData) => {
     const formData = new FormData();
-    formData.append('userId', String(modifiedData.userId));
-    formData.append('inquiryId', String(modifiedData.inquiryId));
-    formData.append('title', modifiedData.title);
-    formData.append('content', modifiedData.content);
+    const request = {
+      userId: String(modifiedData.userId),
+      title: modifiedData.title,
+      content: modifiedData.content,
+    };
+    formData.append('request', JSON.stringify(request));
     const response = await api.put<IFormData>(
       `/api/boards/modify/${modifiedData.inquiryId}`,
-      modifiedData
+      formData
     );
 
     return response.data;
