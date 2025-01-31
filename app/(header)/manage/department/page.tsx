@@ -44,7 +44,6 @@ export default function managerAdminPage() {
           constrastVariance: formattedConstrastVariance,
         };
       });
-      console.log('ors:', formatList);
       setOrsList(formatList);
     } catch (error: unknown) {
       console.error('ORS통계 불러오는 중 오류 발생', error);
