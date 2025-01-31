@@ -30,6 +30,7 @@ const BoardDetail = ({ params }: Props) => {
     try {
       const response = await BoardAPI.noticeDetail(inquiryId);
       setDetail(response);
+      console.log(response);
       setDeleteData((prev) => ({
         ...prev,
         userId: response.userId,
@@ -50,6 +51,7 @@ const BoardDetail = ({ params }: Props) => {
   const handleDelete = async () => {
     try {
       const response = await BoardAPI.deleteBoard('notice', deleteData);
+
       alert(response.message);
       router.push('/boards/notice');
     } catch (error) {

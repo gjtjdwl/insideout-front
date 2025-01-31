@@ -28,7 +28,7 @@ API.interceptors.request.use(
       // Bearer 스키마 추가
       config.headers.Authorization = `Bearer ${token}`;
       // Content-Type 헤더 추가
-      config.headers['Content-Type'] = 'application/json';
+      // config.headers['Content-Type'] = 'application/json';
     }
     return config;
   },
