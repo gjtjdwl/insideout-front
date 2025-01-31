@@ -18,7 +18,6 @@ const WriteBoard = ({ params }: Props) => {
   const { user } = useUser();
   const [formData, setFormData] = useState<IFormData>({
     userId: '',
-    inquiryId: 0,
     title: '',
     content: '',
     file: null,
@@ -60,7 +59,6 @@ const WriteBoard = ({ params }: Props) => {
         }
       } catch (error: unknown) {
         console.error('글 작성 중 오류 발생', error);
-        throw error;
       }
     }
   };

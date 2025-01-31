@@ -12,7 +12,7 @@ export interface InquiryData {
 
 export interface IFormData {
   userId: string | undefined;
-  inquiryId: number;
+  inquiryId?: number;
   title: string;
   content: string;
   file?: File | null;
