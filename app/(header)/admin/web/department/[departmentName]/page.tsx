@@ -1,5 +1,4 @@
 'use client';
-import mock from '@/app/mock.json';
 import {
   ClipboardDocumentListIcon,
   XMarkIcon,

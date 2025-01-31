@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChatAPI } from '../api';
-import mock from '@/app/counselmock.json';
 import { StarIcon } from '@heroicons/react/24/outline';
 import { SessionInfo } from '../types/chat';
 
