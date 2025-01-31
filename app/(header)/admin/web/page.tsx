@@ -4,17 +4,20 @@ import Image from 'next/image';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { webManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
-import { departmentData } from '@/app/types/webManage';
+import { departmentData, weeklyData, SRSData } from '@/app/types/webManage';
 
 export default function webAdminPage() {
   const [loading, setLoading] = useState(true);
   const [departments, setDepartments] = useState<departmentData[]>([]);
+  const [stats, setStats] = useState<weeklyData>({ weeklyStatistics: {} });
 
   useEffect(() => {
     const handleLoad = async () => {
       try {
-        const response = await webManageAPI.departments();
-        setDepartments(response);
+        const dept = await webManageAPI.departments();
+        setDepartments(dept);
+        const SRS = await webManageAPI.SRS();
+        setStats(SRS);
       } catch (error: unknown) {
         console.log(error);
       } finally {
@@ -23,6 +26,11 @@ export default function webAdminPage() {
     };
     handleLoad();
   }, []);
+  const SRS = Object.entries(stats.weeklyStatistics).sort(
+    ([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime()
+  );
+  const latest = SRS[SRS.length - 1];
+  const lastWeek = SRS[SRS.length - 2];
 
   return (
     <>
@@ -36,7 +44,7 @@ export default function webAdminPage() {
               <div className="mt-16 font-mediumt text-lg md:text-2xl">
                 사이트 통계
               </div>
-              <div className="grid grid-flow-col gap-x-8 justify-center">
+              <div className="grid grid-flow-col gap-x-16 justify-center">
                 <div className="flex flex-col items-end">
                   <Image
                     src="/graph.png"
@@ -44,14 +52,10 @@ export default function webAdminPage() {
                     width={500}
                     height={300}
                     style={{ height: '330px' }}
-                    className=""
                   />
-                  <div className="mt-5 text-base md:text-2xl text-center">
-                    전 월 대비 SRS 점수 변동량 : - 70%
-                  </div>
                 </div>
-                <div className="flex flex-col text-center items-cneter ">
-                  <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center">
+                <div className="flex flex-col text-center my-auto">
+                  <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center ">
                     <div className="text-base md:text-2xl ">
                       SRS 점수 평균 : 10점
                     </div>

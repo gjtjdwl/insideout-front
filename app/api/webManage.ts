@@ -1,5 +1,9 @@
 import { AxiosInstance } from 'axios';
-import { departmentData, departmentUserData } from '../types/webManage';
+import {
+  departmentData,
+  departmentUserData,
+  weeklyData,
+} from '../types/webManage';
 
 const webManage = (api: AxiosInstance) => ({
   departments: async (): Promise<departmentData[]> => {
@@ -17,6 +21,10 @@ const webManage = (api: AxiosInstance) => ({
   },
   deleteUser: async (userId: string) => {
     const response = await api.delete(`/api/users/${userId}/delete`);
+    return response.data;
+  },
+  SRS: async (): Promise<weeklyData> => {
+    const response = await api.get<weeklyData>('/manage/statistics/srs');
     return response.data;
   },
 });

@@ -11,3 +11,14 @@ export interface departmentUserData {
   phoneNumber: string;
   role: string;
 }
+
+export interface weeklyData {
+  weeklyStatistics: SRSData;
+}
+
+export interface SRSData {
+  [key: string]: {
+    average: number;
+    variance: number;
+  };
+}
