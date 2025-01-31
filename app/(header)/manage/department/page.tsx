@@ -5,19 +5,47 @@ import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
-import { MemberData, ORSRequest } from '@/app/types/manage';
+import { MemberData, statisticData } from '@/app/types/manage';
+import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted/`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
-  const [ors, setOrs] = useState<ORSRequest[]>();
+  const [orsList, setOrsList] = useState<statisticData[]>([]);
   //ors
   const orsStats = async () => {
     try {
       const response = await ManageAPI.statsORS(String(user?.userId));
-      setOrs(response);
-      console.log(response);
+
+      const dates = Object.keys(response.weeklyStatistics).reverse(); // ["2025-01-26","2025-01-19"]
+      const formatList = dates.map((date, index) => {
+        const current = response.weeklyStatistics[date];
+        const prev = response.weeklyStatistics[dates[index - 1]];
+        //지난주 평균, 분산
+        const prevAvg = prev ? prev.average : current.average;
+        const prevVariance = prev ? prev.variance : current.variance;
+        const constrastAvg = (current.average - prevAvg).toFixed(2);
+        const constrastVariance = (current.variance - prevVariance).toFixed(2);
+        // 양수일 경우 앞에 "+" 붙이기
+        const formattedConstrastAvg =
+          Number(constrastAvg) >= 0 ? `+${constrastAvg}` : constrastAvg;
+        const formattedConstrastVariance =
+          Number(constrastVariance) >= 0
+            ? `+${constrastVariance}`
+            : constrastVariance;
+
+        const formatDate = formatDateTimeDepart(String(date));
+        return {
+          date: formatDate,
+          average: Number(current.average.toFixed(2)),
+          variance: Number(current.variance.toFixed(2)),
+          constrastAvg: formattedConstrastAvg,
+          constrastVariance: formattedConstrastVariance,
+        };
+      });
+      console.log('ors:', formatList);
+      setOrsList(formatList);
     } catch (error: unknown) {
       console.error('ORS통계 불러오는 중 오류 발생', error);
     }
@@ -32,9 +60,11 @@ export default function managerAdminPage() {
   };
 
   useEffect(() => {
-    member();
-    orsStats();
-  }, []);
+    if (user) {
+      orsStats();
+      member();
+    }
+  }, [user, orsList]);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -47,7 +77,7 @@ export default function managerAdminPage() {
               <div className="mt-16 font-medium text-lg md:text-2xl">
                 부서 통계
               </div>
-              <div className="grid grid-flow-col gap-x-8 justify-center">
+              <div className="grid md:grid-flow-col gap-x-8 justify-center">
                 <div className="flex flex-col items-end">
                   <Image
                     src="/graph.png"
@@ -55,22 +85,49 @@ export default function managerAdminPage() {
                     width={500}
                     height={300}
                   />
-                  <div className="mt-5 text-base md:text-2xl text-center">
-                    전 월 대비 ORS 점수 변동량 : - 400%
-                  </div>
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
-                  <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center">
-                    <div className="text-base md:text-2xl ">
-                      ORS 점수 평균 : 36점
-                    </div>
-                    <div className="text-base md:text-2xl">
-                      ORS 점수 분산 : 4
-                    </div>
+                  <div className="p-3 md:p-8 border border-[#525252] md:h-[80%] flex flex-col items-start justify-center">
+                    {orsList && (
+                      <>
+                        <div className="mb-2 md:mb-5 text-base md:text-2xl text-center">
+                          <span className="">2025년 </span>
+                          <span className="ml-1">ORS점수 </span>
+                        </div>
+                        <div className="flex items-end text-sm md:text-xl w-full justify-around ">
+                          <div className="flex flex-col items-end ">
+                            <span>
+                              {orsList[orsList.length - 1]?.date?.substring(5)}{' '}
+                            </span>
+                            <span className="">지난 주 대비</span>
+                          </div>
+                          <div className="flex flex-col items-end ml-3">
+                            <span>평균 </span>
+                            <span>{orsList[orsList.length - 1]?.average} </span>
+                            <span
+                              className={`${Number(orsList[orsList.length - 1]?.constrastAvg) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                            >
+                              {orsList[orsList.length - 1]?.constrastAvg}{' '}
+                            </span>
+                          </div>
+                          <div className="flex flex-col items-end ml-3">
+                            <span>분산 </span>
+                            <span>
+                              {orsList[orsList.length - 1]?.variance}{' '}
+                            </span>
+                            <span
+                              className={`${Number(orsList[orsList.length - 1]?.constrastVariance) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                            >
+                              {orsList[orsList.length - 1]?.constrastVariance}{' '}
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
-              <div className="mt-24 font-medium text-lg md:text-2xl">
+              <div className="mt-14 md:mt-24 font-medium text-lg md:text-2xl">
                 부서원
               </div>
               {memberList.length === 0 ? (
