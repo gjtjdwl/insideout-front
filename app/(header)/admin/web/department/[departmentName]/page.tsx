@@ -12,7 +12,7 @@ import { departmentUserData } from '@/app/types/webManage';
 
 export default function Department() {
   const { departmentName } = useParams();
-  const deptname = decodeURIComponent(departmentName as string);
+  const deptName = decodeURIComponent(departmentName as string);
   const [users, setUsers] = useState<departmentUserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>('');
@@ -39,7 +39,7 @@ export default function Department() {
   useEffect(() => {
     const handleLoad = async () => {
       try {
-        const response = await webManageAPI.departmentUsers(deptname);
+        const response = await webManageAPI.departmentUsers(deptName);
         setUsers(response);
       } catch (error: unknown) {
         console.log(error);
@@ -59,7 +59,7 @@ export default function Department() {
               <div className="font-bold text-xl md:text-3xl">팀원 리스트</div>
             </div>
             <div className="mt-8 mb-12 ml-6 font-medium text-2xl">
-              프론트 엔드 팀
+              {deptName}
             </div>
             <table className="table-auto w-full border-collapse px-12">
               <thead className="text-left border-b">
