@@ -1,6 +1,11 @@
+'use client';
+import { ManageAPI } from '@/app/api';
+import { useUser } from '@/app/hooks/useUser';
+import { useEffect } from 'react';
 import { RiMailSendFill } from 'react-icons/ri';
 
 const feedback = () => {
+  const { user } = useUser();
   const products = [
     {
       main: '개선사항1',
@@ -27,6 +32,20 @@ const feedback = () => {
       sub: ['개선사항을 수집중입니다! ', '조금만 기다려 주세요~'],
     },
   ];
+  const improvements = async () => {
+    try {
+      const response = await ManageAPI.improvements(String(user?.userId));
+      console.log(response);
+    } catch (error: unknown) {
+      console.error('개선사항 로딩 중 오류', error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      improvements();
+    }
+  }, [user]);
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="flex justify-center items-center bg-white w-full p-10 min-h-[50vh]">

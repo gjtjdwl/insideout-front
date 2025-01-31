@@ -33,6 +33,10 @@ const manage = (api: AxiosInstance) => ({
     });
     return response.data;
   },
+  improvements: async (userId: string) => {
+    const response = await api.post(`/manage/department/improvements/${userId}`, userId)
+    return response.data
+  }
 });
 
 export default manage;
