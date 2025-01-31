@@ -97,7 +97,7 @@ export default function managerAdminPage() {
                         <div className="flex items-end text-sm md:text-xl w-full justify-around ">
                           <div className="flex flex-col items-end ">
                             <span>
-                              {orsList[orsList.length - 1]?.date?.substring(5)}{' '}
+                              {orsList[orsList.length - 1]?.date?.substring(6)}{' '}
                             </span>
                             <span className="">지난 주 대비</span>
                           </div>
