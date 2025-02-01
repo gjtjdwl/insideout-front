@@ -1,11 +1,18 @@
 'use client';
 
-import Image from 'next/image';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { webManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
 import { departmentData, weeklyData } from '@/app/types/webManage';
-
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+  Line,
+} from 'recharts';
 function dateFormat(date: string): string {
   let originDate = new Date(date);
   let formatDate =
@@ -49,7 +56,6 @@ export default function webAdminPage() {
 
         const latest = SRS[SRS.length - 1];
         const lastWeek = SRS[SRS.length - 2];
-
         const stats = {
           latest: latest,
           averageDiff:
@@ -66,7 +72,6 @@ export default function webAdminPage() {
     };
     handleLoad();
   }, []);
-
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -80,19 +85,23 @@ export default function webAdminPage() {
                 사이트 통계
               </div>
               <div className="grid grid-flow-col gap-x-16 justify-center">
-                <div className="flex flex-col items-end">
-                  <Image
-                    src="/graph.png"
-                    alt="그래프 들어갈 자리"
-                    width={500}
-                    height={300}
-                    style={{ height: '330px' }}
-                  />
+                <div className="p-10">
+                  {!loading && (
+                    <LineChart width={600} height={350} data={SRS}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line dataKey="average" stroke="#FF5858" />
+                      <Line dataKey="variance" stroke="#279EFF" />
+                    </LineChart>
+                  )}
                 </div>
-                <div className="flex flex-col text-center my-auto">
+                <div className="flex flex-col text-center w-[400px] h-[350px] my-auto">
                   <div className="p-6 border border-[#525252] h-[80%] flex flex-col justify-center">
                     <div className="text-base md:text-2xl">SRS 점수</div>
-                    <table className="border-none mt-10 text-base md:text-2xl">
+                    <table className="border-none mt-10 text-2xl">
                       <tbody>
                         <tr className="m-2">
                           <td></td>
@@ -100,7 +109,7 @@ export default function webAdminPage() {
                           <td>분산</td>
                         </tr>
                         <tr>
-                          <td className="m-4 p-5">
+                          <td className="m-4">
                             {stats?.latest.date &&
                               dateFormat(stats.latest.date)}
                           </td>
