@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import { MemberData, statisticData } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
+import RenderLineChart from '@/app/components/ReCharts';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted/`;
@@ -78,12 +79,7 @@ export default function managerAdminPage() {
               </div>
               <div className="grid md:grid-flow-col gap-x-8 justify-center">
                 <div className="flex flex-col items-end">
-                  <Image
-                    src="/graph.png"
-                    alt="그래프 들어갈 자리"
-                    width={500}
-                    height={300}
-                  />
+                  <RenderLineChart data={orsList} />
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
                   <div className="p-3 md:p-8 border border-[#525252] md:h-[80%] flex flex-col items-start justify-center">

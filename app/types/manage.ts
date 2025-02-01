@@ -16,9 +16,9 @@ export interface statsData {
 export interface statisticData {
   average: number;
   variance: number;
-  date?: string;
-  constrastAvg?: string;
-  constrastVariance?: string;
+  date: string;
+  constrastAvg: string;
+  constrastVariance: string;
 }
 
 export interface ORSRequest {
