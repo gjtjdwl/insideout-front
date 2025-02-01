@@ -16,13 +16,12 @@ const Inquiry = () => {
   const inquiry = async (selectTab: string): Promise<void> => {
     try {
       const response = await BoardAPI.inquiry();
-      const reversedList = [...response].reverse();
       if (selectTab === '나의') {
         setInquiryList(
-          reversedList.filter((inquiry) => inquiry.userId === user?.userId)
+          response.filter((inquiry) => inquiry.userId === user?.userId)
         );
       } else {
-        setInquiryList(reversedList);
+        setInquiryList(response);
       }
     } catch (error: unknown) {
       console.error('문의하기 리스트 가져오는 중 오류 발생', error);

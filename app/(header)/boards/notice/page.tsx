@@ -6,6 +6,7 @@ import PaginationComponent from '@/app/components/PagenationComponent';
 import { InquiryData } from '@/app/types/board';
 import { API, BoardAPI } from '@/app/api';
 import { IoClose, IoSearch } from 'react-icons/io5';
+import SearchInput from '@/app/components/SearchInput';
 
 const Notice = () => {
   const [noticeList, setNoticeList] = useState<InquiryData[]>([]);
@@ -15,8 +16,7 @@ const Notice = () => {
   const notice = async (): Promise<void> => {
     try {
       const res = await BoardAPI.notice();
-      const reversedList = [...res].reverse();
-      setNoticeList(reversedList);
+      setNoticeList(res);
     } catch (error: unknown) {
       console.error('공지하기 리스트 가져오는 중 오류 발생', error);
       throw error;
@@ -43,24 +43,12 @@ const Notice = () => {
   return (
     <div className="p-14 w-[90%] flex-grow flex flex-col justify-center">
       <div className="flex justify-end">
-        <div className="flex items-center relative w-[200px]">
-          <IoSearch className="absolute left-4 text-[#757575]" />
-          <input
-            id="search"
-            name="search"
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder=""
-            className="border border-[#D9D9D9] rounded-3xl block min-w-0 grow py-1.5 pr-6 pl-10 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
-          />
-          <IoClose
-            onClick={handleClear}
-            type="button"
-            className="absolute right-3 cursor-pointer"
-          />
-        </div>
+        <SearchInput
+          searchValue={searchValue}
+          onChange={setSearchValue}
+          onClear={handleClear}
+          onKeyDown={handleKeyPress}
+        />
       </div>
       <div className="mt-3">
         {filteredNoticeList.length === 0 ? (
