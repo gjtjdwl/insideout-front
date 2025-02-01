@@ -100,7 +100,7 @@ export default function Home() {
                     hoverColor="hover:bg-customPinkHover"
                     textColor="text-black"
                     width="w-[240px]"
-                    onClick={() => router.push('/dashboard')}
+                    onClick={() => router.push('/manage/department')}
                   />
                 )}
                 {user.role === 'USER' && (

@@ -2,6 +2,7 @@ import axios from 'axios';
 import auth from './auth';
 import user from './userinfo';
 import chat from './chat';
+import manage from './manage';
 import webManage from './webManage';
 
 axios.defaults.withCredentials = true;
@@ -62,4 +63,6 @@ API.interceptors.response.use(
 export const AuthAPI = auth(API);
 export const UserAPI = user(API);
 export const ChatAPI = chat(API);
+export const ManageAPI = manage(API);
 export const webManageAPI = webManage(API);
+
