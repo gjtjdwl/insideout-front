@@ -23,7 +23,9 @@ export default function managerAdminPage() {
       const dates = Object.keys(response.weeklyStatistics).reverse(); // ["2025-01-26","2025-01-19"]
       const formatList = dates.map((date, index) => {
         const current = response.weeklyStatistics[date];
-        const prev = response.weeklyStatistics[dates[index - 1]];
+        const prev = dates[index - 1]
+          ? response.weeklyStatistics[dates[index - 1]]
+          : null;
         //지난주 평균, 분산
         const prevAvg = prev ? prev.average : current.average;
         const prevVariance = prev ? prev.variance : current.variance;
@@ -65,7 +67,7 @@ export default function managerAdminPage() {
       orsStats();
       member();
     }
-  }, [user, orsList]);
+  }, [user]);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -92,9 +94,7 @@ export default function managerAdminPage() {
                         </div>
                         <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
                           <div className="grid gap-3 items-end ">
-                            <span>
-                              {orsList[orsList.length - 1]?.date?.substring(6)}{' '}
-                            </span>
+                            <span>{orsList[orsList.length - 1]?.date} </span>
                             <span className="">지난 주 대비</span>
                           </div>
                           <div className="grid gap-3 items-end ml-3">
