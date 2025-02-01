@@ -14,6 +14,7 @@ export default function managerAdminPage() {
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
   const [orsList, setOrsList] = useState<statisticData[]>([]);
+
   //ors
   const orsStats = async () => {
     try {
@@ -78,25 +79,25 @@ export default function managerAdminPage() {
                 부서 통계
               </div>
               <div className="grid md:grid-flow-col gap-x-8 justify-center">
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-end my-10">
                   <RenderLineChart data={orsList} />
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
-                  <div className="p-3 md:p-8 border border-[#525252] md:h-[80%] flex flex-col items-start justify-center">
+                  <div className="p-3 md:p-8 my-10 border border-[#525252] w-full md:h-[100%] flex flex-col items-start justify-center">
                     {orsList && (
                       <>
                         <div className="mb-2 md:mb-5 text-base md:text-2xl text-center">
                           <span className="">2025년 </span>
                           <span className="ml-1">ORS점수 </span>
                         </div>
-                        <div className="flex items-end text-sm md:text-xl w-full justify-around ">
-                          <div className="flex flex-col items-end ">
+                        <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
+                          <div className="grid gap-3 items-end ">
                             <span>
                               {orsList[orsList.length - 1]?.date?.substring(6)}{' '}
                             </span>
                             <span className="">지난 주 대비</span>
                           </div>
-                          <div className="flex flex-col items-end ml-3">
+                          <div className="grid gap-3 items-end ml-3">
                             <span>평균 </span>
                             <span>{orsList[orsList.length - 1]?.average} </span>
                             <span
@@ -105,7 +106,7 @@ export default function managerAdminPage() {
                               {orsList[orsList.length - 1]?.constrastAvg}{' '}
                             </span>
                           </div>
-                          <div className="flex flex-col items-end ml-3">
+                          <div className="grid gap-3 items-end ml-3">
                             <span>분산 </span>
                             <span>
                               {orsList[orsList.length - 1]?.variance}{' '}
