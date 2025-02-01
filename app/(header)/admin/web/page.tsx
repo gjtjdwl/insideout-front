@@ -4,20 +4,60 @@ import Image from 'next/image';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { webManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
-import { departmentData, weeklyData, SRSData } from '@/app/types/webManage';
+import { departmentData, weeklyData } from '@/app/types/webManage';
+
+function dateFormat(date: string): string {
+  let originDate = new Date(date);
+  let formatDate =
+    originDate.getMonth() + 1 + '월 ' + originDate.getDate() + '일';
+  return formatDate;
+}
+interface SRSType {
+  date: string;
+  average: number;
+  variance: number;
+}
+interface diffsType {
+  latest: SRSType;
+  averageDiff: number;
+  varianceDiff: number;
+}
 
 export default function webAdminPage() {
   const [loading, setLoading] = useState(true);
   const [departments, setDepartments] = useState<departmentData[]>([]);
-  const [stats, setStats] = useState<weeklyData>({ weeklyStatistics: {} });
+  const [SRS, setSRS] = useState<SRSType[]>([]);
+  const [stats, setStats] = useState<diffsType>();
 
   useEffect(() => {
     const handleLoad = async () => {
       try {
         const dept = await webManageAPI.departments();
         setDepartments(dept);
-        const SRS = await webManageAPI.SRS();
-        setStats(SRS);
+        const res = await webManageAPI.SRS();
+        const SRS = Object.entries(res.weeklyStatistics)
+          .sort(
+            ([dateA], [dateB]) =>
+              new Date(dateA).getTime() - new Date(dateB).getTime()
+          )
+          .map(([date, { average, variance }]) => ({
+            date,
+            average: Math.round(average * 100) / 100,
+            variance: Math.round(variance * 100) / 100,
+          }));
+        setSRS(SRS);
+
+        const latest = SRS[SRS.length - 1];
+        const lastWeek = SRS[SRS.length - 2];
+
+        const stats = {
+          latest: latest,
+          averageDiff:
+            Math.round((latest?.average - lastWeek?.average) * 100) / 100,
+          varianceDiff:
+            Math.round((latest?.variance - lastWeek?.variance) * 100) / 100,
+        };
+        setStats(stats);
       } catch (error: unknown) {
         console.log(error);
       } finally {
@@ -26,11 +66,6 @@ export default function webAdminPage() {
     };
     handleLoad();
   }, []);
-  const SRS = Object.entries(stats.weeklyStatistics).sort(
-    ([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime()
-  );
-  const latest = SRS[SRS.length - 1];
-  const lastWeek = SRS[SRS.length - 2];
 
   return (
     <>
@@ -55,33 +90,66 @@ export default function webAdminPage() {
                   />
                 </div>
                 <div className="flex flex-col text-center my-auto">
-                  <div className="p-10 border border-[#525252] h-[80%] flex flex-col items-start justify-center ">
-                    <div className="text-base md:text-2xl ">
-                      SRS 점수 평균 : 10점
-                    </div>
-                    <div className="text-base md:text-2xl">
-                      SRS 점수 분산 : 4
-                    </div>
+                  <div className="p-6 border border-[#525252] h-[80%] flex flex-col justify-center">
+                    <div className="text-base md:text-2xl">SRS 점수</div>
+                    <table className="border-none mt-10 text-base md:text-2xl">
+                      <tbody>
+                        <tr className="m-2">
+                          <td></td>
+                          <td>평균</td>
+                          <td>분산</td>
+                        </tr>
+                        <tr>
+                          <td className="m-4 p-5">
+                            {stats?.latest.date &&
+                              dateFormat(stats.latest.date)}
+                          </td>
+                          <td className="m-4 p-5">{stats?.latest.average}</td>
+                          <td className="m-4 p-5">{stats?.latest.variance}</td>
+                        </tr>
+                        <tr>
+                          <td>지난 주</td>
+                          <td
+                            className={
+                              stats?.averageDiff && stats.averageDiff > 0
+                                ? 'text-red-600'
+                                : 'text-blue-700'
+                            }
+                          >
+                            {stats?.averageDiff}
+                          </td>
+                          <td
+                            className={
+                              stats?.varianceDiff && stats.varianceDiff > 0
+                                ? 'text-red-600'
+                                : 'text-blue-700'
+                            }
+                          >
+                            {stats?.varianceDiff}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-              <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
-              <ul className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
-                {departments.map((department, index) => {
-                  let route =
-                    '/admin/web/department/' + department.departmentName;
-                  return (
-                    <li key={index} className="my-2">
-                      <DepartmentCard
-                        route={route}
-                        name={department.departmentName}
-                        id={department.managerName}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
             </div>
+            <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
+            <ul className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
+              {departments.map((department, index) => {
+                let route =
+                  '/admin/web/department/' + department.departmentName;
+                return (
+                  <li key={index} className="my-2">
+                    <DepartmentCard
+                      route={route}
+                      name={department.departmentName}
+                      id={department.managerName}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </div>
