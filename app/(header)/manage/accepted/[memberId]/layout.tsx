@@ -1,8 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 
 export default function departmentMember({
@@ -11,8 +9,7 @@ export default function departmentMember({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  
-  useEffect(() => {}, []);
+
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className="flex justify-center items-center bg-white w-full p-10 min-h-[50vh]">
