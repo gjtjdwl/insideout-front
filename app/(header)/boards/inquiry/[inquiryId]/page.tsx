@@ -38,7 +38,10 @@ const BoardDetail = ({ params }: Props) => {
   //문의 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-      const response = await BoardAPI.inquiryDetail(inquiryId);
+      const response = await BoardAPI.inquiryDetail(
+        String(user?.userId),
+        inquiryId
+      );
       setDetail(response);
       setComments(response.comments);
       setDeleteData((prev) => ({
@@ -283,7 +286,11 @@ const BoardDetail = ({ params }: Props) => {
                 <textarea
                   id="comment"
                   name="comment"
-                  placeholder={user?.role === 'ADMIN' ? "문의 답변을 남겨주세요." : "추가 문의가 있으시면 답글을 남겨주세요."}
+                  placeholder={
+                    user?.role === 'ADMIN'
+                      ? '문의 답변을 남겨주세요.'
+                      : '추가 문의가 있으시면 답글을 남겨주세요.'
+                  }
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}
                   value={comment.content}
