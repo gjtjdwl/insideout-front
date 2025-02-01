@@ -1,4 +1,12 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 interface ChartData {
   date: string;
@@ -13,14 +21,16 @@ interface LineChartProps {
 }
 const RenderLineChart: React.FC<LineChartProps> = ({ data }) => {
   return (
-    <LineChart width={400} height={300} data={data}>
-      <Line type="monotone" dataKey="average" stroke="#8884d8" />
-      <Line type="monotone" dataKey="variance" stroke="#82ca9d" />
-      <XAxis dataKey="date" padding={{ left: 30, right: 30 }} />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-    </LineChart>
+    <ResponsiveContainer width="100%" height={300}> 
+      <LineChart data={data}>
+        <Line type="monotone" dataKey="average" stroke="#8884d8" />
+        <Line type="monotone" dataKey="variance" stroke="#82ca9d" />
+        <XAxis dataKey="date" padding={{ left: 20, right: 20 }} />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
 

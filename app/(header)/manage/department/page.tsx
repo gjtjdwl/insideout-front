@@ -78,31 +78,31 @@ export default function managerAdminPage() {
       <div className="bg-customPink px-4 sm:px-[50px]">
         <div className="items-center flex justify-center bg-white w-full p-10">
           <div className="max-w-[1200px] w-full">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between md:p-4 border-b">
               <div className="font-bold text-xl md:text-3xl">부서 관리</div>
             </div>
-            <div className="m-10">
-              <div className="mt-16 font-medium text-lg md:text-2xl">
+            <div className="md:m-10">
+              <div className="mt-6 md:mt-16 font-medium text-lg md:text-2xl">
                 부서 통계
               </div>
-              <div className="grid md:grid-flow-col gap-x-8 justify-center">
+              <div className="md:grid md:grid-cols-2 gap-x-8 justify-center">
                 <div className="flex flex-col items-end my-10">
                   <RenderLineChart data={orsList} />
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
-                  <div className="p-3 md:p-8 my-10 border border-[#525252] w-full md:h-[100%] flex flex-col items-start justify-center">
+                  <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col items-start justify-center">
                     {orsList && (
                       <>
-                        <div className="mb-2 md:mb-5 text-base md:text-2xl text-center">
+                        <div className="mb-2 md:mb-5 text-base md:text-2xl text-center ">
                           <span className="">2025년 </span>
                           <span className="ml-1">ORS점수 </span>
                         </div>
                         <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
-                          <div className="grid gap-3 items-end ">
+                          <div className="grid gap-2 items-end ">
                             <span>{orsList[orsList.length - 1]?.date} </span>
                             <span className="">지난 주 대비</span>
                           </div>
-                          <div className="grid gap-3 items-end ml-3">
+                          <div className="grid gap-2 items-end">
                             <span>평균 </span>
                             <span>{orsList[orsList.length - 1]?.average} </span>
                             <span
@@ -111,7 +111,7 @@ export default function managerAdminPage() {
                               {orsList[orsList.length - 1]?.constrastAvg}{' '}
                             </span>
                           </div>
-                          <div className="grid gap-3 items-end ml-3">
+                          <div className="grid gap-2 items-end">
                             <span>분산 </span>
                             <span>
                               {orsList[orsList.length - 1]?.variance}{' '}
