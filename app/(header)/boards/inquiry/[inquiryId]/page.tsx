@@ -19,7 +19,6 @@ const BoardDetail = ({ params }: Props) => {
   const { inquiryId } = use(params);
   const { user } = useUser();
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData); // 여기 타입좀 봐주실분 .. ..
-  const [selectTab, setSelectTab] = useState<string>('전체');
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [comment, setComment] = useState<CommentData>({
     userId: '',
@@ -39,7 +38,6 @@ const BoardDetail = ({ params }: Props) => {
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
       const response = await BoardAPI.inquiryDetail(
-        String(user?.userId),
         inquiryId
       );
       setDetail(response);

@@ -17,14 +17,9 @@ const board = (api: AxiosInstance) => ({
     return response.data;
   },
 
-  inquiryDetail: async (userId: string, inquiryId: number) => {
+  inquiryDetail: async (inquiryId: number) => {
     const response = await api.get<InquiryData>(
-      `/api/boards/inquiry/${inquiryId}`,
-      {
-        params: {
-          userId: userId,
-        },
-      }
+      `/api/boards/inquiry/${inquiryId}`
     );
     return response.data;
   },

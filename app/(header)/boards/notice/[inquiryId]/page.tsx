@@ -28,7 +28,7 @@ const BoardDetail = ({ params }: Props) => {
   //공지 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-      const response = await BoardAPI.noticeDetail(inquiryId);
+      const response = await BoardAPI.noticeDetail(inquiryId               );
       setDetail(response);
       setDeleteData((prev) => ({
         ...prev,
