@@ -1,15 +1,20 @@
 'use client';
 
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import { MemberData, statisticData } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
-import RenderLineChart from '@/app/components/ReCharts';
 
 export default function managerAdminPage() {
+  // RenderLineChart를 동적으로 클라이언트 전용으로 로드, SSR 비활성화 - 에러가 뜨더라구요
+  const RenderLineChart = dynamic(
+    () => import('../../../components/ReCharts'),
+    { ssr: false }
+  );
+
   const route = `/manage/accepted/`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
@@ -130,8 +135,9 @@ export default function managerAdminPage() {
                 <div className="mt-9 min-h-[30vh]">부서원이 없습니다.</div>
               ) : (
                 <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
-                  {memberList.map((person, index) => (
+                  {memberList.map((person) => (
                     <DepartmentCard
+                      key={person.userId}
                       route={`${route}${person.userId}`}
                       name={person.name}
                       id={person.userId}

@@ -33,8 +33,8 @@ const member = () => {
       ) : (
         <div className="p-4 min-h-[50vh]">
           <ul role="list" className="">
-            {sessionList.map((session, index) => (
-              <li key={index} className="gap-x-6  cursor-pointer">
+            {sessionList.map((session) => (
+              <li key={session.sessionId} className="gap-x-6  cursor-pointer">
                 <Link
                   href={`/manage/accepted/${memberId}/${session.sessionId}`}
                   className="flex items-center justify-between border mb-5 p-4"
