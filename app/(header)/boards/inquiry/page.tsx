@@ -5,14 +5,24 @@ import PaginationComponent from '@/app/components/PagenationComponent';
 import { InquiryData } from '@/app/types/board';
 import { BoardAPI } from '@/app/api';
 import { useUser } from '@/app/hooks/useUser';
-import InquiryContents from '@/app/components/InquiryContents';
 
 const Inquiry = () => {
   const [selectTab, setSelectTab] = useState<string>('전체');
   const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
   const { user } = useUser();
   const pageSize = Number(Math.ceil(inquiryList.length / 10));
+  const breakdown = [
+    {
+      title: '전체',
+    },
+    {
+      title: '나의',
+    },
+  ];
 
+  const handleTabClick = (title: string) => {
+    setSelectTab(title); // 클릭된 탭으로 selectTab 상태 변경
+  };
   const inquiry = async (selectTab: string): Promise<void> => {
     try {
       const response = await BoardAPI.inquiry();
@@ -35,7 +45,17 @@ const Inquiry = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      <InquiryContents setSelectTab={setSelectTab} />
+      <div className="flex flex-row md:flex-col md:my-9 whitespace-normal sm:whitespace-nowrap break-words">
+      {breakdown.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => handleTabClick(item.title)}
+          className="px-6 pb-4 mt-4 font-semibold cursor-pointer text-sm lg:text-base"
+        >
+          <span>{item.title} 문의 내역</span>
+        </div>
+      ))}
+    </div>
       <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
         {inquiryList.length === 0 ? (
           <div className="min-h-[40vh]"> 문의 게시물이 없습니다. </div>
