@@ -27,22 +27,22 @@ const chatSession = () => {
   }, []);
   return (
     <div>
-      <div className="p-4 flex">
+      <div className="p-2 sm:p-4 flex">
         <FiChevronLeft
           type="button"
           size={20}
           cursor={'pointer'}
           onClick={() => router.back()}
-          className=" mt-1 mr-3 text-gray-600 hover:text-gray-900"
+          className=" mt-0.5 sm:mt-1 mr-3 text-gray-600 hover:text-gray-900"
         />
         <span className="text-base md:text-xl font-semibold">
           {memberId} / {sessionId}
         </span>
       </div>
-      <div className="p-4 mx-9 min-h-[50vh] ">
+      <div className="sm:p-4 md:mx-9 min-h-[50vh] ">
         <div
           ref={messagesContainerRef}
-          className="flex-1 overflow-y-auto px-6 messages-container max-h-[70vh]"
+          className="flex-1 p-3 overflow-y-auto md:px-6 messages-container max-h-[70vh]"
         >
           <AnimatePresence mode="wait">
             {!isTransitioning && (
@@ -54,20 +54,20 @@ const chatSession = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.2 }}
-                    className={`flex items-start gap-4 mb-6 ${
+                    className={`flex items-start gap-4 mb-3 sm:mb-6 ${
                       message.authorType === 'USER' ? 'justify-end' : ''
                     }`}
                   >
                     {message.authorType === 'AI' && (
                       <div className="flex items-start gap-2">
-                        <div className="w-8 h-8 flex justify-center items-center text-lg">
+                        <div className="w-8 h-8 flex justify-center items-center text-xs/6 sm:text-lg">
                           🤗
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm text-gray-500 mb-1">
+                          <span className="text-xs sm:text-sm text-gray-500 mb-1">
                             마음이
                           </span>
-                          <div className="bg-gray-100 px-4 py-2 rounded-2xl rounded-tl-none max-w-[600px]">
+                          <div className="text-xs sm:text-base bg-gray-100 p-2 sm:px-4 sm:py-2 rounded-2xl rounded-tl-none max-w-[600px]">
                             {message.content}
                           </div>
                         </div>
@@ -76,7 +76,7 @@ const chatSession = () => {
 
                     {message.authorType === 'USER' && (
                       <div className="flex flex-col items-end">
-                        <div className="bg-pink-100 px-4 py-2 rounded-2xl rounded-tr-none max-w-[600px]">
+                        <div className="text-xs sm:text-base bg-pink-100 p-2 sm:px-4 sm:py-2 rounded-2xl rounded-tr-none max-w-[600px]">
                           {message.content}
                         </div>
                       </div>

@@ -20,7 +20,6 @@ export default function managerAdminPage() {
   const orsStats = async () => {
     try {
       const response = await ManageAPI.statsORS(String(user?.userId));
-      console.log(response);
       const dates = Object.keys(response.weeklyStatistics).sort(
         (a, b) => new Date(a).getTime() - new Date(b).getTime()
       );
@@ -91,10 +90,10 @@ export default function managerAdminPage() {
         <div className="items-center flex justify-center bg-white w-full p-10">
           <div className="max-w-[1200px] w-full">
             <div className="flex items-center justify-between md:p-4 border-b">
-              <div className="font-bold text-xl md:text-3xl">부서 관리</div>
+              <div className="font-bold text-lg md:text-3xl">부서 관리</div>
             </div>
             <div className="md:m-10">
-              <div className="mt-6 md:mt-16 font-medium text-lg md:text-2xl">
+              <div className="mt-4 md:mt-16 font-medium md:text-2xl">
                 부서 통계
               </div>
               <div className="md:grid md:grid-cols-2 gap-x-8 justify-center">
@@ -126,8 +125,8 @@ export default function managerAdminPage() {
                               className={
                                 latest?.constrastAvg &&
                                 Number(latest.constrastAvg) > 0
-                                  ? 'text-red-600'
-                                  : 'text-blue-700'
+                                  ? 'text-red-400'
+                                  : 'text-blue-500'
                               }
                             >
                               {latest?.constrastAvg}
@@ -136,8 +135,8 @@ export default function managerAdminPage() {
                               className={
                                 latest?.constrastVariance &&
                                 Number(latest.constrastVariance) > 0
-                                  ? 'text-red-600'
-                                  : 'text-blue-700'
+                                  ? 'text-red-400'
+                                  : 'text-blue-500'
                               }
                             >
                               {latest?.constrastVariance}
@@ -145,49 +144,17 @@ export default function managerAdminPage() {
                           </tr>
                         </tbody>
                       </table>
-                      // <>
-                      //   <div className="mb-2 md:mb-5 text-base md:text-2xl text-center">
-                      //     <span className="">2025년 </span>
-                      //     <span className="ml-1">ORS점수 </span>
-                      //   </div>
-                      //   <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
-                      //     <div className="grid gap-2 items-end ">
-                      //       <span>{orsList[orsList.length - 1]?.date} </span>
-                      //       <span className="">지난 주 대비</span>
-                      //     </div>
-                      //     <div className="grid gap-2 items-end">
-                      //       <span>평균 </span>
-                      //       <span>{orsList[orsList.length - 1]?.average} </span>
-                      //       <span
-                      //         className={`${Number(orsList[orsList.length - 1]?.constrastAvg) < 0 ? 'text-blue-500' : 'text-red-400'}`}
-                      //       >
-                      //         {orsList[orsList.length - 1]?.constrastAvg}{' '}
-                      //       </span>
-                      //     </div>
-                      //     <div className="grid gap-2 items-end">
-                      //       <span>분산 </span>
-                      //       <span>
-                      //         {orsList[orsList.length - 1]?.variance}{' '}
-                      //       </span>
-                      //       <span
-                      //         className={`${Number(orsList[orsList.length - 1]?.constrastVariance) < 0 ? 'text-blue-500' : 'text-red-400'}`}
-                      //       >
-                      //         {orsList[orsList.length - 1]?.constrastVariance}{' '}
-                      //       </span>
-                      //     </div>
-                      //   </div>
-                      // </>
                     )}
                   </div>
                 </div>
               </div>
-              <div className="mt-14 md:mt-24 font-medium text-lg md:text-2xl">
+              <div className="mt-12 md:mt-24 font-medium md:text-2xl">
                 부서원
               </div>
               {memberList.length === 0 ? (
                 <div className="mt-9 min-h-[30vh]">부서원이 없습니다.</div>
               ) : (
-                <div className="grid grid-cols-2 gap-x-6 gap-y-5 mt-9">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
                   {memberList.map((person) => (
                     <DepartmentCard
                       key={person.userId}

@@ -205,13 +205,14 @@ const Register = () => {
       >
         <FiChevronLeft
           type="button"
-          size={35}
           cursor={'pointer'}
           onClick={() => router.back()}
-          className="absolute top-5 left-4 text-gray-600 hover:text-gray-900"
+          className="absolute text-xl md:text-2xl top-5 left-4 text-gray-600 hover:text-gray-900"
         />
 
-        <h1 className="text-center text-3xl font-bold mb-8">회원가입</h1>
+        <h1 className="text-center text-xl md:text-3xl font-bold mb-8">
+          회원가입
+        </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* 왼쪽 입력 필드 */}
           <div>
@@ -225,7 +226,7 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="이름을 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
             />
             <label
@@ -241,7 +242,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="이메일을 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
             />
             {errors.email && (
@@ -259,15 +260,15 @@ const Register = () => {
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
-              placeholder="'-'없이 전화번호를 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              placeholder="' - ' 없이 전화번호를 입력해주세요"
+              className="w-full border rounded-md p-2 placeholder:text-xs sm:placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
               maxLength={13}
             />
             <label className="block text-sm font-bold mb-2 mt-4">
               직책 <span className="text-red-500">*</span>
             </label>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 text-sm sm:text-base">
               <label className="flex items-center">
                 <input
                   type="radio"
@@ -310,7 +311,7 @@ const Register = () => {
                   value={formData.department}
                   onChange={handleChange}
                   placeholder="부서 이름을 입력해주세요"
-                  className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
                   required
                 />
               </div>
@@ -330,7 +331,7 @@ const Register = () => {
                   value={formData.deptCode}
                   onChange={handleChange}
                   placeholder="부서 코드를 입력해주세요"
-                  className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
                   required
                 />
               </div>
@@ -349,11 +350,11 @@ const Register = () => {
               value={formData.userId}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
             />
             {errors.userId && (
-              <p className="text-red-500 text-sm mt-1">{errors.userId}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.userId}</p>
             )}
 
             <label
@@ -369,7 +370,7 @@ const Register = () => {
               value={formData.passwordHash}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
             />
             {errors.passwordHash && (
@@ -391,21 +392,22 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="비밀번호를 한 번 더 입력해주세요"
-              className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full border rounded-md p-2 placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF82AA]"
               required
             />
             {passwordError && (
-              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{passwordError}</p>
             )}
           </div>
         </div>
         <button
           type="submit"
           disabled={!isFormValid()}
-          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${isFormValid()
+          className={`w-full font-bold py-2 px-4 rounded-md mt-6 ${
+            isFormValid()
               ? 'bg-customPink text-black hover:bg-customPinkHover'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
+          }`}
         >
           회원가입
         </button>

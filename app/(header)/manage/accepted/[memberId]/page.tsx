@@ -39,7 +39,7 @@ const member = () => {
                   href={`/manage/accepted/${memberId}/${session.sessionId}`}
                   className="flex items-center justify-between border mb-5 p-4"
                 >
-                  <div className="flex min-w-0 gap-x-4">
+                  <div className="flex min-w-0 gap-x-4 text-sm md:text-base">
                     <div className="min-w-0 flex-auto">
                       <p className="max-w-[200px] lg:max-w-[850px] sm:max-w-[300px] truncate font-medium text-gray-900">
                         {session.sessionId}

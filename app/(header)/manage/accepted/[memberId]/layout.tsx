@@ -17,14 +17,13 @@ export default function departmentMember({
           <div className="flex items-center justify-start py-4 border-b">
             <FiChevronLeft
               type="button"
-              size={35}
               cursor={'pointer'}
               onClick={() => router.push('/manage/department')}
-              className=" mb-1 mr-3 text-gray-600 hover:text-gray-900"
+              className="text-2xl md:text-[35px] mb-1 mr-3 text-gray-600 hover:text-gray-900"
             />
-            <div className="font-bold text-xl md:text-3xl">부서원 관리</div>
+            <div className="font-bold text-lg md:text-3xl">부서원 관리</div>
           </div>
-          <div className="border m-8 p-4">{children}</div>
+          <div className="border mt-4 sm:m-8 p-4">{children}</div>
         </div>
       </div>
     </div>

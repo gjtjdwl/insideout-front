@@ -138,21 +138,21 @@ export default function EditProfilePage() {
         <div className="max-w-[1200px] w-full">
           <form onSubmit={handleSubmit}>
             <div className="flex justify-center items-center px-4 sm:px-0">
-              <h3 className="text-4xl leading-loose font-medium text-gray-900">
+              <h3 className="text-xl md:text-3xl mb-3 leading-loose font-medium text-gray-900">
                 회원 정보 수정
               </h3>
             </div>
             <hr className="mb-12" />
-            <div className="mt-6 px-24 border-b border-gray-100">
+            <div className="grid mx-8 md:mx-20 border-b border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">이름</dt>
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">이름</dt>
                   <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
                     {userinfo.name}
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">
                     아이디
                   </dt>
                   <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
@@ -160,7 +160,7 @@ export default function EditProfilePage() {
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
+                  <label className="flex flex-col justify-center text-sm/6 font-semibold sm:font-medium text-gray-900">
                     비밀번호
                   </label>
                   <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
@@ -170,7 +170,7 @@ export default function EditProfilePage() {
                       value={formData.newPassword}
                       onChange={handleChange}
                       placeholder="새 비밀번호를 입력하세요."
-                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      className={`w-full px-3 py-2 placeholder:text-sm border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                       required
                     />
                     {errors.newPassword && (
@@ -182,7 +182,7 @@ export default function EditProfilePage() {
                 </div>
 
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <label className="flex flex-col justify-center text-sm/6 font-medium text-gray-900">
+                  <label className="flex flex-col justify-center text-sm/6 font-semibold sm:font-medium text-gray-900">
                     비밀번호 확인
                   </label>
                   <div className="mt-1 text-gray-400 sm:col-span-2 sm:mt-0">
@@ -192,7 +192,7 @@ export default function EditProfilePage() {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       placeholder="비밀번호를 한번 더 입력해 주세요."
-                      className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
+                      className={`w-full px-3 py-2 placeholder:text-sm border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-black`}
                       required
                     />
                     {passwordError && (
@@ -204,7 +204,7 @@ export default function EditProfilePage() {
                 </div>
 
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">
                     이메일
                   </dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -223,7 +223,7 @@ export default function EditProfilePage() {
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">
                     전화번호
                   </dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -239,7 +239,7 @@ export default function EditProfilePage() {
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">직무</dt>
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">직무</dt>
                   <dd className="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">
                     {userinfo.role === 'ADMIN'
                       ? '관리자'
@@ -249,7 +249,7 @@ export default function EditProfilePage() {
                   </dd>
                 </div>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm/6 font-medium text-gray-900">
+                  <dt className="text-sm/6 font-semibold sm:font-medium text-gray-900">
                     부서코드
                   </dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -268,17 +268,17 @@ export default function EditProfilePage() {
             </div>
             <div className="flex justify-center items-center mt-24">
               <button
-                type="submit"
-                className="bg-customPink w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none"
-              >
-                수정하기
-              </button>
-              <button
                 onClick={handleClick}
                 type="button"
-                className="bg-gray-300 w-[200px] text-black font-semibold py-2 ml-10 rounded-lg hover:bg-gray-400 focus:outline-none"
+                className="bg-gray-300 px-6 sm:w-[200px] text-black font-semibold py-2 rounded-lg hover:bg-gray-400 focus:outline-none"
               >
                 취소
+              </button>
+              <button
+                type="submit"
+                className="bg-customPink px-6 sm:w-[200px] text-black font-semibold py-2 ml-10 rounded-lg hover:bg-customPinkHover focus:outline-none"
+              >
+                수정하기
               </button>
             </div>
           </form>

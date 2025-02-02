@@ -12,6 +12,7 @@ import {
   CartesianGrid,
   Legend,
   Line,
+  ResponsiveContainer,
 } from 'recharts';
 function dateFormat(date: string): string {
   let originDate = new Date(date);
@@ -78,36 +79,38 @@ export default function webAdminPage() {
       <div className="bg-customPink px-4 sm:px-[50px]">
         <div className="items-center flex justify-center bg-white w-full p-10">
           <div className="max-w-[1200px] w-full">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between md:p-4 border-b">
               <div className="font-bold text-xl md:text-3xl">사이트 관리</div>
             </div>
-            <div className="m-10">
-              <div className="mt-16 font-mediumt text-lg md:text-2xl">
+            <div className="md:m-10">
+              <div className="mt-4 md:mt-16 font-mediumt md:text-2xl">
                 사이트 통계
               </div>
-              <div className="grid grid-flow-col gap-x-16 justify-center">
-                <div className="p-10">
+              <div className="md:grid md:grid-cols-2 gap-x-16 justify-center">
+                <div className="flex flex-col items-end my-10">
                   {!loading && (
-                    <LineChart width={600} height={350} data={SRS}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        dataKey="date"
-                        angle={-30}
-                        textAnchor="end"
-                        interval={0}
-                      />
-                      <YAxis />
-                      <Tooltip />
-
-                      <Line dataKey="average" stroke="#FF5858" />
-                      <Line dataKey="variance" stroke="#279EFF" />
-                    </LineChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={SRS}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="date"
+                          angle={-30}
+                          textAnchor="end"
+                          interval={0}
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend wrapperStyle={{ paddingTop: '40px' }} />
+                        <Line dataKey="average" stroke="#FF5858" />
+                        <Line dataKey="variance" stroke="#279EFF" />
+                      </LineChart>
+                    </ResponsiveContainer>
                   )}
                 </div>
-                <div className="flex flex-col text-center w-[400px] h-[350px] my-auto">
-                  <div className="p-6 border border-[#525252] h-[80%] flex flex-col justify-center">
-                    <div className="text-base md:text-2xl">SRS 점수</div>
-                    <table className="border-none mt-10 text-2xl">
+                <div className="flex flex-col text-center">
+                  <div className="p-3 md:p-8 md:my-10  border border-[#525252] h-[80%] flex flex-col justify-center">
+                    <div className="sm:text-2xl">SRS 점수</div>
+                    <table className="border-none mt-10 sm:text-2xl">
                       <tbody>
                         <tr className="m-2">
                           <td></td>
@@ -127,8 +130,8 @@ export default function webAdminPage() {
                           <td
                             className={
                               stats?.averageDiff && stats.averageDiff > 0
-                                ? 'text-red-600'
-                                : 'text-blue-700'
+                                ? 'text-red-400'
+                                : 'text-blue-500'
                             }
                           >
                             {stats?.averageDiff && stats.averageDiff > 0
@@ -138,8 +141,8 @@ export default function webAdminPage() {
                           <td
                             className={
                               stats?.varianceDiff && stats.varianceDiff > 0
-                                ? 'text-red-600'
-                                : 'text-blue-700'
+                                ? 'text-red-400'
+                                : 'text-blue-500'
                             }
                           >
                             {stats?.varianceDiff}
@@ -151,13 +154,13 @@ export default function webAdminPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-24 font-medium text-lg md:text-2xl">부서</div>
-            <ul className="grid grid-cols-1 gap-x-6 gap-y-5 mt-9">
+            <div className="mt-12 md:mt-24 font-medium md:text-2xl">부서</div>
+            <ul className="grid grid-cols-2 sm:grid-cols-1 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
               {departments.map((department, index) => {
                 let route =
                   '/admin/web/department/' + department.departmentName;
                 return (
-                  <li key={index} className="my-2">
+                  <li key={index} className="sm:my-2">
                     <DepartmentCard
                       route={route}
                       name={department.departmentName}

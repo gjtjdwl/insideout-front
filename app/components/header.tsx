@@ -2,7 +2,7 @@
 
 import { useUser } from '../hooks/useUser';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -187,6 +187,7 @@ export default function Header() {
                                   <div>
                                     <a
                                       href={items.href}
+                                      onClick={() => setMobileMenuOpen(false)}
                                       className="text-gray-900 hover:text-[#FE6767]"
                                     >
                                       {items.name}
@@ -202,6 +203,7 @@ export default function Header() {
                       <Link
                         key={item.name}
                         href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-base font-medium text-gray-900"
                       >
                         {item.name}
