@@ -376,7 +376,7 @@ export default function Home() {
                   <div className="text-[#2C2C2C] text-2xl font-semibold mb-2">
                     업무 생산성
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">43% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">43% ↑</div>
                   <div className="text-[18px] text-[#836900] mt-2">
                     업무 효율성 증가
                   </div>
@@ -390,7 +390,7 @@ export default function Home() {
                   <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                     근무 태도
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">36% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">36% ↑</div>
                   <div className="text-[18px] text-[#FF8000] mt-2">
                     업무 만족도 향상
                   </div>
@@ -404,7 +404,7 @@ export default function Home() {
                   <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                     업무 동기
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">50% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">50% ↑</div>
                   <div className="text-[18px] text-[#FF3A30] mt-2">
                     자발적 참여도 증가
                   </div>
@@ -529,7 +529,7 @@ export default function Home() {
                   <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                     감정 건강
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">86% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">86% ↑</div>
                   <div className="text-[18px] text-[#FC5F70] mt-2">
                     정서적 안정감 향상
                   </div>
@@ -544,7 +544,7 @@ export default function Home() {
                   <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                     일상 생활
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">45% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">45% ↑</div>
                   <div className="text-[18px] text-[#58830D] mt-2">
                     생활 만족도 개선
                   </div>
@@ -559,7 +559,7 @@ export default function Home() {
                   <div className="text-[#2c2c2c] text-2xl font-semibold mb-2">
                     신체 건강
                   </div>
-                  <div className="text-3xl font-bold text-[#4D82FF]">15% 🠕</div>
+                  <div className="text-3xl font-bold text-[#4D82FF]">15% ↑</div>
                   <div className="text-[18px] text-[#68888C] mt-2">
                     건강 지표 개선
                   </div>
