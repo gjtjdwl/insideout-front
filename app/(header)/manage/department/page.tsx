@@ -7,20 +7,16 @@ import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import { MemberData, statisticData } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
+import RenderLineChart from '@/app/components/ReCharts';
 
 export default function managerAdminPage() {
-  // RenderLineChart를 동적으로 클라이언트 전용으로 로드, SSR 비활성화 - 에러가 뜨더라구요
-  const RenderLineChart = dynamic(
-    () => import('../../../components/ReCharts'),
-    { ssr: false }
-  );
-
   const route = `/manage/accepted/`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
   const [orsList, setOrsList] = useState<statisticData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  //ors
+  // ORSdata load
   const orsStats = async () => {
     try {
       const response = await ManageAPI.statsORS(String(user?.userId));
@@ -31,11 +27,13 @@ export default function managerAdminPage() {
         const prev = dates[index - 1]
           ? response.weeklyStatistics[dates[index - 1]]
           : null;
+
         //지난주 평균, 분산
         const prevAvg = prev ? prev.average : current.average;
         const prevVariance = prev ? prev.variance : current.variance;
         const constrastAvg = (current.average - prevAvg).toFixed(2);
         const constrastVariance = (current.variance - prevVariance).toFixed(2);
+
         // 양수일 경우 앞에 "+" 붙이기
         const formattedConstrastAvg =
           Number(constrastAvg) >= 0 ? `+${constrastAvg}` : constrastAvg;
@@ -58,6 +56,7 @@ export default function managerAdminPage() {
       console.error('ORS통계 불러오는 중 오류 발생', error);
     }
   };
+
   const member = async () => {
     try {
       const response = await ManageAPI.departmentUser(String(user?.userId));
@@ -69,10 +68,17 @@ export default function managerAdminPage() {
 
   useEffect(() => {
     if (user) {
-      orsStats();
-      member();
+      try {
+        orsStats();
+        member();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     }
   }, [user]);
+  console.log(orsList);
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -87,7 +93,7 @@ export default function managerAdminPage() {
               </div>
               <div className="md:grid md:grid-cols-2 gap-x-8 justify-center">
                 <div className="flex flex-col items-end my-10">
-                  <RenderLineChart data={orsList} />
+                  {!loading && <RenderLineChart data={orsList} />}
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
                   <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col items-start justify-center">

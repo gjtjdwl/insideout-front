@@ -117,7 +117,7 @@ export default function webAdminPage() {
                           <td className="m-4 p-5">{stats?.latest.variance}</td>
                         </tr>
                         <tr>
-                          <td>지난 주</td>
+                          <td>지난 주 대비</td>
                           <td
                             className={
                               stats?.averageDiff && stats.averageDiff > 0
