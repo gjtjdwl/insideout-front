@@ -99,7 +99,7 @@ export default function managerAdminPage() {
                 <div className="flex flex-col items-end my-10">
                   {!loading && <RenderLineChart data={orsList} />}
                 </div>
-                <div className="flex flex-col text-center items-cneter ">
+                <div className="flex flex-col text-center items-center">
                   <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col justify-center">
                     <div className="text-base md:text-2xl">ORS 점수</div>
                     {orsList && (

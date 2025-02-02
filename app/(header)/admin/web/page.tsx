@@ -90,10 +90,15 @@ export default function webAdminPage() {
                   {!loading && (
                     <LineChart width={600} height={350} data={SRS}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
+                      <XAxis
+                        dataKey="date"
+                        angle={-30}
+                        textAnchor="end"
+                        interval={0}
+                      />
                       <YAxis />
                       <Tooltip />
-                      <Legend />
+
                       <Line dataKey="average" stroke="#FF5858" />
                       <Line dataKey="variance" stroke="#279EFF" />
                     </LineChart>
@@ -126,7 +131,9 @@ export default function webAdminPage() {
                                 : 'text-blue-700'
                             }
                           >
-                            {stats?.averageDiff}
+                            {stats?.averageDiff && stats.averageDiff > 0
+                              ? '+' + stats?.averageDiff
+                              : stats?.averageDiff}
                           </td>
                           <td
                             className={
