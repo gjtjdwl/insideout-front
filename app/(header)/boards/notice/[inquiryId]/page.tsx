@@ -1,28 +1,22 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '@/app/hooks/useUser';
 import { apiData, InquiryData } from '@/app/types/board';
 import { BoardAPI, UserAPI } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
-import { User } from '@/app/types/auth';
-//params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
-//React.use()로 params 언래핑
-type Props = {
-  params: Promise<{
-    inquiryId: number;
-  }>;
-};
-const BoardDetail = ({ params }: Props) => {
+
+
+const BoardDetail = () => {
   const router = useRouter();
   const { user } = useUser();
-  const { inquiryId } = use(params);
+  const { inquiryId } = useParams();
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData);
   const [formattedTime, setFormattedTime] = useState<string>('');
   const [deleteData, setDeleteData] = useState<apiData>({
-    inquiryId: inquiryId,
+    inquiryId: Number(inquiryId),
     userId: '',
   });
   //공지 상세

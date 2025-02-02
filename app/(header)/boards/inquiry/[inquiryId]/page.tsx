@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@/app/hooks/useUser';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { use, useState, useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { CommentData, InquiryData, apiData } from '@/app/types/board';
@@ -9,14 +9,9 @@ import { BoardAPI } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
 import moment from 'moment';
 
-type Props = {
-  params: Promise<{
-    inquiryId: number;
-  }>;
-};
-const BoardDetail = ({ params }: Props) => {
+const BoardDetail = () => {
   const router = useRouter();
-  const { inquiryId } = use(params);
+  const { inquiryId } = useParams();
   const { user } = useUser();
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData); // 여기 타입좀 봐주실분 .. ..
   const [formattedTime, setFormattedTime] = useState<string>('');
@@ -30,16 +25,14 @@ const BoardDetail = ({ params }: Props) => {
   });
   const [comments, setComments] = useState<CommentData[]>([]);
   const [deleteData, setDeleteData] = useState<apiData>({
-    inquiryId: inquiryId,
+    inquiryId: Number(inquiryId),
     userId: '',
   });
 
   //문의 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-      const response = await BoardAPI.inquiryDetail(
-        inquiryId
-      );
+      const response = await BoardAPI.inquiryDetail(inquiryId);
       setDetail(response);
       setComments(response.comments);
       setDeleteData((prev) => ({
@@ -61,7 +54,7 @@ const BoardDetail = ({ params }: Props) => {
   //문의 삭제
   const handleDelete = async () => {
     try {
-      const response = await BoardAPI.deleteBoard('inquriy', deleteData);
+      const response = await BoardAPI.deleteBoard('inquiry', deleteData);
       alert(response.message);
       router.push('/boards/inquiry');
     } catch (error) {
@@ -87,7 +80,7 @@ const BoardDetail = ({ params }: Props) => {
       return;
     }
     try {
-      const response = await BoardAPI.createComment(inquiryId, comment);
+      const response = await BoardAPI.createComment(Number(inquiryId), comment);
       alert(response.message);
 
       await inquiryDetail(Number(inquiryId));
@@ -251,18 +244,16 @@ const BoardDetail = ({ params }: Props) => {
                           수정
                         </button>
                       )} */}
-                      {user &&
-                        (user.role === 'ADMIN' ||
-                          user.userId === comt.userId) && (
-                          <button
-                            onClick={() => {
-                              handleCommentDelete(comt.commentId, comt.userId);
-                            }}
-                            className="ml-1 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
-                          >
-                            삭제
-                          </button>
-                        )}
+                      {user && user.userId === comt.userId && (
+                        <button
+                          onClick={() => {
+                            handleCommentDelete(comt.commentId, comt.userId);
+                          }}
+                          className="ml-3 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
+                        >
+                          삭제
+                        </button>
+                      )}
                     </div>
                   </div>
 
