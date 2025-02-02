@@ -162,22 +162,15 @@ const WriteBoard = () => {
                         <div className="text-center">
                           {preview && (
                             <div className="relative grid justify-end">
-                              <div
+                              <Image
+                                src={preview}
+                                alt="미리보기"
+                                width={500}
+                                height={100}
                                 style={{
-                                  position: 'relative',
-                                  width: '500px',
-                                  height: '300px',
+                                  objectFit: 'contain',
                                 }}
-                              >
-                                <Image
-                                  src={preview}
-                                  alt="미리보기"
-                                  fill
-                                  style={{
-                                    objectFit: 'contain',
-                                  }}
-                                />
-                              </div>
+                              />
                               <button
                                 type="button"
                                 onClick={handleRemove}
@@ -211,9 +204,9 @@ const WriteBoard = () => {
                                 className="sr-only"
                               />
                             </label>
-                            <p className="pl-1">or drag and drop</p>
+                            <p className="pl-1 hidden md:block ">or drag and drop</p>
                           </div>
-                          <p className="text-base lg:text-xl text-gray-600">
+                          <p className=" hidden md:block text-base lg:text-xl text-gray-600">
                             PNG, JPG, GIF up to 10MB
                           </p>
                         </div>
@@ -225,14 +218,14 @@ const WriteBoard = () => {
                   <button
                     type="button"
                     onClick={() => router.back()}
-                    className="text-base lg:text-xl px-7 py-4 font-semibold text-gray-900 hover:bg-gray-300 rounded-md"
+                    className="text-base lg:text-xl px-5 py-2 lg:px-7 lg:py-4  font-semibold text-gray-900 hover:bg-gray-300 rounded-md"
                   >
                     취소
                   </button>
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="rounded-md bg-customPink px-7 py-4 text-base lg:text-xl font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
+                    className="rounded-md bg-customPink px-5 py-2 lg:px-7 lg:py-4 text-base lg:text-xl font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
                   >
                     작성
                   </button>
