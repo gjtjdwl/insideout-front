@@ -15,7 +15,7 @@ export default function managerAdminPage() {
   const [memberList, setMemberList] = useState<MemberData[]>([]);
   const [orsList, setOrsList] = useState<statisticData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [latest, setLatest] = useState<statisticData>();
   // ORSdata load
   const orsStats = async () => {
     try {
@@ -42,9 +42,8 @@ export default function managerAdminPage() {
             ? `+${constrastVariance}`
             : constrastVariance;
 
-        const formatDate = formatDateTimeDepart(String(date));
         return {
-          date: formatDate,
+          date: date,
           average: Number(current.average.toFixed(2)),
           variance: Number(current.variance.toFixed(2)),
           constrastAvg: formattedConstrastAvg,
@@ -52,6 +51,7 @@ export default function managerAdminPage() {
         };
       });
       setOrsList(formatList);
+      setLatest(formatList[formatList.length - 1]);
     } catch (error: unknown) {
       console.error('ORS통계 불러오는 중 오류 발생', error);
     }
@@ -68,17 +68,21 @@ export default function managerAdminPage() {
 
   useEffect(() => {
     if (user) {
-      try {
-        orsStats();
-        member();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      const handleLoad = async () => {
+        try {
+          await orsStats();
+          await member();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      handleLoad();
     }
   }, [user]);
-  console.log(orsList);
+
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -96,40 +100,81 @@ export default function managerAdminPage() {
                   {!loading && <RenderLineChart data={orsList} />}
                 </div>
                 <div className="flex flex-col text-center items-cneter ">
-                  <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col items-start justify-center">
+                  <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col justify-center">
+                    <div className="text-base md:text-2xl">ORS 점수</div>
                     {orsList && (
-                      <>
-                        <div className="mb-2 md:mb-5 text-base md:text-2xl text-center ">
-                          <span className="">2025년 </span>
-                          <span className="ml-1">ORS점수 </span>
-                        </div>
-                        <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
-                          <div className="grid gap-2 items-end ">
-                            <span>{orsList[orsList.length - 1]?.date} </span>
-                            <span className="">지난 주 대비</span>
-                          </div>
-                          <div className="grid gap-2 items-end">
-                            <span>평균 </span>
-                            <span>{orsList[orsList.length - 1]?.average} </span>
-                            <span
-                              className={`${Number(orsList[orsList.length - 1]?.constrastAvg) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                      <table className="border-none mt-10 text-2xl">
+                        <tbody>
+                          <tr className="m-2">
+                            <td></td>
+                            <td>평균</td>
+                            <td>분산</td>
+                          </tr>
+                          <tr>
+                            <td className="m-4">
+                              {latest?.date &&
+                                formatDateTimeDepart(latest.date)}
+                            </td>
+                            <td className="m-4 p-5">{latest?.average}</td>
+                            <td className="m-4 p-5">{latest?.variance}</td>
+                          </tr>
+                          <tr>
+                            <td>지난 주 대비</td>
+                            <td
+                              className={
+                                latest?.constrastAvg &&
+                                Number(latest.constrastAvg) > 0
+                                  ? 'text-red-600'
+                                  : 'text-blue-700'
+                              }
                             >
-                              {orsList[orsList.length - 1]?.constrastAvg}{' '}
-                            </span>
-                          </div>
-                          <div className="grid gap-2 items-end">
-                            <span>분산 </span>
-                            <span>
-                              {orsList[orsList.length - 1]?.variance}{' '}
-                            </span>
-                            <span
-                              className={`${Number(orsList[orsList.length - 1]?.constrastVariance) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                              {latest?.constrastAvg}
+                            </td>
+                            <td
+                              className={
+                                latest?.constrastVariance &&
+                                Number(latest.constrastVariance) > 0
+                                  ? 'text-red-600'
+                                  : 'text-blue-700'
+                              }
                             >
-                              {orsList[orsList.length - 1]?.constrastVariance}{' '}
-                            </span>
-                          </div>
-                        </div>
-                      </>
+                              {latest?.constrastVariance}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      // <>
+                      //   <div className="mb-2 md:mb-5 text-base md:text-2xl text-center">
+                      //     <span className="">2025년 </span>
+                      //     <span className="ml-1">ORS점수 </span>
+                      //   </div>
+                      //   <div className="grid grid-flow-col items-end text-sm md:text-xl w-full justify-around ">
+                      //     <div className="grid gap-2 items-end ">
+                      //       <span>{orsList[orsList.length - 1]?.date} </span>
+                      //       <span className="">지난 주 대비</span>
+                      //     </div>
+                      //     <div className="grid gap-2 items-end">
+                      //       <span>평균 </span>
+                      //       <span>{orsList[orsList.length - 1]?.average} </span>
+                      //       <span
+                      //         className={`${Number(orsList[orsList.length - 1]?.constrastAvg) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                      //       >
+                      //         {orsList[orsList.length - 1]?.constrastAvg}{' '}
+                      //       </span>
+                      //     </div>
+                      //     <div className="grid gap-2 items-end">
+                      //       <span>분산 </span>
+                      //       <span>
+                      //         {orsList[orsList.length - 1]?.variance}{' '}
+                      //       </span>
+                      //       <span
+                      //         className={`${Number(orsList[orsList.length - 1]?.constrastVariance) < 0 ? 'text-blue-500' : 'text-red-400'}`}
+                      //       >
+                      //         {orsList[orsList.length - 1]?.constrastVariance}{' '}
+                      //       </span>
+                      //     </div>
+                      //   </div>
+                      // </>
                     )}
                   </div>
                 </div>

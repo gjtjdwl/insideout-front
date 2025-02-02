@@ -41,6 +41,7 @@ export default function webAdminPage() {
       try {
         const dept = await webManageAPI.departments();
         setDepartments(dept);
+
         const res = await webManageAPI.SRS();
         const SRS = Object.entries(res.weeklyStatistics)
           .sort(
