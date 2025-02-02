@@ -49,6 +49,7 @@ export default function Home() {
       icon: '📚',
     },
   ];
+  const dots = ['• ', '• ', '•'];
 
   return (
     <>
@@ -411,7 +412,7 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            <div className="relative w-full lg:w-[450px] h-auto min-h-[500px] lg:min-h-[600px] bg-white shadow-lg rounded-lg p-3 sm:p-4 lg:p-6 mx-0 lg:mx-8 mb-20 lg:mb-0">
+            <div className="relative w-full lg:w-[550px] h-auto min-h-[500px] lg:min-h-[600px] bg-white shadow-lg rounded-lg p-3 sm:p-4 lg:p-6 mx-0 lg:mx-8 mb-20 lg:mb-0">
               <div className="w-full h-full flex flex-col">
                 <div className="flex flex-col gap-4 flex-grow">
                   <div className="bg-[#DEF3FA] text-[#0773A1] text-sm p-4 rounded-xl whitespace-normal">
@@ -429,7 +430,8 @@ export default function Home() {
                       🤗
                     </div>
                     <div className="bg-gray-100 px-6 py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                      안녕, 내 이름은 마음이야. 네 이름은 뭐야?
+                      안녕하세요, 감정본부입니다! 오늘 상담을 진행하게 될
+                      마음이입니다.
                     </div>
                   </motion.div>
 
@@ -440,7 +442,7 @@ export default function Home() {
                     className="flex items-start justify-end gap-4"
                   >
                     <div className="bg-customPink px-6 py-3 mt-4 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                      안녕 난 성미야 😊
+                      안녕하세요. 요즘 일하는데 감정소모가 커서 힘들어요
                     </div>
                     <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-white text-2xl font-bold">
                       🐰
@@ -457,7 +459,8 @@ export default function Home() {
                       🤗
                     </div>
                     <div className="bg-gray-100 px-6 py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                      안녕, 성미야. 요즘 무슨 고민이 있어?
+                      감정 소모가 크다는 말씀을 들으니 많이 힘드신 것 같아요.
+                      어떤 상황들이 특히 감정적으로 힘들게 하시는지 조금 더 얘기해 주실 수 있을까요?
                     </div>
                   </motion.div>
 
@@ -467,9 +470,29 @@ export default function Home() {
                     transition={{ duration: 0.5, delay: 0.6 }}
                     className="flex items-start justify-end gap-4"
                   >
-                    <div className="bg-customPink px-6 py-3 mt-4 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                      연애는 어떻게 하는거야?
-                    </div>
+                    <motion.div
+                      className="text-gray-400 bg-customPink px-6 py-3 mt-4 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {dots.map((dot, index) => (
+                        <motion.span
+                          key={index}
+                          animate={{
+                            opacity: [1, 0.5, 1], // 투명도 변경 (점프할 때 강조)
+                          }}
+                          transition={{
+                            repeat: Infinity, // 반복
+                            repeatType: 'loop', // 반복 방식
+                            duration: 0.6,
+                            delay: index * 0.2, // 각 점에 딜레이 추가
+                          }}
+                        >
+                          {dot}
+                        </motion.span>
+                      ))}
+                    </motion.div>
                     <div className="w-10 h-10 rounded-full bg-white border flex-shrink-0 flex justify-center items-center text-2xl text-white font-bold">
                       🐰
                     </div>
