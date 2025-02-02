@@ -20,8 +20,10 @@ export default function managerAdminPage() {
   const orsStats = async () => {
     try {
       const response = await ManageAPI.statsORS(String(user?.userId));
-
-      const dates = Object.keys(response.weeklyStatistics).reverse(); // ["2025-01-26","2025-01-19"]
+      console.log(response);
+      const dates = Object.keys(response.weeklyStatistics).sort(
+        (a, b) => new Date(a).getTime() - new Date(b).getTime()
+      );
       const formatList = dates.map((date, index) => {
         const current = response.weeklyStatistics[date];
         const prev = dates[index - 1]
@@ -101,9 +103,9 @@ export default function managerAdminPage() {
                 </div>
                 <div className="flex flex-col text-center items-center">
                   <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col justify-center">
-                    <div className="text-base md:text-2xl">ORS 점수</div>
+                    <div className="sm:text-2xl">ORS 점수</div>
                     {orsList && (
-                      <table className="border-none mt-10 text-2xl">
+                      <table className="border-none mt-10 sm:text-2xl">
                         <tbody>
                           <tr className="m-2">
                             <td></td>
