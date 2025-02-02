@@ -16,7 +16,11 @@ export default function BoardList({ boardList, boardName }: BoardListProps) {
     <ul role="list" className=" min-h-[40vh]">
       {boardList.map((board, index) => {
         const handlePower = (e: React.MouseEvent) => {
-          if (user?.role != 'ADMIN' && user?.userId !== board.userId && boardName === 'inquiry') {
+          if (
+            user?.role != 'ADMIN' &&
+            user?.userId !== board.userId &&
+            boardName === 'inquiry'
+          ) {
             e.preventDefault(); // 네비게이션 막기
             alert('본인이 작성한 글이 아니거나 관리자가 아닙니다.');
           }
@@ -30,9 +34,14 @@ export default function BoardList({ boardList, boardName }: BoardListProps) {
             >
               <div className="flex min-w-0 gap-x-4">
                 <div className="min-w-0 flex-auto">
-                  <p className="max-w-[200px] lg:max-w-[850px] sm:max-w-[300px] truncate font-medium text-gray-900">
+                  <span className="max-w-[200px] lg:max-w-[850px] sm:max-w-[300px] mr-2 truncate font-medium text-gray-900">
                     {board.title}
-                  </p>
+                  </span>
+                  {board.commentsCount && board.commentsCount !== 0 ? (
+                    <span className="text-[#00A6FF] text-sm">
+                      [답변 : {board.commentsCount}]
+                    </span>
+                  ) : <></>}
                 </div>
               </div>
               <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end mr-3">

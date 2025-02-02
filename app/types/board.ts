@@ -8,6 +8,7 @@ export interface InquiryData {
   message: string;
   filePath: string[] | null;
   comments: CommentData[];
+  commentsCount?: number;
 }
 
 export interface IFormData {
