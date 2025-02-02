@@ -2,18 +2,15 @@
 
 import React, { use, useState } from 'react';
 import { PhotoIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useUser } from '@/app/hooks/useUser';
 import { BoardAPI } from '@/app/api';
 import { IFormData } from '@/app/types/board';
+import Image from 'next/image';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
-type Props = {
-  params: Promise<{
-    boardName: string;
-  }>;
-};
-const WriteBoard = ({ params }: Props) => {
-  const { boardName } = use(params);
+const WriteBoard = () => {
+  const { boardName } = useParams();
   const router = useRouter();
   const { user } = useUser();
   const [formData, setFormData] = useState<IFormData>({
@@ -90,7 +87,16 @@ const WriteBoard = ({ params }: Props) => {
         file: file,
       });
       setPreview(URL.createObjectURL(file));
+
+      e.target.value = '';
     }
+  };
+  const handleRemove = () => {
+    setFormData({
+      ...formData,
+      file: null,
+    });
+    setPreview(null);
   };
 
   return (
@@ -106,7 +112,7 @@ const WriteBoard = ({ params }: Props) => {
                     <div className="sm:col-span-full ">
                       <label
                         htmlFor="title"
-                        className="block text-sm/6 font-medium text-gray-900"
+                        className="block text-base lg:text-xl font-medium text-gray-900"
                       >
                         제목
                       </label>
@@ -119,7 +125,7 @@ const WriteBoard = ({ params }: Props) => {
                             onChange={handleChange}
                             type="text"
                             placeholder="제목을 입력해 주세요."
-                            className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                            className="block min-w-0 grow py-3 pl-1 pr-3 text-base lg:text-2xl text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                           />
                         </div>
                       </div>
@@ -128,7 +134,7 @@ const WriteBoard = ({ params }: Props) => {
                     <div className="col-span-full">
                       <label
                         htmlFor="content"
-                        className="block text-sm/6 font-medium text-gray-900"
+                        className="block text-base lg:text-xl font-medium text-gray-900"
                       >
                         내용
                       </label>
@@ -140,7 +146,7 @@ const WriteBoard = ({ params }: Props) => {
                           value={formData.content}
                           onChange={handleChange}
                           rows={20}
-                          className="block w-full resize-none rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#ffbdc3] sm:text-sm/6"
+                          className="block w-full resize-none rounded-md bg-white p-3 text-base lg:text-2xl text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#ffbdc3] sm:text-sm/6"
                         />
                       </div>
                     </div>
@@ -148,29 +154,42 @@ const WriteBoard = ({ params }: Props) => {
                     <div className="col-span-full">
                       <label
                         htmlFor="cover-photo"
-                        className="block text-sm/6 font-medium text-gray-900"
+                        className="block text-base lg:text-xl font-medium text-gray-900"
                       >
                         이미지
                       </label>
-                      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                      <div className="mt-2 flex text-base lg:text-xl justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 lg:py-20 ">
                         <div className="text-center">
                           {preview && (
-                            <img
-                              src={preview}
-                              alt="미리보기"
-                              style={{ maxWidth: '200px' }}
-                            />
+                            <div className="relative grid justify-end">
+                              <Image
+                                src={preview}
+                                alt="미리보기"
+                                width={500}
+                                height={100}
+                                style={{
+                                  objectFit: 'contain',
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={handleRemove}
+                                className="absolute top-1 right-1 rounded-2xl bg-customPink hover:bg-customPinkHover text-gray-500 p-1"
+                              >
+                                <XMarkIcon className="w-5 h-5" />
+                              </button>
+                            </div>
                           )}
                           {formData.file ? (
                             <p>선택된 파일 : {formData.file.name} </p>
                           ) : (
                             <PhotoIcon
                               aria-hidden="true"
-                              className="mx-auto size-12 text-gray-300"
+                              className="mx-auto size-12 lg:size-20 text-gray-300"
                             />
                           )}
 
-                          <div className="mt-4 flex text-sm/6 text-gray-600">
+                          <div className="mt-4 flex justify-center text-base lg:text-2xl text-gray-600">
                             <label
                               htmlFor="file-upload"
                               className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-400 focus-within:outline-none hover:text-indigo-600"
@@ -187,7 +206,7 @@ const WriteBoard = ({ params }: Props) => {
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs/5 text-gray-600">
+                          <p className="text-base lg:text-xl text-gray-600">
                             PNG, JPG, GIF up to 10MB
                           </p>
                         </div>
@@ -199,14 +218,14 @@ const WriteBoard = ({ params }: Props) => {
                   <button
                     type="button"
                     onClick={() => router.back()}
-                    className="text-sm/6 font-semibold text-gray-900"
+                    className="text-base lg:text-xl px-7 py-4 font-semibold text-gray-900 hover:bg-gray-300 rounded-md"
                   >
                     취소
                   </button>
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="rounded-md bg-customPink px-5 py-2 text-sm font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
+                    className="rounded-md bg-customPink px-7 py-4 text-base lg:text-xl font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
                   >
                     작성
                   </button>
