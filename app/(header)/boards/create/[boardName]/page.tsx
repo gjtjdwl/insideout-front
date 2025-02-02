@@ -162,15 +162,22 @@ const WriteBoard = () => {
                         <div className="text-center">
                           {preview && (
                             <div className="relative grid justify-end">
-                              <Image
-                                src={preview}
-                                alt="미리보기"
-                                width={500}
-                                height={100}
+                              <div
                                 style={{
-                                  objectFit: 'contain',
+                                  position: 'relative',
+                                  width: '500px',
+                                  height: '300px',
                                 }}
-                              />
+                              >
+                                <Image
+                                  src={preview}
+                                  alt="미리보기"
+                                  fill
+                                  style={{
+                                    objectFit: 'contain',
+                                  }}
+                                />
+                              </div>
                               <button
                                 type="button"
                                 onClick={handleRemove}
