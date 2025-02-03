@@ -9,8 +9,8 @@ import {
 } from '../types/board';
 
 const board = (api: AxiosInstance) => ({
-  inquiry: async () => {
-    const response = await api.get<InquiryData[]>('/api/boards/inquiry');
+  inquiry: async (page:number) => {
+    const response = await api.get<PageInquiriyData>(`/api/boards/inquiry?page=${page}`);
     return response.data;
   },
   notice: async (page: number) => {

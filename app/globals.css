@@ -17,5 +17,19 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'GangwonEdu_OTFBoldA', Arial, Helvetica, sans-serif;
+}
+@font-face {
+  font-family: 'TTLaundryGothicB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2')
+    format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GangwonEdu_OTFBoldA';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }

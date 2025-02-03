@@ -2,15 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import BoardList from '../../../components/BoardList';
 import PaginationComponent from '@/app/components/PagenationComponent';
-import { InquiryData } from '@/app/types/board';
+import { InquiryData, PageInquiriyData } from '@/app/types/board';
 import { BoardAPI } from '@/app/api';
 import { useUser } from '@/app/hooks/useUser';
 
 const Inquiry = () => {
   const [selectTab, setSelectTab] = useState<string>('전체');
   const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
+  const [pageList, setPageList] = useState<PageInquiriyData>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
-  const pageSize = Number(Math.ceil(inquiryList.length / 10));
   const breakdown = [
     {
       title: '전체',
@@ -23,15 +24,16 @@ const Inquiry = () => {
   const handleTabClick = (title: string) => {
     setSelectTab(title); // 클릭된 탭으로 selectTab 상태 변경
   };
-  const inquiry = async (selectTab: string): Promise<void> => {
+  const inquiry = async (selectTab: string, page: number): Promise<void> => {
     try {
-      const response = await BoardAPI.inquiry();
+      const response = await BoardAPI.inquiry(page);
       if (selectTab === '나의') {
         setInquiryList(
-          response.filter((inquiry) => inquiry.userId === user?.userId)
+          response.content.filter((inquiry) => inquiry.userId === user?.userId)
         );
       } else {
-        setInquiryList(response);
+        setInquiryList(response.content);
+        setPageList(response);
       }
     } catch (error: unknown) {
       console.error('문의하기 리스트 가져오는 중 오류 발생', error);
@@ -40,8 +42,8 @@ const Inquiry = () => {
   };
 
   useEffect(() => {
-    inquiry(selectTab);
-  }, [selectTab]);
+    inquiry(selectTab, currentPage);
+  }, [selectTab, currentPage]);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -63,7 +65,11 @@ const Inquiry = () => {
           <>
             <BoardList boardList={inquiryList} boardName="inquiry" />
             <div className="mt-10">
-              <PaginationComponent totalPages={pageSize} boardName="inquiry" />
+              <PaginationComponent
+                currentPage={currentPage}
+                onChangePage={setCurrentPage}
+                totalPages={Number(pageList?.totalPages)}
+              />
             </div>
           </>
         )}

@@ -29,11 +29,11 @@ const Notice = () => {
     notice(currentPage);
   }, [currentPage]);
 
-  // const filteredNoticeList = useMemo(() => {
-  //   return noticeList.filter((notice) =>
-  //     notice.title.toLowerCase().includes(searchValue.toLowerCase())
-  //   );
-  // }, [searchValue, noticeList]);
+  const filteredNoticeList = useMemo(() => {
+    return noticeList.filter((notice) =>
+      notice.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [searchValue, noticeList]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -54,11 +54,11 @@ const Notice = () => {
         />
       </div>
       <div className="mt-3">
-        {noticeList.length === 0 ? (
+        {filteredNoticeList.length === 0 ? (
           <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
         ) : (
           <>
-            <BoardList boardList={noticeList} boardName="notice" />
+            <BoardList boardList={filteredNoticeList} boardName="notice" />
             <div className="mt-10">
               <PaginationComponent
                 currentPage={currentPage}
