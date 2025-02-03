@@ -244,7 +244,7 @@ const BoardDetail = () => {
                           수정
                         </button>
                       )} */}
-                      {user && user.userId === comt.userId && (
+                      {user && (user.role ==='ADMIN' || user.userId === comt.userId) && (
                         <button
                           onClick={() => {
                             handleCommentDelete(comt.commentId, comt.userId);
@@ -283,12 +283,12 @@ const BoardDetail = () => {
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}
                   value={comment.content}
-                  className="w-full resize-none p-2 mr-[3px] min-h-20 placeholder:text-sm md:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
+                  className="w-full resize-none p-2 mr-[3px] min-h-20 text-sm md:text-base placeholder:text-xs md:placeholder:text-base overflow-auto focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-[#ffbdc3]"
                   disabled={user?.role !== 'ADMIN' && comments.length === 0}
                 />
                 <button
                   onClick={handleCommentSubmit}
-                  className="bg-customPink rounded-md w-full sm:w-[10%] text-sm md:text-base"
+                  className="bg-customPink rounded-md w-full sm:w-[10%] text-sm md:text-base mt-3 md:mt-0"
                   disabled={user?.role !== 'ADMIN' && comments.length === 0}
                 >
                   등록
