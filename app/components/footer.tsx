@@ -77,6 +77,24 @@ export default function Footer() {
               </a>
             ))}
           </nav>
+
+          {/* 약관 및 개인정보 취급방침 링크 추가 */}
+          <div className="mt-8 flex justify-center gap-x-8 text-xs sm:text-sm/6">
+            <a
+              href="/about/agreement"
+              className="text-gray-500 hover:text-gray-900"
+            >
+              이용약관
+            </a>
+            <span className="text-gray-300">|</span>
+            <a
+              href="/about/privacy"
+              className="text-gray-500 hover:text-gray-900"
+            >
+              개인정보 취급방침
+            </a>
+          </div>
+
           <p className="mt-8 sm:mt-16 text-center text-xs sm:text-sm/6 text-gray-600">
             &copy; 2025 EmotionHQ, All rights reserved.
           </p>
