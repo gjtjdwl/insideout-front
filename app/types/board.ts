@@ -10,6 +10,14 @@ export interface InquiryData {
   comments: CommentData[];
   commentsCount?: number;
 }
+export interface PageInquiriyData {
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+  size: number;
+  content: InquiryData[];
+}
 
 export interface IFormData {
   userId: string | undefined;

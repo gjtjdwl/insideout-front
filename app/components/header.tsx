@@ -40,7 +40,7 @@ const employeeNav: NavigationItem[] = [
 
 const adminNav: NavigationItem[] = [
   { name: '서비스소개', href: '/#serviceInfo', isDropdown: false },
-  { name: '공지사항', href: '/boards/notice', isDropdown: false },
+  { name: '공지사항', href: '/boards/notice?page=0', isDropdown: false },
   { name: '관리자페이지', href: '/admin/web', isDropdown: false },
   { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
   { name: '마이페이지', href: '/mypage', isDropdown: false },

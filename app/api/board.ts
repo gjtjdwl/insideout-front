@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import {
   InquiryData,
+  PageInquiriyData,
   IFormData,
   apiData,
   CommentData,
@@ -12,8 +13,10 @@ const board = (api: AxiosInstance) => ({
     const response = await api.get<InquiryData[]>('/api/boards/inquiry');
     return response.data;
   },
-  notice: async () => {
-    const response = await api.get<InquiryData[]>('/api/boards/notice');
+  notice: async (page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/notice?page=${page}`
+    );
     return response.data;
   },
 
