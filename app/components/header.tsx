@@ -90,8 +90,8 @@ export default function Header() {
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px] pt-[50px]">
-      <header className="bg-white z-50 relative">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-4 lg:p-6 lg:px-8">
+      <header className="bg-white z-50 relative flex justify-center items-center border-b">
+        <nav className="w-full max-w-7xl flex justify-center items-center gap-x-6 p-4 lg:p-6 lg:px-8 ">
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5">
               <span className="sr-only">Your Company</span>
@@ -119,12 +119,12 @@ export default function Header() {
             </button>
           </div>
 
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="mt-[5px] hidden text-lg lg:flex lg:items-center lg:gap-x-12 h-full">
             {navigation.map((item, index) => (
               <div key={index} className="relative">
                 {item.isDropdown ? (
                   <Popover className="relative">
-                    <PopoverButton className="inline-flex items-center outline-none gap-x-1 text-sm/6 font-semibold text-gray-900 ">
+                    <PopoverButton className="inline-flex items-center outline-none gap-x-1  font-semibold text-gray-900 ">
                       <span>{item.name}</span>
                       {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
                     </PopoverButton>
@@ -132,7 +132,7 @@ export default function Header() {
                       transition
                       className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 pl-6 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
                     >
-                      <div className="w-full flex-auto overflow-hidden rounded-md bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
+                      <div className="w-full flex-auto overflow-hidden rounded-md bg-white ring-1 shadow-lg ring-gray-900/5">
                         <div className="px-3 pt-3">
                           {item.dropDownItems.map((items) => (
                             <div
@@ -157,7 +157,7 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-sm/6 font-semibold text-gray-900"
+                    className=" font-semibold text-gray-900"
                   >
                     {item.name}
                   </Link>
@@ -172,12 +172,12 @@ export default function Header() {
                   <div key={index} className="relative">
                     {item.isDropdown ? (
                       <div className="relative">
-                        <div className="inline-flex items-center outline-none gap-x-1 pt-2 text-base font-medium text-gray-900">
+                        <div className="inline-flex items-center outline-none gap-x-1 pt-2 font-medium text-gray-900">
                           <span>{item.name}</span>
                           {/* <ChevronDownIcon aria-hidden="true" className="size-5" /> */}
                         </div>
                         <div className="z-10 flex w-screen max-w-max">
-                          <div className="w-full flex-auto overflow-hidden bg-white text-sm/6 font-medium ring-gray-900/5">
+                          <div className="w-full flex-auto overflow-hidden bg-whitefont-medium ring-gray-900/5">
                             <div className="pl-4">
                               {item.dropDownItems.map((items) => (
                                 <div
@@ -214,15 +214,15 @@ export default function Header() {
               </div>
             </div>
           )}
-          <div className="flex flex-1 items-center justify-end gap-x-4">
+          <div className="flex flex-1 items-center justify-end gap-x-4 mt-[5px]">
             {user ? (
               <>
-                <span className="text-sm/6 font-semibold text-gray-900">
+                <span className="text-sm md:text-base lg:text-lg font-semibold text-gray-900">
                   {user.name}님
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="text-sm/6 font-semibold text-gray-900"
+                  className="text-sm md:text-base lg:text-lg font-semibold text-gray-900"
                 >
                   로그아웃
                 </button>
@@ -231,13 +231,13 @@ export default function Header() {
               <>
                 <Link
                   href="/login"
-                  className="text-sm/6 font-semibold text-gray-900"
+                  className="text-sm md:text-base lg:text-lg font-semibold text-gray-900"
                 >
                   로그인
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-md bg-customPink px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-customPinkHover"
+                  className="rounded-md bg-customPink px-3 py-2 text-sm md:text-base lg:text-lg font-semibold text-gray-900 shadow-sm hover:bg-customPinkHover"
                 >
                   회원가입
                 </Link>

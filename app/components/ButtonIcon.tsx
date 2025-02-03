@@ -18,7 +18,7 @@ const ButtonIcon: React.FC<ButtonProps> = ({
   onClick,
 }) => {
   return (
-    <div onClick={onClick} className={`flex items-center justify-center ${width} h-[70px] ${bgColor} ${hoverColor} border border-[#D9D9D9] rounded-full md:text-2xl relative `}>
+    <div onClick={onClick} className={`flex items-center justify-center ${width} h-[50px] md:h-[70px] ${bgColor} ${hoverColor} border border-[#D9D9D9] rounded-full md:text-2xl relative `}>
       <button className={`w-full h-[70px] rounded-full md:pr-5 pt-[2px] ${textColor}`}>
         {label}
       </button>

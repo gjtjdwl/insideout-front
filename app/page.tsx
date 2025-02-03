@@ -495,6 +495,7 @@ export default function Home() {
                             duration: 0.6,
                             delay: index * 0.2, // 각 점에 딜레이 추가
                           }}
+                          className="font-sans"
                         >
                           {dot}
                         </motion.span>

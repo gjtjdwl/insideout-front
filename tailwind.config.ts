@@ -16,6 +16,8 @@ export default {
       },
       fontFamily: {
         TTLaundryGothicB: ['TTLaundryGothicB', 'sans-serif'],
+        'font-semibold': ['goorm-sans-medium', 'sans-serif'],
+        'font-bold': ['goorm-sans-bold', 'sans-serif'],
       },
     },
   },
