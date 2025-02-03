@@ -26,15 +26,15 @@ export default function BoardList({ boardList, boardName }: BoardListProps) {
           }
         };
         return (
-          <li key={index} className="gap-x-6  cursor-pointer">
+          <li key={index} className="gap-x-6 cursor-pointer">
             <Link
               onClick={handlePower}
               href={`/boards/${boardName}/${board.inquiryId}`}
               className="flex items-center justify-between border-b my-5 pb-5 "
             >
-              <div className="flex min-w-0 gap-x-4">
-                <div className="min-w-0 flex-auto">
-                  <span className="max-w-[200px] lg:max-w-[850px] sm:max-w-[300px] mr-2 truncate font-medium text-gray-900">
+              <div className="flex min-w-0 gap-x-4 ">
+                <div className="min-w-0 flex-auto truncate">
+                  <span className="max-w-[200px] lg:max-w-[850px] sm:max-w-[300px] mr-2 font-medium text-gray-900 ">
                     {board.title}
                   </span>
                   {board.commentsCount && board.commentsCount !== 0 ? (

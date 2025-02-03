@@ -52,11 +52,11 @@ const Inquiry = () => {
             onClick={() => handleTabClick(item.title)}
             className="px-6 pb-4 mt-4 font-semibold cursor-pointer text-sm lg:text-base"
           >
-            <span>{item.title} 문의 내역</span>
+            <span>{item.title} 문의</span>
           </div>
         ))}
       </div>
-      <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+      <div className="md:mt-9 md:w-[90%] flex-grow flex flex-col justify-center border p-4 md:p-10">
         {inquiryList.length === 0 ? (
           <div className="min-h-[40vh]"> 문의 게시물이 없습니다. </div>
         ) : (

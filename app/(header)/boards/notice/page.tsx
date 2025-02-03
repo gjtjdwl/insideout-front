@@ -41,7 +41,7 @@ const Notice = () => {
   };
 
   return (
-    <div className="p-14 w-[90%] flex-grow flex flex-col justify-center">
+    <div className="p-4 md:p-10 w-full md:w-[90%] flex-grow flex flex-col justify-center">
       <div className="flex justify-end">
         <SearchInput
           searchValue={searchValue}

@@ -23,7 +23,7 @@ export default function InquiryLayout({
         <div className="max-w-[1200px] w-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div
-              className="font-bold text-2xl md:text-3xl"
+              className="font-bold text-xl md:text-3xl"
               onClick={() => router.push('/boards/inquiry')}
             >
               문의게시판
@@ -31,7 +31,7 @@ export default function InquiryLayout({
             {!hideButton && user && user.role != 'ADMIN' && (
               <Link
                 href={`/boards/create/${boardName}`}
-                className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl"
+                className="flex items-center p-3 md:px-5 md:py-3 text-sm border border-[#D9D9D9] rounded-2xl"
               >
                 <span className="hidden md:block">문의하기</span>
                 <FaPencil />

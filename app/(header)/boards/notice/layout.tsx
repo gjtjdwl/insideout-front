@@ -37,7 +37,7 @@ export default function InquiryLayout({
               <>
                 <Link
                   href={`/boards/create/${boardName}`}
-                  className="flex items-center px-5 py-3 text-sm border border-[#D9D9D9] rounded-2xl"
+                  className="flex items-center p-3 md:px-5 md:py-3 text-sm border border-[#D9D9D9] rounded-2xl"
                 >
                   <span className="hidden md:block">공지하기</span>
                   <FaPencil />
