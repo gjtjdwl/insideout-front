@@ -48,11 +48,3 @@ export interface RegisterFormErrors {
   passwordHash: string;
   email: string;
 }
-export interface InquiryData {
-  userId : string
-  inquiryId: number;
-  title : string;
-  content: string;
-  createdTime: string | number;
-  modifiedTime: string | number;
-}

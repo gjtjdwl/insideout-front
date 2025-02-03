@@ -2,6 +2,7 @@ import axios from 'axios';
 import auth from './auth';
 import user from './userinfo';
 import chat from './chat';
+import board from './board';
 import manage from './manage';
 import webManage from './webManage';
 
@@ -29,7 +30,7 @@ API.interceptors.request.use(
       // Bearer 스키마 추가
       config.headers.Authorization = `Bearer ${token}`;
       // Content-Type 헤더 추가
-      config.headers['Content-Type'] = 'application/json';
+      // config.headers['Content-Type'] = 'application/json';
     }
     return config;
   },
@@ -66,3 +67,4 @@ export const ChatAPI = chat(API);
 export const ManageAPI = manage(API);
 export const webManageAPI = webManage(API);
 
+export const BoardAPI = board(API);

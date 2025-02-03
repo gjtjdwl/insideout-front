@@ -19,18 +19,21 @@ const LoginPage: React.FC = () => {
 
       return () => clearInterval(timer);
     } else if (showSuccessModal && countdown === 0) {
-      router.push('/');
+      window.location.href = '/';
     }
-  }, [showSuccessModal, countdown, router]);
+  }, [showSuccessModal, countdown]);
 
   const handleLoginSuccess = (userId: string) => {
     setUserId(userId);
     setShowSuccessModal(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
     setShowSuccessModal(false);
-    router.push('/');
+    // 상태가 완전히 업데이트될 때까지 대기
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    // 전체 페이지 새로고침으로 상태 초기화
+    window.location.href = '/';
   };
   const dots = ['• ', '• ', '•'];
   return (

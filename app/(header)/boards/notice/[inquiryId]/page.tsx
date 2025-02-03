@@ -1,47 +1,61 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { useUser } from '@/app/hooks/useUser';
-import { InquiryData } from '@/app/types/auth';
-import { API } from '@/app/api';
+import { apiData, InquiryData } from '@/app/types/board';
+import { BoardAPI, UserAPI } from '@/app/api';
 import { formatDateTime } from '@/app/utils/dataFormatter';
-//params는 Promise로 래핑되었기 때문에, 비동기적으로 값을 처리
-//React.use()로 params 언래핑
-type Props = {
-  params: Promise<{
-    inquiryId: number;
-    userId: string;
-    title: string;
-  }>;
-};
-const BoardDetail = ({ params }: Props) => {
+
+
+const BoardDetail = () => {
   const router = useRouter();
   const { user } = useUser();
-  const { inquiryId, userId, title } = use(params);
+  const { inquiryId } = useParams();
   const [detail, setDetail] = useState<InquiryData>({} as InquiryData);
   const [formattedTime, setFormattedTime] = useState<string>('');
-
+  const [deleteData, setDeleteData] = useState<apiData>({
+    inquiryId: Number(inquiryId),
+    userId: '',
+  });
   //공지 상세
   const inquiryDetail = async (inquiryId: number): Promise<void> => {
     try {
-      const res = await API.get<InquiryData>(`/api/boards/notice/${inquiryId}`);
-      //유저아이디 추가되면 게시물 유저아이디랑 내 아이디랑 비교해서 보기권한 설정하기
-
-      setDetail(res.data);
-      const formattedTime = formatDateTime(String(res.data.createdTime));
-      setFormattedTime(formattedTime);
+      const response = await BoardAPI.noticeDetail(inquiryId               );
+      setDetail(response);
+      setDeleteData((prev) => ({
+        ...prev,
+        userId: response.userId,
+      }));
+      if (response.modifiedTime === null) {
+        const formattedTime = formatDateTime(String(response.createdTime));
+        setFormattedTime(formattedTime);
+      } else {
+        const formattedTime = formatDateTime(String(response.modifiedTime));
+        setFormattedTime(formattedTime);
+      }
     } catch (error: unknown) {
       console.error('공지 상세 가져오는 중 오류 발생', error);
       throw error;
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      const response = await BoardAPI.deleteBoard('notice', deleteData);
+      alert(response.message);
+      router.push('/boards/notice');
+    } catch (error) {
+      console.error('삭제 실패:', error);
+    }
+  };
+
   useEffect(() => {
     if (inquiryId) {
       inquiryDetail(Number(inquiryId));
     }
-  }, []);
+  }, [inquiryId]);
 
   return (
     <div className="p-5 w-full flex flex-col min-h-[70vh] ">
@@ -57,8 +71,10 @@ const BoardDetail = ({ params }: Props) => {
           </div>
         </div>
         <div className="flex justify-end p-4 mb-12 text-xs md:text-sm text-[#757575]">
-          <span className="mr-2 ">{detail.userId} </span>
+          {detail.modifiedTime && <span> 수정됨 </span>}
+          <span className="mx-2 ">{detail.userId} </span>
           <span className="mr-2">{formattedTime}</span>
+
           {user && user.role === 'ADMIN' && (
             <>
               <button
@@ -72,7 +88,7 @@ const BoardDetail = ({ params }: Props) => {
               </button>
               <button
                 type="submit"
-                onClick={() => {}}
+                onClick={handleDelete}
                 className="hover:text-[#757575]"
               >
                 삭제
@@ -80,10 +96,17 @@ const BoardDetail = ({ params }: Props) => {
             </>
           )}
         </div>
-        <div className="w-full p-4 max-w-[1440px] flex">
-          <div className="whitespace-pre-line text-sm md:text-base">
+        <div className="w-full p-4 max-w-[1440px] flex flex-col">
+          <div className="whitespace-pre-line text-sm md:text-base mb-16">
             {detail.content}
           </div>
+          {detail.filePath && (
+            <div>
+              {detail.filePath.map((path, index) => (
+                <img key={index} src={path} alt={`File ${index}`} style={{}} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

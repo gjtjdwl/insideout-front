@@ -55,6 +55,9 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({
       <div className="flex-1">
         {sessions
           .filter((session) => session && session.id)
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
           .map((session) => (
             <button
               key={`session-${session.id}-${session.date}`}
