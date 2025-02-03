@@ -8,7 +8,7 @@ const feedback = () => {
   const { user } = useUser();
   const products = [
     {
-      main: '개선사항1',
+      main: '간식 ',
       sub: [
         '탕비실에 과자가 없다 채워달라',
         '과자는 사브레 초코크렘이 좋겠다',
@@ -18,7 +18,7 @@ const feedback = () => {
       ],
     },
     {
-      main: '개선사항2',
+      main: '조직원 ',
       sub: [
         '괴롭힘을 당하고 있다',
         '신변보호를 요청한다',
