@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatAPI } from '../api';
-import { MessageResponse } from '../types/chat';
+import { MessageRequest, MessageResponse } from '../types/chat';
 
 interface ChatProps {
   currentSessionId: number;
@@ -11,6 +11,11 @@ interface ChatProps {
   messages: MessageResponse[];
   onEndChat: () => void;
   isClosed?: boolean;
+}
+
+interface ImageUploadResponse {
+  filePath: string;
+  message: string;
 }
 
 const Chat: React.FC<ChatProps> = ({
@@ -27,6 +32,8 @@ const Chat: React.FC<ChatProps> = ({
   const [messages, setMessages] = useState<MessageResponse[]>(initialMessages);
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -44,45 +51,74 @@ const Chat: React.FC<ChatProps> = ({
     );
   }, [initialMessages]);
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB 제한
+        alert('파일 크기는 5MB를 초과할 수 없습니다.');
+        return;
+      }
+      setSelectedImage(file);
+    }
+  };
+
+  const uploadImage = async (file: File): Promise<ImageUploadResponse> => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await ChatAPI.uploadImage(formData);
+      return response;
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() && !selectedImage) return;
 
-    const currentMessage = message.trim();
-    setMessage('');
-    setIsTyping(true);
-
-    // 임시 메시지 ID 생성
-    const tempMessageId = Date.now();
-
-    // 사용자 메시지를 즉시 UI에 추가
-    const userMessage: MessageResponse = {
-      id: tempMessageId,
-      sessionId: currentSessionId,
-      authorType: 'USER',
-      content: currentMessage,
-      createdAt: new Date().toISOString(),
-    };
-
-    setMessages((prev) =>
-      [...prev, userMessage].sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      )
-    );
+    let imageUrl = '';
+    const currentMessage = message;
+    setMessage(''); // 입력창 즉시 비우기
+    const currentImage = selectedImage;
+    setSelectedImage(null); // 이미지 선택 즉시 비우기
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
 
     try {
       const now = new Date();
       const koreanTime = new Date(now.getTime() + 9 * 60 * 60 * 1000); // UTC+9
+      if (currentImage) {
+        const uploadResponse = await uploadImage(currentImage);
+        imageUrl = uploadResponse.filePath;
+      }
 
+      // 사용자 메시지 즉시 표시
+      const userMessage: MessageResponse = {
+        id: Date.now(), // 임시 ID
+        sessionId: currentSessionId,
+        authorType: 'USER',
+        content: currentMessage,
+        createdAt: koreanTime.toISOString(),
+        imageUrl: imageUrl || undefined,
+      };
+      setMessages((prev) => [...prev, userMessage]);
+      setIsTyping(true);
+
+      // 서버로 메시지 전송
       const response = await ChatAPI.sendMessage({
         sessionId: currentSessionId,
         userId: userId,
         content: currentMessage,
         createdAt: koreanTime.toISOString(),
+        imageUrl: imageUrl || null,
       });
 
-      // AI 응답을 받으면 추가
+      // AI 응답 표시
       if (response) {
         const aiMessage: MessageResponse = {
           id: response.id,
@@ -90,21 +126,19 @@ const Chat: React.FC<ChatProps> = ({
           authorType: response.authorType,
           content: response.content,
           createdAt: response.createdAt,
+          imageUrl: response.imageUrl,
         };
-        setMessages((prev) =>
-          [...prev, aiMessage].sort(
-            (a, b) =>
-              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          )
-        );
+        setMessages((prev) => [...prev, aiMessage]);
       }
     } catch (error) {
       console.error('Failed to send message:', error);
-      // 에러 발생 시 마지막 메시지 제거
-      setMessages((prev) => prev.filter((msg) => msg.id !== tempMessageId));
-      setMessage(currentMessage);
+      setMessages((prev) => prev.slice(0, -1)); // 에러 시 마지막 메시지 제거
+      setMessage(currentMessage); // 에러 시 메시지 복원
     } finally {
       setIsTyping(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -204,6 +238,13 @@ const Chat: React.FC<ChatProps> = ({
                         </span>
                         <div className="bg-gray-100 px-4 py-2 rounded-2xl rounded-tl-none max-w-[600px]">
                           {message.content}
+                          {message.imageUrl && (
+                            <img
+                              src={message.imageUrl}
+                              alt="첨부 이미지"
+                              className="mt-2 max-w-full rounded-lg"
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
@@ -213,6 +254,13 @@ const Chat: React.FC<ChatProps> = ({
                     <div className="flex flex-col items-end">
                       <div className="bg-pink-100 px-4 py-2 rounded-2xl rounded-tr-none max-w-[600px]">
                         {message.content}
+                        {message.imageUrl && (
+                          <img
+                            src={message.imageUrl}
+                            alt="첨부 이미지"
+                            className="mt-2 max-w-full rounded-lg"
+                          />
+                        )}
                       </div>
                     </div>
                   )}
@@ -246,43 +294,90 @@ const Chat: React.FC<ChatProps> = ({
 
       {/* 입력 폼 */}
       <div className="border-t">
-        <form onSubmit={handleSubmit} className="flex gap-2 p-4">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder={
-              isClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
-            }
-            disabled={isClosed}
-            className={`flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 
-              ${isClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
-          />
-          <button
-            type="button"
-            onClick={toggleListening}
-            disabled={isClosed}
-            className={`px-4 rounded-xl transition-colors ${
-              isClosed
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : isListening
-                  ? 'bg-pink-100 text-gray-700 hover:bg-pink-200'
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4">
+          {selectedImage && (
+            <div className="flex items-center gap-2 px-4">
+              <div className="flex items-center gap-2">
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt="미리보기"
+                  className="h-20 w-20 object-cover rounded-lg"
+                />
+                <span className="text-sm text-gray-500">
+                  {selectedImage.name}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedImage(null);
+                  if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                  }
+                }}
+                className="text-red-500 hover:text-red-700"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder={
+                isClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
+              }
+              disabled={isClosed}
+              className={`flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 
+                ${isClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isClosed}
+              className={`px-4 rounded-xl transition-colors ${
+                isClosed
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            {isListening ? '🎤' : '🎙️'}
-          </button>
-          <button
-            type="submit"
-            disabled={isClosed}
-            className={`px-6 py-2 rounded-xl transition-colors ${
-              isClosed
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                : 'bg-customPink text-black hover:bg-customPinkHover'
-            }`}
-          >
-            전송
-          </button>
+              }`}
+            >
+              📎
+            </button>
+            <button
+              type="button"
+              onClick={toggleListening}
+              disabled={isClosed}
+              className={`px-4 rounded-xl transition-colors ${
+                isClosed
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  : isListening
+                    ? 'bg-pink-100 text-gray-700 hover:bg-pink-200'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {isListening ? '🎤' : '🎙️'}
+            </button>
+            <button
+              type="submit"
+              disabled={isClosed}
+              className={`px-6 py-2 rounded-xl transition-colors ${
+                isClosed
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  : 'bg-customPink text-black hover:bg-customPinkHover'
+              }`}
+            >
+              전송
+            </button>
+          </div>
         </form>
       </div>
     </div>
