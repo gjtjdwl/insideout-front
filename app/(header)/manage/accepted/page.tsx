@@ -10,7 +10,7 @@ const member = () => {
   const { selectedPerson } = useDepartment();
   const userSession = async () => {
     try {
-      const response = await ManageAPI.userSession(String(selectedPerson!.id));
+      const response = await ManageAPI.userSession(String(selectedPerson?.id));
       setSessionList(response);
     } catch (error: unknown) {
       console.log('상담 세션 가져오는 중 오류 발생', error);
@@ -18,15 +18,15 @@ const member = () => {
   };
 
   useEffect(() => {
-    if (selectedPerson!.id) {
+    if (selectedPerson?.id) {
       userSession();
     }
-  }, [selectedPerson!.id]);
+  }, [selectedPerson?.id]);
   return (
     <div>
       <div className="p-4">
         <span className="text-base md:text-xl font-semibold">
-          {selectedPerson!.name}
+          {selectedPerson?.name}님
         </span>
       </div>
       {sessionList.length === 0 ? (

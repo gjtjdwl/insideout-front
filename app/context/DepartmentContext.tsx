@@ -11,20 +11,22 @@ export default function DepartmentProvider({
   children: React.ReactNode;
 }) {
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
-
+  // 로컬 스토리지에서 selectedPerson을 가져오는 useEffect
   useEffect(() => {
-    // 클라이언트에서만 localStorage 접근
     if (typeof window !== 'undefined') {
       const savedPerson = localStorage.getItem('selectedPerson');
       const initialPerson = savedPerson ? JSON.parse(savedPerson) : null;
       setSelectedPerson(initialPerson);
     }
+  }, []); // 컴포넌트가 처음 렌더링될 때 한 번만 실행
+
+  useEffect(() => {
     if (selectedPerson) {
       localStorage.setItem('selectedPerson', JSON.stringify(selectedPerson));
     } else {
       localStorage.removeItem('selectedPerson');
     }
-  }, []);
+  }, [selectedPerson]);
 
   return (
     <DepartmentContext.Provider value={{ selectedPerson, setSelectedPerson }}>

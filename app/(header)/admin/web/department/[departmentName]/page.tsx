@@ -8,9 +8,11 @@ import { useParams, useRouter } from 'next/navigation';
 import { webManageAPI } from '@/app/api';
 import CounselListModal from '@/app/components/CounselListModal';
 import { departmentUserData } from '@/app/types/webManage';
+import { FiChevronLeft } from 'react-icons/fi';
 
 export default function Department() {
   const { departmentName } = useParams();
+  const router = useRouter();
   const deptName = decodeURIComponent(departmentName as string);
   const [users, setUsers] = useState<departmentUserData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +56,13 @@ export default function Department() {
       <div className="bg-customPink px-4 sm:px-[50px]">
         <div className="flex justify-center bg-white w-full p-10 min-h-[70vh]">
           <div className="max-w-[1200px] w-full">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-start p-4 border-b">
+              <FiChevronLeft
+                type="button"
+                cursor={'pointer'}
+                onClick={() => router.push('/admin/web')}
+                className="text-2xl md:text-[35px] mb-1 mr-3 text-gray-600 hover:text-gray-900"
+              />
               <div className="font-bold text-xl md:text-3xl">팀원 리스트</div>
             </div>
             <div className="mt-8 mb-12 ml-6 font-medium text-2xl">
