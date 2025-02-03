@@ -2,7 +2,7 @@
 
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { webManageAPI } from '@/app/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { departmentData, weeklyData } from '@/app/types/webManage';
 import {
   LineChart,
@@ -14,6 +14,7 @@ import {
   Line,
   ResponsiveContainer,
 } from 'recharts';
+import SearchInput from '@/app/components/SearchInput';
 function dateFormat(date: string): string {
   let originDate = new Date(date);
   let formatDate =
@@ -36,7 +37,7 @@ export default function webAdminPage() {
   const [departments, setDepartments] = useState<departmentData[]>([]);
   const [SRS, setSRS] = useState<SRSType[]>([]);
   const [stats, setStats] = useState<diffsType>();
-
+  const [searchValue, setSearchValue] = useState<string>('');
   useEffect(() => {
     const handleLoad = async () => {
       try {
@@ -74,6 +75,25 @@ export default function webAdminPage() {
     };
     handleLoad();
   }, []);
+
+  const filteredNoticeList = useMemo(() => {
+    return departments.filter(
+      (depart) =>
+        depart.departmentName
+          .toLowerCase()
+          .includes(searchValue.toLowerCase()) ||
+        depart.managerName?.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [searchValue, departments]);
+
+  const handleClear = () => {
+    setSearchValue('');
+  };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+    }
+  };
+
   return (
     <>
       <div className="bg-customPink px-4 sm:px-[50px]">
@@ -154,9 +174,21 @@ export default function webAdminPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-12 md:mt-24 font-medium md:text-2xl">부서</div>
+            <div className='flex items-center justify-between mt-12 md:mt-24'>
+                <div className="font-medium md:text-2xl">
+                  부서
+                </div>
+                <div className="">
+                  <SearchInput
+                    searchValue={searchValue}
+                    onChange={setSearchValue}
+                    onClear={handleClear}
+                    onKeyDown={handleKeyPress}
+                  />
+                </div>
+              </div>
             <ul className="grid grid-cols-2 sm:grid-cols-1 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
-              {departments.map((department, index) => {
+              {filteredNoticeList.map((department, index) => {
                 let route =
                   '/admin/web/department/' + department.departmentName;
                 return (
