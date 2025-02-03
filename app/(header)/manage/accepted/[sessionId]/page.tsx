@@ -5,13 +5,15 @@ import { ManageAPI } from '@/app/api';
 import { useEffect, useRef, useState } from 'react';
 import { MessageResponse } from '@/app/types/chat';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useDepartment } from '@/app/context/DepartmentContext';
 
 const chatSession = () => {
-  const { memberId, sessionId } = useParams();
+  const { sessionId } = useParams();
   const router = useRouter();
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<MessageResponse[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
+ const {selectedPerson} = useDepartment();
 
   const chatContents = async () => {
     try {
@@ -25,6 +27,7 @@ const chatSession = () => {
   useEffect(() => {
     chatContents();
   }, []);
+  
   return (
     <div>
       <div className="p-2 sm:p-4 flex">
@@ -36,7 +39,7 @@ const chatSession = () => {
           className=" mt-0.5 sm:mt-1 mr-3 text-gray-600 hover:text-gray-900"
         />
         <span className="text-base md:text-xl font-semibold">
-          {memberId} / {sessionId}
+          {selectedPerson!.name} / {sessionId}
         </span>
       </div>
       <div className="sm:p-4 md:mx-9 min-h-[50vh] ">

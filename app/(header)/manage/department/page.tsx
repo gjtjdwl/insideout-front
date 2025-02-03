@@ -11,7 +11,7 @@ import RenderLineChart from '@/app/components/ReCharts';
 import SearchInput from '@/app/components/SearchInput';
 
 export default function managerAdminPage() {
-  const route = `/manage/accepted/`;
+  const route = `/manage/accepted`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
   const [orsList, setOrsList] = useState<statisticData[]>([]);
@@ -185,7 +185,7 @@ export default function managerAdminPage() {
                   {filteredNoticeList.map((person) => (
                     <DepartmentCard
                       key={person.userId}
-                      route={`${route}${person.userId}`}
+                      route={route}
                       name={person.name}
                       id={person.userId}
                     />

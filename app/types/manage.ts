@@ -26,3 +26,12 @@ export interface ORSRequest {
   orsScore: number;
   userId: string;
 }
+
+export interface Person {
+  id : string;
+  name: string;
+}
+export interface DepartmentContextType {
+  selectedPerson: Person | null;
+  setSelectedPerson: (person: Person | null) => void;
+}

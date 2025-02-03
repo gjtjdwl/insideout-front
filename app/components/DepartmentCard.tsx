@@ -1,5 +1,6 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { useDepartment } from '../context/DepartmentContext';
 
 interface DepartmentCardProps {
   route: string;
@@ -13,10 +14,13 @@ export default function DepartmentCard({
   id,
 }: DepartmentCardProps) {
   const router = useRouter();
+  const { setSelectedPerson } = useDepartment();
+
   const handleSetting = () => {
     alert('설정창');
   };
   const handleClick = () => {
+    setSelectedPerson({id, name})
     router.push(route);
   };
   return (

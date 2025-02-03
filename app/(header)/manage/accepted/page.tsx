@@ -1,17 +1,16 @@
 'use client';
 import { ManageAPI } from '@/app/api';
+import { useDepartment } from '@/app/context/DepartmentContext';
 import { SessionIdResponse } from '@/app/types/manage';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const member = () => {
-  const { memberId } = useParams();
   const [sessionList, setSessionList] = useState<SessionIdResponse[]>([]);
-
+  const { selectedPerson } = useDepartment();
   const userSession = async () => {
     try {
-      const response = await ManageAPI.userSession(String(memberId));
+      const response = await ManageAPI.userSession(String(selectedPerson!.id));
       setSessionList(response);
     } catch (error: unknown) {
       console.log('상담 세션 가져오는 중 오류 발생', error);
@@ -19,14 +18,16 @@ const member = () => {
   };
 
   useEffect(() => {
-    if (memberId) {
+    if (selectedPerson!.id) {
       userSession();
     }
-  }, [memberId]);
+  }, [selectedPerson!.id]);
   return (
     <div>
       <div className="p-4">
-        <span className="text-base md:text-xl font-semibold">{memberId}</span>
+        <span className="text-base md:text-xl font-semibold">
+          {selectedPerson!.name}
+        </span>
       </div>
       {sessionList.length === 0 ? (
         <div className="p-4 min-h-[50vh]">부서원의 상담 내역이 없습니다.</div>
@@ -36,7 +37,7 @@ const member = () => {
             {sessionList.map((session) => (
               <li key={session.sessionId} className="gap-x-6  cursor-pointer">
                 <Link
-                  href={`/manage/accepted/${memberId}/${session.sessionId}`}
+                  href={`/manage/accepted/${session.sessionId}`}
                   className="flex items-center justify-between border mb-5 p-4"
                 >
                   <div className="flex min-w-0 gap-x-4 text-sm md:text-base">
