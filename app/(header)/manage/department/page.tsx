@@ -3,11 +3,12 @@
 import dynamic from 'next/dynamic';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import { MemberData, statisticData } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
 import RenderLineChart from '@/app/components/ReCharts';
+import SearchInput from '@/app/components/SearchInput';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted/`;
@@ -16,6 +17,7 @@ export default function managerAdminPage() {
   const [orsList, setOrsList] = useState<statisticData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [latest, setLatest] = useState<statisticData>();
+  const [searchValue, setSearchValue] = useState<string>('');
   // ORSdata load
   const orsStats = async () => {
     try {
@@ -67,6 +69,21 @@ export default function managerAdminPage() {
     }
   };
 
+  const filteredNoticeList = useMemo(() => {
+    return memberList.filter(
+      (mem) =>
+        mem.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        mem.userId.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [searchValue, memberList]);
+
+  const handleClear = () => {
+    setSearchValue('');
+  };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+    }
+  };
   useEffect(() => {
     if (user) {
       const handleLoad = async () => {
@@ -148,14 +165,24 @@ export default function managerAdminPage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-12 md:mt-24 font-medium md:text-2xl">
-                부서원
+              <div className='flex items-center justify-between mt-12 md:mt-24'>
+                <div className="font-medium md:text-2xl">
+                  부서원
+                </div>
+                <div className="">
+                  <SearchInput
+                    searchValue={searchValue}
+                    onChange={setSearchValue}
+                    onClear={handleClear}
+                    onKeyDown={handleKeyPress}
+                  />
+                </div>
               </div>
-              {memberList.length === 0 ? (
-                <div className="mt-9 min-h-[30vh]">부서원이 없습니다.</div>
+              {filteredNoticeList.length === 0 ? (
+                <div className="mt-9 min-h-[30vh] text-[#757575]">부서원이 없습니다.</div>
               ) : (
                 <div className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
-                  {memberList.map((person) => (
+                  {filteredNoticeList.map((person) => (
                     <DepartmentCard
                       key={person.userId}
                       route={`${route}${person.userId}`}

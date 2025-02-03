@@ -22,7 +22,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         placeholder="검색어를 입력하세요."
-        className="border border-[#D9D9D9] rounded-3xl block min-w-0 grow py-1.5 pr-6 pl-10 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+        className="border border-[#D9D9D9] rounded-3xl block min-w-0 grow py-1.5 pr-6 pl-10 text-sm md:text-base text-gray-900 placeholder:text-gray-400 placeholder:text-xs md:placeholder:text-base focus:outline focus:outline-0"
       />
       {searchValue && (
         <IoClose
