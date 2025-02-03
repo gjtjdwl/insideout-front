@@ -75,10 +75,10 @@ export default function Home() {
           <div className="flex flex-row justify-center w-full sm:w-auto min-h-[40vh] md:min-h-[50vh]">
             {!user ? (
               <>
-                <div className="mr-10 sm:mr-20 flex items-center justify-center w-20 md:w-[200px] h-[70px] bg-customPink hover:bg-customPinkHover rounded-full md:text-2xl">
+                <div className="mr-10 sm:mr-20 flex items-center justify-center w-20 md:w-[200px] h-[50px] md:h-[70px] bg-customPink hover:bg-customPinkHover rounded-full md:text-2xl">
                   <button
                     onClick={() => router.push('/login')}
-                    className="w-full h-[70px] rounded-full pt-[2px]"
+                    className="w-full h-[50px] md:h-[70px] rounded-full pt-[2px]"
                   >
                     로그인
                   </button>
