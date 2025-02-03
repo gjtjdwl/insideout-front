@@ -58,7 +58,7 @@ const BoardDetail = () => {
   }, [inquiryId]);
 
   return (
-    <div className="p-5 w-full flex flex-col min-h-[70vh] ">
+    <div className="py-2 md:p-5 w-full flex flex-col min-h-[70vh] ">
       <FiChevronLeft
         type="button"
         onClick={() => router.push('/boards/notice')}

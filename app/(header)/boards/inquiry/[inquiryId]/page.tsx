@@ -132,7 +132,7 @@ const BoardDetail = () => {
 
   return (
     <div className="flex">
-      <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+      <div className="mt-4 md:mt-9 md:w-[90%] flex-grow flex flex-col justify-center border p-2 md:p-10">
         <FiChevronLeft
           type="button"
           onClick={() => router.push('/boards/inquiry')}
@@ -270,7 +270,7 @@ const BoardDetail = () => {
                 {user
                   ? user.role === 'ADMIN'
                     ? '관리자'
-                    : user.name
+                    : user.userId
                   : '가입안하심'}
               </span>
               <div className="flex flex-col sm:flex-row mt-4 ">
