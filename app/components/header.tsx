@@ -17,14 +17,14 @@ type NavigationItem =
     }; // 드롭다운 메뉴
 
 const defaultNav: NavigationItem[] = [
-  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '서비스소개', href: '/#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
   { name: '감정본부', href: '/chat', isDropdown: false },
   { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
 ];
 
 const employeeNav: NavigationItem[] = [
-  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '서비스소개', href: '/#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
   { name: '감정본부', href: '/chat', isDropdown: false },
   { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
@@ -39,7 +39,7 @@ const employeeNav: NavigationItem[] = [
 ];
 
 const adminNav: NavigationItem[] = [
-  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '서비스소개', href: '/#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
   { name: '관리자페이지', href: '/admin/web', isDropdown: false },
   { name: '문의게시판', href: '/boards/inquiry', isDropdown: false },
@@ -47,7 +47,7 @@ const adminNav: NavigationItem[] = [
 ];
 
 const employerNav: NavigationItem[] = [
-  { name: '서비스소개', href: '#serviceInfo', isDropdown: false },
+  { name: '서비스소개', href: '/#serviceInfo', isDropdown: false },
   { name: '공지사항', href: '/boards/notice', isDropdown: false },
   {
     name: '관리자페이지',
