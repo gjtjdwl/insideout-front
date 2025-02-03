@@ -2,6 +2,7 @@ import axios from 'axios';
 import auth from './auth';
 import user from './userinfo';
 import chat from './chat';
+import board from './board';
 
 axios.defaults.withCredentials = true;
 
@@ -27,7 +28,7 @@ API.interceptors.request.use(
       // Bearer 스키마 추가
       config.headers.Authorization = `Bearer ${token}`;
       // Content-Type 헤더 추가
-      config.headers['Content-Type'] = 'application/json';
+      // config.headers['Content-Type'] = 'application/json';
     }
     return config;
   },
@@ -61,3 +62,4 @@ API.interceptors.response.use(
 export const AuthAPI = auth(API);
 export const UserAPI = user(API);
 export const ChatAPI = chat(API);
+export const BoardAPI = board(API);
