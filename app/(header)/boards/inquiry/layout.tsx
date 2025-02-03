@@ -19,7 +19,7 @@ export default function InquiryLayout({
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="items-center flex justify-center bg-white w-full p-10">
+      <div className="items-center flex justify-center bg-white w-full p-10 min-h-[50vh]">
         <div className="max-w-[1200px] w-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div
