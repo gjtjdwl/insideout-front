@@ -12,7 +12,6 @@ const Notice = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PageInquiriyData>();
-  
   const notice = async (page: number = 0): Promise<void> => {
     try {
       const res = await BoardAPI.notice(page);
@@ -37,12 +36,6 @@ const Notice = () => {
     }
   };
 
-  const filteredNoticeList = useMemo(() => {
-    return noticeList.filter((notice) =>
-      notice.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }, [searchValue, noticeList]);
-
   const handleClear = () => {
     setSearchValue('');
   };
@@ -66,11 +59,11 @@ const Notice = () => {
         />
       </div>
       <div className="mt-3">
-        {filteredNoticeList.length === 0 ? (
+        {noticeList.length === 0 ? (
           <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
         ) : (
           <>
-            <BoardList boardList={filteredNoticeList} boardName="notice" />
+            <BoardList boardList={noticeList} boardName="notice" />
             <div className="mt-10">
               <PaginationComponent
                 currentPage={currentPage}

@@ -1,14 +1,17 @@
 import { AxiosInstance } from 'axios';
-import { MemberData, statsData, SessionIdResponse } from '../types/manage';
+import { MemberData, statsData, SessionIdResponse, PageMemberData } from '../types/manage';
 import { MessageResponse } from '../types/chat';
 
 const manage = (api: AxiosInstance) => ({
-  departmentUser: async (userId: string) => {
-    const response = await api.get<MemberData[]>('/manage/department/users', {
-      params: {
-        userId: userId,
-      },
-    });
+  departmentUser: async (userId: string, page:number) => {
+    const response = await api.get<PageMemberData>(
+      `/manage/department/users?page=${page}&size=8`,
+      {
+        params: {
+          userId: userId,
+        },
+      }
+    );
     return response.data;
   },
   userSession: async (userId: string) => {
@@ -34,9 +37,12 @@ const manage = (api: AxiosInstance) => ({
     return response.data;
   },
   improvements: async (userId: string) => {
-    const response = await api.post(`/manage/department/improvements/${userId}`, userId)
-    return response.data
-  }
+    const response = await api.post(
+      `/manage/department/improvements/${userId}`,
+      userId
+    );
+    return response.data;
+  },
 });
 
 export default manage;

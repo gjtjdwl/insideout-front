@@ -5,7 +5,14 @@ export interface MemberData {
   phoneNumber: string;
   role: string;
 }
-
+export interface PageMemberData {
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+  size: number;
+  content: MemberData[];
+}
 export interface SessionIdResponse {
   sessionId: number;
 }

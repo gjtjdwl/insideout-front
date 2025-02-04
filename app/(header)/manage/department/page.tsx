@@ -4,10 +4,16 @@ import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useMemo, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
-import { diffData, MemberData, statisticData } from '@/app/types/manage';
+import {
+  diffData,
+  MemberData,
+  PageMemberData,
+  statisticData,
+} from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
 import RenderLineChart from '@/app/components/ReCharts';
 import SearchInput from '@/app/components/SearchInput';
+import PaginationComponent from '@/app/components/PagenationComponent';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted`;
@@ -17,6 +23,8 @@ export default function managerAdminPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [latest, setLatest] = useState<diffData>();
   const [searchValue, setSearchValue] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageList, setPageList] = useState<PageMemberData>();
   // ORSdata load
   const orsStats = async () => {
     try {
@@ -48,22 +56,21 @@ export default function managerAdminPage() {
     }
   };
 
-  const member = async () => {
+  const member = async (page: number = 0) => {
     try {
-      const response = await ManageAPI.departmentUser(String(user?.userId));
-      setMemberList(response);
+      const response = await ManageAPI.departmentUser(
+        String(user?.userId),
+        page
+      );
+      setMemberList(response.content);
+      setPageList(response);
     } catch (error: unknown) {
       console.error('부서원 불러오는 중 오류 발생', error);
     }
   };
-
-  const filteredNoticeList = useMemo(() => {
-    return memberList.filter(
-      (mem) =>
-        mem.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        mem.userId.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }, [searchValue, memberList]);
+  useEffect(() => {
+    member(currentPage);
+  }, [currentPage]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -168,21 +175,30 @@ export default function managerAdminPage() {
                   />
                 </div>
               </div>
-              {filteredNoticeList.length === 0 ? (
+              {memberList.length === 0 ? (
                 <div className="mt-9 min-h-[30vh] text-[#757575]">
                   부서원이 없습니다.
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
-                  {filteredNoticeList.map((person) => (
-                    <DepartmentCard
-                      key={person.userId}
-                      route={route}
-                      name={person.name}
-                      id={person.userId}
+                <>
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
+                    {memberList.map((person) => (
+                      <DepartmentCard
+                        key={person.userId}
+                        route={route}
+                        name={person.name}
+                        id={person.userId}
+                      />
+                    ))}
+                  </div>
+                  <div className="mt-10">
+                    <PaginationComponent
+                      currentPage={currentPage}
+                      onChangePage={setCurrentPage}
+                      totalPages={Number(pageList?.totalPages)}
                     />
-                  ))}
-                </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
