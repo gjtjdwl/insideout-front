@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import SearchInput from '@/app/components/SearchInput';
+import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
 function dateFormat(date: string): string {
   let originDate = new Date(date);
   let formatDate =
@@ -140,7 +141,7 @@ export default function webAdminPage() {
                         <tr>
                           <td className="m-4">
                             {stats?.latest.date &&
-                              dateFormat(stats.latest.date)}
+                              formatDateTimeDepart(stats.latest.date)}
                           </td>
                           <td className="m-4 p-5">{stats?.latest.average}</td>
                           <td className="m-4 p-5">{stats?.latest.variance}</td>

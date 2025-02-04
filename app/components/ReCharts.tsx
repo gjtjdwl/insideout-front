@@ -12,8 +12,6 @@ interface ChartData {
   date: string;
   average: number;
   variance: number;
-  constrastAvg: string;
-  constrastVariance: string;
 }
 
 interface LineChartProps {

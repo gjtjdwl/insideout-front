@@ -17,7 +17,6 @@ const Notice = () => {
   const notice = async (page: number = 0): Promise<void> => {
     try {
       const res = await BoardAPI.notice(page);
-      console.log(res);
       setNoticeList(res.content);
       setPageList(res);
     } catch (error: unknown) {

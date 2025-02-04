@@ -5,7 +5,7 @@ import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useMemo, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
-import { MemberData, statisticData } from '@/app/types/manage';
+import { diffData, MemberData, statisticData } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
 import RenderLineChart from '@/app/components/ReCharts';
 import SearchInput from '@/app/components/SearchInput';
@@ -16,45 +16,34 @@ export default function managerAdminPage() {
   const [memberList, setMemberList] = useState<MemberData[]>([]);
   const [orsList, setOrsList] = useState<statisticData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [latest, setLatest] = useState<statisticData>();
+  const [latest, setLatest] = useState<diffData>();
   const [searchValue, setSearchValue] = useState<string>('');
   // ORSdata load
   const orsStats = async () => {
     try {
       const response = await ManageAPI.statsORS(String(user?.userId));
-      const dates = Object.keys(response.weeklyStatistics).sort(
-        (a, b) => new Date(a).getTime() - new Date(b).getTime()
-      );
-      const formatList = dates.map((date, index) => {
-        const current = response.weeklyStatistics[date];
-        const prev = dates[index - 1]
-          ? response.weeklyStatistics[dates[index - 1]]
-          : null;
 
-        //지난주 평균, 분산
-        const prevAvg = prev ? prev.average : current.average;
-        const prevVariance = prev ? prev.variance : current.variance;
-        const constrastAvg = (current.average - prevAvg).toFixed(2);
-        const constrastVariance = (current.variance - prevVariance).toFixed(2);
+      const dates = Object.entries(response.weeklyStatistics)
+        .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+        .map(([date, { average, variance }]) => ({
+          date,
+          average: Number(average.toFixed(2)),
+          variance: Number(variance.toFixed(2)),
+        }));
 
-        // 양수일 경우 앞에 "+" 붙이기
-        const formattedConstrastAvg =
-          Number(constrastAvg) >= 0 ? `+${constrastAvg}` : constrastAvg;
-        const formattedConstrastVariance =
-          Number(constrastVariance) >= 0
-            ? `+${constrastVariance}`
-            : constrastVariance;
+      setOrsList(dates);
+      const latest = dates[dates.length - 1];
+      const lastweek = dates[dates.length - 2];
 
-        return {
-          date: date,
-          average: Number(current.average.toFixed(2)),
-          variance: Number(current.variance.toFixed(2)),
-          constrastAvg: formattedConstrastAvg,
-          constrastVariance: formattedConstrastVariance,
-        };
-      });
-      setOrsList(formatList);
-      setLatest(formatList[formatList.length - 1]);
+      const stats = {
+        latest,
+        averageDiff:
+          Math.round((latest?.average - lastweek?.average) * 100) / 100,
+        varianceDiff:
+          Math.round((latest?.variance - lastweek?.variance) * 100) / 100,
+      };
+
+      setLatest(stats);
     } catch (error: unknown) {
       console.error('ORS통계 불러오는 중 오류 발생', error);
     }
@@ -130,33 +119,37 @@ export default function managerAdminPage() {
                           </tr>
                           <tr>
                             <td className="m-4">
-                              {latest?.date &&
-                                formatDateTimeDepart(latest.date)}
+                              {latest?.latest.date &&
+                                formatDateTimeDepart(latest.latest.date)}
                             </td>
-                            <td className="m-4 p-5">{latest?.average}</td>
-                            <td className="m-4 p-5">{latest?.variance}</td>
+                            <td className="m-4 p-5">
+                              {latest?.latest.average}
+                            </td>
+                            <td className="m-4 p-5">
+                              {latest?.latest.variance}
+                            </td>
                           </tr>
                           <tr>
                             <td>지난 주 대비</td>
                             <td
                               className={
-                                latest?.constrastAvg &&
-                                Number(latest.constrastAvg) > 0
+                                latest?.averageDiff && latest.averageDiff > 0
                                   ? 'text-red-400'
                                   : 'text-blue-500'
                               }
                             >
-                              {latest?.constrastAvg}
+                              {latest?.averageDiff && latest.averageDiff > 0
+                                ? '+' + latest?.averageDiff
+                                : latest?.averageDiff}
                             </td>
                             <td
                               className={
-                                latest?.constrastVariance &&
-                                Number(latest.constrastVariance) > 0
+                                latest?.varianceDiff && latest.varianceDiff > 0
                                   ? 'text-red-400'
                                   : 'text-blue-500'
                               }
                             >
-                              {latest?.constrastVariance}
+                              {latest?.varianceDiff}
                             </td>
                           </tr>
                         </tbody>
@@ -165,10 +158,8 @@ export default function managerAdminPage() {
                   </div>
                 </div>
               </div>
-              <div className='flex items-center justify-between mt-12 md:mt-24'>
-                <div className="font-medium md:text-2xl">
-                  부서원
-                </div>
+              <div className="flex items-center justify-between mt-12 md:mt-24">
+                <div className="font-medium md:text-2xl">부서원</div>
                 <div className="">
                   <SearchInput
                     searchValue={searchValue}
@@ -179,7 +170,9 @@ export default function managerAdminPage() {
                 </div>
               </div>
               {filteredNoticeList.length === 0 ? (
-                <div className="mt-9 min-h-[30vh] text-[#757575]">부서원이 없습니다.</div>
+                <div className="mt-9 min-h-[30vh] text-[#757575]">
+                  부서원이 없습니다.
+                </div>
               ) : (
                 <div className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
                   {filteredNoticeList.map((person) => (

@@ -14,11 +14,14 @@ export interface statsData {
   weeklyStatistics: Record<string, statisticData>; //Record<string, StatisticData>: weeklyStatistics는 각 날짜(string 타입)를 key로 하고, 해당 값은 StatisticData 타입 객체
 }
 export interface statisticData {
+  date: string;
   average: number;
   variance: number;
-  date: string;
-  constrastAvg: string;
-  constrastVariance: string;
+}
+export interface diffData {
+  latest:statisticData,
+  varianceDiff:number;
+  averageDiff:number;
 }
 
 export interface ORSRequest {
