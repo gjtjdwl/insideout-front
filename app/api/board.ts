@@ -15,6 +15,12 @@ const board = (api: AxiosInstance) => ({
     );
     return response.data;
   },
+  myInquiry: async (userId: string, page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/inquiry/myPost?userId=${userId}&page=${page}`
+    );
+    return response.data;
+  },
   notice: async (keyword: string, page: number) => {
     const response = await api.get<PageInquiriyData>(
       `/api/boards/notice?keyword=${keyword}&page=${page}&size=10`

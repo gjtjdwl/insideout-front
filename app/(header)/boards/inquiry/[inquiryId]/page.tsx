@@ -112,7 +112,7 @@ const BoardDetail = () => {
 
   // 댓글 삭제
   const handleCommentDelete = async (commentId: number, userId: string) => {
-    const isConfirmed = window.confirm('공지를 삭제하시겠습니까?');
+    const isConfirmed = window.confirm('댓글을 삭제하시겠습니까?');
     if (isConfirmed) {
       try {
         const reqDelet = {
@@ -246,16 +246,6 @@ const BoardDetail = () => {
                       <span className="text-xs md:text-sm text-[#757575]">
                         {formattedDate}
                       </span>
-                      {/* {user && user.role === 'ADMIN' && (
-                        <button
-                          onClick={() => {
-                            handleCommentModify;
-                          }}
-                          className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
-                        >
-                          수정
-                        </button>
-                      )} */}
                       {user &&
                         (user.role === 'ADMIN' ||
                           user.userId === comt.userId) && (
@@ -292,7 +282,9 @@ const BoardDetail = () => {
                   placeholder={
                     user?.role === 'ADMIN'
                       ? '문의 답변을 남겨주세요.'
-                      : '추가 문의가 있으시면 답글을 남겨주세요.'
+                      : comments.length === 0
+                        ? '관리자의 답변을 기다려주세요.'
+                        : '추가 문의가 있으시면 답글을 남겨주세요.'
                   }
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}

@@ -25,7 +25,7 @@ export default function Department() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PagedepartmentUserData>();
   const handleDelete = async (userId: string) => {
-    const isConfirmed = window.confirm('정말로 이 부서원을 삭제하시겠습니까?');
+    const isConfirmed = window.confirm('부서원을 삭제하시겠습니까?');
 
     if (isConfirmed) {
       try {

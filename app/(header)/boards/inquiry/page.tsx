@@ -7,31 +7,19 @@ import { BoardAPI } from '@/app/api';
 import { useUser } from '@/app/hooks/useUser';
 
 const Inquiry = () => {
-  const [selectTab, setSelectTab] = useState<string>('전체');
   const [inquiryList, setInquiryList] = useState<InquiryData[]>([]);
   const [pageList, setPageList] = useState<PageInquiriyData>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { user } = useUser();
-  const breakdown = [
-    {
-      title: '전체',
-    },
-    {
-      title: '나의',
-    },
-  ];
 
-  const handleTabClick = (title: string) => {
-    setSelectTab(title); // 클릭된 탭으로 selectTab 상태 변경
-  };
-  const inquiry = async (selectTab: string, page: number): Promise<void> => {
+  const inquiry = async (page: number): Promise<void> => {
     try {
-      const response = await BoardAPI.inquiry(page);
-      if (selectTab === '나의') {
-        setInquiryList(
-          response.content.filter((inquiry) => inquiry.userId === user?.userId)
-        );
+      if (user?.role === 'ADMIN') {
+        const response = await BoardAPI.inquiry(page);
+        setInquiryList(response.content);
+        setPageList(response);
       } else {
+        const response = await BoardAPI.myInquiry(String(user?.userId), page);
         setInquiryList(response.content);
         setPageList(response);
       }
@@ -42,21 +30,23 @@ const Inquiry = () => {
   };
 
   useEffect(() => {
-    inquiry(selectTab, currentPage);
-  }, [selectTab, currentPage]);
+    if (user) {
+      inquiry(currentPage);
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col md:flex-row">
       <div className="flex flex-row md:flex-col md:my-9 whitespace-normal sm:whitespace-nowrap break-words">
-        {breakdown.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleTabClick(item.title)}
-            className="px-6 pb-4 mt-4 font-semibold cursor-pointer text-sm lg:text-base"
-          >
-            <span>{item.title} 문의</span>
+        {user && user.role === 'ADMIN' ? (
+          <div className="px-6 pb-4 mt-4 font-semibold cursor-pointer text-sm lg:text-base">
+            <span>전체 문의</span>
           </div>
-        ))}
+        ) : (
+          <div className="px-6 pb-4 mt-4 font-semibold cursor-pointer text-sm lg:text-base">
+            <span>나의 문의</span>
+          </div>
+        )}
       </div>
       <div className="md:mt-9 md:w-[90%] flex-grow flex flex-col justify-center border p-4 md:p-10">
         {inquiryList.length === 0 ? (

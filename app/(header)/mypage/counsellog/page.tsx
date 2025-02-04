@@ -18,9 +18,12 @@ import {
   Legend,
   CartesianGrid,
 } from 'recharts';
+import { FiChevronLeft } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 export default function CounselLogPage() {
   const { user } = useUser();
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [summaryList, setSummaryList] = useState<counsellog[]>([]);
   const [orsScore, setOrsScore] = useState<
@@ -29,7 +32,6 @@ export default function CounselLogPage() {
 
   const summary = async () => {
     const res = await UserAPI.userSummary(String(user?.userId));
-
     console.log(res);
     const formatRes = res
       .sort(
@@ -73,10 +75,16 @@ export default function CounselLogPage() {
     <div className="bg-customPink px-4 sm:px-[50px]">
       <div className=" bg-white py-16 flex justify-center min-h-[70vh]">
         <div className="max-w-[1200px] w-full">
-          <div className="flex  justify-center items-center px-4 sm:px-0">
-            <h3 className="text-xl md:text-3xl mb-3 leading-loose font-semibold text-gray-900">
+          <div className="flex relative  justify-center items-center px-4 sm:px-0">
+              <FiChevronLeft
+                type="button"
+                cursor={'pointer'}
+                onClick={() => router.back()}
+                className=" absolute left-3 text-2xl md:text-[35px] mb-1 mr-3 text-gray-600 hover:text-gray-900"
+              />
+            <div className="flex justify-center w-full text-xl md:text-3xl mb-3 leading-loose font-semibold text-gray-900">
               상담 결과
-            </h3>
+            </div>
           </div>
 
           <hr className="md:mb-12" />
@@ -85,43 +93,46 @@ export default function CounselLogPage() {
               {user?.name}님의 상담 결과
             </div>
             <div className="my-10 grid md:justify-center sm:grid-cols-2 gap-10 sm:mt-10">
-              <div className="flex flex-col items-end">
-                {loading && (
-                  <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={orsScore}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Line
-                        dataKey="orsScore"
-                        stroke="#82ca9d"
-                      />
-                      <XAxis
-                        dataKey="date"
-                        angle={-20}
-                        textAnchor="end"
-                        padding={{ left: 20, right: 20 }}
-                        style={{ fontSize: '10px' }}
-                      />
-                      <YAxis style={{ fontSize: '13px' }} />
-                      <Tooltip />
-                      <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                )}
-              </div>
-              <div className=" overflow-y-scroll max-h-[400px]">
-                <div className="flex flex-col justify-center items-cneter">
-                  {summaryList.map((items, index) => (
-                    <Accordion
-                      key={index}
-                      header={items.createdAt}
-                      text={items.summary ? items.summary : '내용 없음'}
-                    />
-                  ))}
-                  {/* <button className=" bg-customPink text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none">
+              {summaryList.length === 0 ? (
+                <div className="mx-4"> 상담 이력이 존재하지 않습니다. </div>
+              ) : (
+                <>
+                  <div className="flex flex-col items-end">
+                    {loading && (
+                      <ResponsiveContainer width="100%" height={400}>
+                        <LineChart data={orsScore}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <Line dataKey="orsScore" stroke="#82ca9d" />
+                          <XAxis
+                            dataKey="date"
+                            angle={-20}
+                            textAnchor="end"
+                            padding={{ left: 20, right: 20 }}
+                            style={{ fontSize: '10px' }}
+                          />
+                          <YAxis style={{ fontSize: '13px' }} />
+                          <Tooltip />
+                          <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    )}
+                  </div>
+                  <div className=" overflow-y-scroll max-h-[400px]">
+                    <div className="flex flex-col justify-center items-cneter">
+                      {summaryList.map((items, index) => (
+                        <Accordion
+                          key={index}
+                          header={items.createdAt}
+                          text={items.summary ? items.summary : '내용 없음'}
+                        />
+                      ))}
+                      {/* <button className=" bg-customPink text-black font-bold py-2 rounded-lg hover:bg-customPinkHover focus:outline-none">
                   더보기
-                </button> */}
-                </div>
-              </div>
+                  </button> */}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
