@@ -2,7 +2,7 @@
 
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import {
   diffData,
@@ -11,9 +11,18 @@ import {
   statisticData,
 } from '@/app/types/manage';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
-import RenderLineChart from '@/app/components/ReCharts';
 import SearchInput from '@/app/components/SearchInput';
 import PaginationComponent from '@/app/components/PagenationComponent';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+} from 'recharts';
 
 export default function managerAdminPage() {
   const route = `/manage/accepted`;
@@ -37,7 +46,6 @@ export default function managerAdminPage() {
           average: Number(average.toFixed(2)),
           variance: Number(variance.toFixed(2)),
         }));
-
       setOrsList(dates);
       const latest = dates[dates.length - 1];
       const lastweek = dates[dates.length - 2];
@@ -111,7 +119,26 @@ export default function managerAdminPage() {
               </div>
               <div className="md:grid md:grid-cols-2 gap-x-8 justify-center">
                 <div className="flex flex-col items-end my-10">
-                  {!loading && <RenderLineChart data={orsList} />}
+                  {!loading && (
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={orsList}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Line dataKey="average" stroke="#FF5858" />
+                        <Line dataKey="variance" stroke="#279EFF" />
+                        <XAxis
+                          dataKey="date"
+                          angle={-20}
+                          textAnchor="end"
+                          interval={0}
+                          padding={{ left: 20, right: 20 }}
+                          style={{ fontSize: '10px' }}
+                        />
+                        <YAxis style={{ fontSize: '13px' }} />
+                        <Tooltip />
+                        <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  )}
                 </div>
                 <div className="flex flex-col text-center items-center">
                   <div className="p-3 md:p-8 md:my-10 border border-[#525252] w-full max-w-[430px] md:h-[100%] flex flex-col justify-center">

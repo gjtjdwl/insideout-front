@@ -2,12 +2,8 @@
 
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { webManageAPI } from '@/app/api';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  departmentData,
-  PagedepartmentData,
-  weeklyData,
-} from '@/app/types/webManage';
+import { useEffect, useState } from 'react';
+import { departmentData, PagedepartmentData } from '@/app/types/webManage';
 import {
   LineChart,
   XAxis,
@@ -20,14 +16,8 @@ import {
 } from 'recharts';
 import SearchInput from '@/app/components/SearchInput';
 import { formatDateTimeDepart } from '@/app/utils/dataFormatter';
-import PageLoader from 'next/dist/client/page-loader';
 import PaginationComponent from '@/app/components/PagenationComponent';
-function dateFormat(date: string): string {
-  let originDate = new Date(date);
-  let formatDate =
-    originDate.getMonth() + 1 + '월 ' + originDate.getDate() + '일';
-  return formatDate;
-}
+
 interface SRSType {
   date: string;
   average: number;
@@ -48,7 +38,7 @@ export default function webAdminPage() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PagedepartmentData>();
 
-  const department = async (keyword:string, page: number) => {
+  const department = async (keyword: string, page: number) => {
     const dept = await webManageAPI.departments(keyword, page);
     setDepartments(dept.content);
     setPageList(dept);
@@ -119,13 +109,15 @@ export default function webAdminPage() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
                           dataKey="date"
-                          angle={-30}
+                          angle={-20}
                           textAnchor="end"
                           interval={0}
+                          padding={{ left: 20, right: 20 }}
+                          style={{ fontSize: '10px' }}
                         />
-                        <YAxis />
+                        <YAxis style={{ fontSize: '13px' }} />
                         <Tooltip />
-                        <Legend wrapperStyle={{ paddingTop: '40px' }} />
+                        <Legend wrapperStyle={{ paddingTop: '20px' }} />
                         <Line dataKey="average" stroke="#FF5858" />
                         <Line dataKey="variance" stroke="#279EFF" />
                       </LineChart>

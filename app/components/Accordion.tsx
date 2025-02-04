@@ -7,7 +7,7 @@ interface AccordionItemProps {
   text: string;
 }
 
-const Accordion: React.FC<AccordionItemProps> = ({ header, text }) => {
+const Accordion: React.FC<AccordionItemProps> = ({header, text }) => {
   const [active, setActive] = useState<boolean>(false);
 
   const handleToggle = () => {
@@ -24,7 +24,7 @@ const Accordion: React.FC<AccordionItemProps> = ({ header, text }) => {
       >
         <div className="w-full">
           <h4 className="mt-1 text-sm md:text-lg font-semibold text-dark dark:text-white">
-            {header}
+            {header} 상담
           </h4>
         </div>
 
