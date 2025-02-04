@@ -48,14 +48,14 @@ export default function webAdminPage() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PagedepartmentData>();
 
-  const department = async (page: number = 0) => {
-    const dept = await webManageAPI.departments(page);
+  const department = async (keyword:string, page: number) => {
+    const dept = await webManageAPI.departments(keyword, page);
     setDepartments(dept.content);
     setPageList(dept);
   };
   useEffect(() => {
-    department(currentPage);
-  }, [currentPage]);
+    department(searchValue, currentPage);
+  }, [searchValue, currentPage]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -96,7 +96,7 @@ export default function webAdminPage() {
         setLoading(false);
       }
     };
-    department();
+    department(searchValue, currentPage);
     handleLoad();
   }, []);
   return (

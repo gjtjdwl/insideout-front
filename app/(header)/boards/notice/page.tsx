@@ -12,9 +12,9 @@ const Notice = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PageInquiriyData>();
-  const notice = async (page: number = 0): Promise<void> => {
+  const notice = async (keyword: string, page: number): Promise<void> => {
     try {
-      const res = await BoardAPI.notice(page);
+      const res = await BoardAPI.notice(keyword, page);
       setNoticeList(res.content);
       setPageList(res);
     } catch (error: unknown) {
@@ -23,18 +23,8 @@ const Notice = () => {
     }
   };
   useEffect(() => {
-    notice(currentPage);
-  }, [currentPage]);
-
-  const filterdNotice = async (searchValue: string) => {
-    try {
-      const res = await BoardAPI.noticeSearch(searchValue);
-      setNoticeList(res.content);
-    } catch (error: unknown) {
-      console.error('공지하기 리스트 가져오는 중 오류 발생', error);
-      throw error;
-    }
-  };
+    notice(searchValue, currentPage);
+  }, [searchValue, currentPage]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -45,8 +35,8 @@ const Notice = () => {
   };
 
   useEffect(() => {
-    filterdNotice(searchValue);
-  }, [searchValue]);
+    notice(searchValue, currentPage);
+  }, []);
 
   return (
     <div className="p-4 md:p-10 w-full md:w-[90%] flex-grow flex flex-col justify-center">

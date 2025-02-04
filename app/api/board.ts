@@ -9,13 +9,15 @@ import {
 } from '../types/board';
 
 const board = (api: AxiosInstance) => ({
-  inquiry: async (page:number) => {
-    const response = await api.get<PageInquiriyData>(`/api/boards/inquiry?page=${page}`);
+  inquiry: async (page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/inquiry?page=${page}`
+    );
     return response.data;
   },
-  notice: async (page: number) => {
+  notice: async (keyword: string, page: number) => {
     const response = await api.get<PageInquiriyData>(
-      `/api/boards/notice?page=${page}`
+      `/api/boards/notice?keyword=${keyword}&page=${page}&size=10`
     );
     return response.data;
   },
@@ -33,10 +35,7 @@ const board = (api: AxiosInstance) => ({
     );
     return response.data;
   },
-  noticeSearch: async (keyword: string) => {
-    const response = await api.get<PageInquiriyData>(`/api/boards/notice/search?keyword=${keyword}`)
-    return response.data;
-  },
+
   createBoard: async (data: FormData) => {
     const response = await api.post<IFormData>('/api/boards/create', data);
     return response.data;

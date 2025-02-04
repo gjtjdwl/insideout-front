@@ -3,9 +3,9 @@ import { MemberData, statsData, SessionIdResponse, PageMemberData } from '../typ
 import { MessageResponse } from '../types/chat';
 
 const manage = (api: AxiosInstance) => ({
-  departmentUser: async (userId: string, page:number) => {
+  departmentUser: async (userId: string, keyword:string, page:number) => {
     const response = await api.get<PageMemberData>(
-      `/manage/department/users?page=${page}&size=8`,
+      `/manage/department/users?memberName=${keyword}&page=${page}&size=8`,
       {
         params: {
           userId: userId,

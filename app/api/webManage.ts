@@ -8,9 +8,9 @@ import {
 } from '../types/webManage';
 
 const webManage = (api: AxiosInstance) => ({
-  departments: async (page: number): Promise<PagedepartmentData> => {
+  departments: async (keyword:string, page: number): Promise<PagedepartmentData> => {
     const response = await api.get<PagedepartmentData>(
-      `manage/departments?page=${page}&size=4`
+      `manage/departments?keyword=${keyword}&page=${page}&size=4`
     );
     return response.data;
   },

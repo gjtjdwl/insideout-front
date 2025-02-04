@@ -56,10 +56,11 @@ export default function managerAdminPage() {
     }
   };
 
-  const member = async (page: number = 0) => {
+  const member = async (keyword: string, page: number) => {
     try {
       const response = await ManageAPI.departmentUser(
         String(user?.userId),
+        keyword,
         page
       );
       setMemberList(response.content);
@@ -69,8 +70,8 @@ export default function managerAdminPage() {
     }
   };
   useEffect(() => {
-    member(currentPage);
-  }, [currentPage]);
+    member(searchValue, currentPage);
+  }, [searchValue, currentPage]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -84,7 +85,7 @@ export default function managerAdminPage() {
       const handleLoad = async () => {
         try {
           await orsStats();
-          await member();
+          await member(searchValue, currentPage);
         } catch (error) {
           console.error(error);
         } finally {
