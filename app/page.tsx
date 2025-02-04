@@ -436,8 +436,7 @@ export default function Home() {
                       🤗
                     </div>
                     <div className="text-xs sm:text-base bg-gray-100 p-3 md:px-6 md:py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                      안녕하세요, 감정본부입니다! 오늘 상담을 진행하게 될
-                      마음이입니다.
+                    마음이 무거운가요? 여기는 감정본부입니다. 작은 고민도 괜찮아요. 함께 이야기하면서 정리해 봐요.😊
                     </div>
                   </motion.div>
 
