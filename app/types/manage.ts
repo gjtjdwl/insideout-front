@@ -15,6 +15,7 @@ export interface PageMemberData {
 }
 export interface SessionIdResponse {
   sessionId: number;
+  createdAt: string;
 }
 
 export interface statsData {

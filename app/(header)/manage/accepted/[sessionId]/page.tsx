@@ -1,11 +1,12 @@
 'use client';
 import { FiChevronLeft } from 'react-icons/fi';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter,useSearchParams } from 'next/navigation';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useRef, useState } from 'react';
 import { MessageResponse } from '@/app/types/chat';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDepartment } from '@/app/context/DepartmentContext';
+import { formatDateTimeSummaryChart } from '@/app/utils/dataFormatter';
 
 const chatSession = () => {
   const { sessionId } = useParams();
@@ -14,6 +15,8 @@ const chatSession = () => {
   const [messages, setMessages] = useState<MessageResponse[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
  const {selectedPerson} = useDepartment();
+ const searchParams = useSearchParams(); //쿼리 파라미터 date 가져오기 
+ const date = searchParams.get('date');
 
   const chatContents = async () => {
     try {
@@ -24,8 +27,10 @@ const chatSession = () => {
     }
   };
 
+
   useEffect(() => {
     chatContents();
+
   }, []);
   
   return (
@@ -39,7 +44,7 @@ const chatSession = () => {
           className=" mt-0.5 sm:mt-1 mr-3 text-gray-600 hover:text-gray-900"
         />
         <span className="text-base md:text-xl font-semibold">
-          {selectedPerson!.name} / {sessionId}
+          {selectedPerson?.name}님 / {date}
         </span>
       </div>
       <div className="sm:p-4 md:mx-9 min-h-[50vh] ">

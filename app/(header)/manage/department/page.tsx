@@ -2,7 +2,7 @@
 
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
-import { useEffect,  useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@/app/hooks/useUser';
 import {
   diffData,
