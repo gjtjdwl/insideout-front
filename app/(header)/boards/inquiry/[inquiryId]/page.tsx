@@ -53,12 +53,18 @@ const BoardDetail = () => {
   };
   //문의 삭제
   const handleDelete = async () => {
-    try {
-      const response = await BoardAPI.deleteBoard('inquiry', deleteData);
-      alert(response.message);
-      router.push('/boards/inquiry');
-    } catch (error) {
-      console.error('삭제 실패:', error);
+    const isConfirmed = window.confirm('문의를 삭제하시겠습니까?');
+    if (isConfirmed) {
+      try {
+        const response = await BoardAPI.deleteBoard('inquiry', deleteData);
+        alert(response.message);
+        router.push('/boards/inquiry');
+      } catch (error) {
+        console.error('삭제 실패:', error);
+        alert('삭제에 실패했습니다.');
+      }
+    } else {
+      alert('삭제가 취소되었습니다.');
     }
   };
 
@@ -106,16 +112,22 @@ const BoardDetail = () => {
 
   // 댓글 삭제
   const handleCommentDelete = async (commentId: number, userId: string) => {
-    try {
-      const reqDelet = {
-        commentId,
-        userId,
-      };
-      const response = await BoardAPI.deleteComment(reqDelet);
-      alert('댓글 삭제 완료');
-      await inquiryDetail(Number(inquiryId));
-    } catch (error: unknown) {
-      console.error('댓글 삭제 오류', error);
+    const isConfirmed = window.confirm('공지를 삭제하시겠습니까?');
+    if (isConfirmed) {
+      try {
+        const reqDelet = {
+          commentId,
+          userId,
+        };
+        const response = await BoardAPI.deleteComment(reqDelet);
+        alert('댓글 삭제 완료');
+        await inquiryDetail(Number(inquiryId));
+      } catch (error: unknown) {
+        console.error('댓글 삭제 오류', error);
+        alert('삭제에 실패했습니다.');
+      }
+    } else {
+      alert('삭제가 취소되었습니다.');
     }
   };
   //댓글 수정
