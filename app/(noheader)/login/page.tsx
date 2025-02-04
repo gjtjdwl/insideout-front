@@ -60,15 +60,14 @@ const LoginPage: React.FC = () => {
                 🤗
               </div>
               <div className="bg-gray-100 px-6 py-3 mt-4 text-xs lg:text-base rounded-tr-3xl rounded-bl-3xl rounded-br-3xl shadow-lg max-w-[75%]">
-                안녕하세요. 감정 본부입니다. 고민이 있으신가요?
+                안녕, 내 이름은 마음이야. 네 이름은 뭐야?
               </div>
             </div>
 
             {/* 대화 2 */}
             <div className="flex items-start justify-end gap-2">
               <div className="bg-customPink px-6 py-3 mt-4 text-xs lg:text-base  rounded-tl-3xl rounded-bl-3xl rounded-br-3xl shadow-lg max-w-[75%]">
-                네, 요즘 좀 힘들어요. 일이 잘 풀리지 않는 것 같고, 의욕도 좀
-                떨어지는 것 같아요.
+                안녕 난 성미야 😊
               </div>
               <div className="w-10 h-10 rounded-full border-2 text-lg lg:text-2xl flex justify-center items-center text-white font-bold">
                 🐰
@@ -81,16 +80,14 @@ const LoginPage: React.FC = () => {
                 🤗
               </div>
               <div className="bg-gray-100 px-6 py-3 mt-4 text-xs lg:text-base  rounded-tr-3xl rounded-bl-3xl rounded-br-3xl shadow-lg max-w-[75%]">
-                그렇군요. 요즘 업무가 잘 풀리지 않는다고 했는데, 구체적으로 어떤
-                점이 가장 힘들다고 느끼나요?
+                안녕, 성미야. 요즘 무슨 고민이 있어?
               </div>
             </div>
 
             {/* 대화 4 */}
             <div className="flex items-start justify-end gap-2">
               <div className="bg-customPink px-6 py-3 mt-4 text-xs lg:text-base  rounded-tl-3xl rounded-bl-3xl rounded-br-3xl  shadow-lg max-w-[75%]">
-                음… 뭐랄까, 같은 일을 반복하는 느낌이에요. 새로운 걸 배운다는
-                느낌도 없고, 동료들과 비교하면 제 발전 속도가 느린 것 같아요.
+                연애는 어떻게 하는거야?
               </div>
               <div className="w-10 h-10 rounded-full border-2 text-lg lg:text-2xl flex justify-center items-center text-white font-bold">
                 🐰
@@ -103,16 +100,15 @@ const LoginPage: React.FC = () => {
                 🤗
               </div>
               <div className="bg-gray-100 px-6 py-3 mt-4 text-xs lg:text-base  rounded-tr-3xl rounded-bl-3xl rounded-br-3xl  shadow-lg max-w-[75%]">
-                일이 반복되는 것 같고, 성장에 대한 고민도 있는 것 같네요. 특히
-                동료들과 비교하면서 그런 생각이 더 드는 것 같고요?
+                연애를 어떻게 하면 되는지 고민인가 보네. 연애를 하기 위해 어떤
+                행동을 해야 하는지 생각해본 적 있어?
               </div>
             </div>
 
             {/* 대화 6 */}
             <div className="flex items-start justify-end gap-2">
               <div className="bg-customPink px-6 py-3 mt-4 text-xs lg:text-base  rounded-tl-3xl rounded-bl-3xl rounded-br-3xl  shadow-lg max-w-[75%]">
-                네, 맞아요. 요즘은 그냥 의무적으로 일하는 느낌이 들어서 좀
-                답답해요.
+                있는데 깊게 생각해 본 적 없어서 잘 모르겠어.
               </div>
               <div className="w-10 h-10 rounded-full border-2 text-lg lg:text-2xl flex justify-center items-center text-white font-bold">
                 🐰
