@@ -2,19 +2,23 @@ import { AxiosInstance } from 'axios';
 import {
   departmentData,
   departmentUserData,
+  PagedepartmentData,
+  PagedepartmentUserData,
   weeklyData,
 } from '../types/webManage';
 
 const webManage = (api: AxiosInstance) => ({
-  departments: async (): Promise<departmentData[]> => {
-    const response = await api.get<departmentData[]>('manage/departments');
+  departments: async (page: number): Promise<PagedepartmentData> => {
+    const response = await api.get<PagedepartmentData>(
+      `manage/departments?page=${page}&size=4`
+    );
     return response.data;
   },
   departmentUsers: async (
-    departmentName: string
-  ): Promise<departmentUserData[]> => {
-    const response = await api.get<departmentUserData[]>(
-      'manage/department/users',
+    departmentName: string, page:number
+  ): Promise<PagedepartmentUserData> => {
+    const response = await api.get<PagedepartmentUserData>(
+      `manage/department/users?page=${page}&size=10`,
       { params: { departmentName } }
     );
     return response.data;

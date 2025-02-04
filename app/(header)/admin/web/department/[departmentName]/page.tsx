@@ -7,8 +7,12 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { webManageAPI } from '@/app/api';
 import CounselListModal from '@/app/components/CounselListModal';
-import { departmentUserData } from '@/app/types/webManage';
+import {
+  departmentUserData,
+  PagedepartmentUserData,
+} from '@/app/types/webManage';
 import { FiChevronLeft } from 'react-icons/fi';
+import PaginationComponent from '@/app/components/PagenationComponent';
 
 export default function Department() {
   const { departmentName } = useParams();
@@ -18,7 +22,8 @@ export default function Department() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>('');
   const [showModal, setShowModal] = useState<Boolean>(false);
-
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageList, setPageList] = useState<PagedepartmentUserData>();
   const handleDelete = async (userId: string) => {
     try {
       const response = await webManageAPI.deleteUser(userId);
@@ -37,18 +42,24 @@ export default function Department() {
     setShowModal(!showModal);
   };
 
+  const handleLoad = async (page: number = 0) => {
+    try {
+      const response = await webManageAPI.departmentUsers(deptName, page);
+      const sortedUsers = [
+        ...response.content.filter((user) => user.role === 'MANAGER'), // "MANAGER"는 먼저 배치
+        ...response.content.filter((user) => user.role !== 'MANAGER'), // "USER"는 그 뒤에 배치
+      ];
+      setUsers(sortedUsers);
+      setPageList(response);
+    } catch (error: unknown) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const handleLoad = async () => {
-      try {
-        const response = await webManageAPI.departmentUsers(deptName);
-        setUsers(response);
-      } catch (error: unknown) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    handleLoad();
+    handleLoad(currentPage);
   }, []);
 
   return (
@@ -122,6 +133,13 @@ export default function Department() {
             {showModal && (
               <CounselListModal onClose={handleModal} userId={userId} />
             )}
+            <div className="mt-10">
+              <PaginationComponent
+                currentPage={currentPage}
+                onChangePage={setCurrentPage}
+                totalPages={Number(pageList?.totalPages)}
+              />
+            </div>
           </div>
         </div>
       </div>
