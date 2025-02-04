@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import DepartmentCard from '@/app/components/DepartmentCard';
 import { ManageAPI } from '@/app/api';
 import { useEffect, useMemo, useState } from 'react';

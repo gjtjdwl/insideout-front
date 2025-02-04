@@ -33,7 +33,10 @@ const board = (api: AxiosInstance) => ({
     );
     return response.data;
   },
-
+  noticeSearch: async (keyword: string) => {
+    const response = await api.get<PageInquiriyData>(`/api/boards/notice/search?keyword=${keyword}`)
+    return response.data;
+  },
   createBoard: async (data: FormData) => {
     const response = await api.post<IFormData>('/api/boards/create', data);
     return response.data;
