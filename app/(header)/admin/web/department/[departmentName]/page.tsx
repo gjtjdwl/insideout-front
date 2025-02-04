@@ -25,12 +25,18 @@ export default function Department() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PagedepartmentUserData>();
   const handleDelete = async (userId: string) => {
-    try {
-      const response = await webManageAPI.deleteUser(userId);
-      alert('부서원이 삭제 되었습니다.');
-      window.location.reload();
-    } catch (error: unknown) {
-      console.log(error);
+    const isConfirmed = window.confirm('정말로 이 부서원을 삭제하시겠습니까?');
+
+    if (isConfirmed) {
+      try {
+        const response = await webManageAPI.deleteUser(userId);
+        alert('부서원이 삭제되었습니다.');
+      } catch (error) {
+        console.error('삭제 중 오류 발생:', error);
+        alert('삭제에 실패했습니다.');
+      }
+    } else {
+      alert('삭제가 취소되었습니다.');
     }
   };
 
