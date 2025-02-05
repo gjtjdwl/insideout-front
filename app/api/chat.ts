@@ -86,6 +86,7 @@ const chat = (api: AxiosInstance) => ({
       console.error('Failed to cancel session:', error);
       throw error;
     }
+  },
 
   uploadImage: async (formData: FormData) => {
     const response = await api.post('/chat/upload-image', formData, {
@@ -94,7 +95,6 @@ const chat = (api: AxiosInstance) => ({
       },
     });
     return response.data;
-
   },
 });
 
