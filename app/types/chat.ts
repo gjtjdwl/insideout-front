@@ -21,6 +21,7 @@ export interface MessageRequest {
   userId: string;
   content: string;
   createdAt: string;
+  imageUrl: string | null;
 }
 
 export interface MessageResponse {
@@ -29,6 +30,7 @@ export interface MessageResponse {
   authorType: 'USER' | 'AI';
   content: string;
   createdAt: string;
+  imageUrl?: string;
 }
 
 export interface ORSRequest {

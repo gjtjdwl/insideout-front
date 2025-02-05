@@ -78,6 +78,7 @@ const chat = (api: AxiosInstance) => ({
       throw error;
     }
   },
+
   deleteSession: async (sessionId: number) => {
     try {
       await api.delete(`chat/session/${sessionId}/delete`);
@@ -85,6 +86,15 @@ const chat = (api: AxiosInstance) => ({
       console.error('Failed to cancel session:', error);
       throw error;
     }
+
+  uploadImage: async (formData: FormData) => {
+    const response = await api.post('/chat/upload-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+
   },
 });
 
