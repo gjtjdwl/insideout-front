@@ -1,8 +1,8 @@
 'use client';
 
 import { useUser } from '../hooks/useUser';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { RefCallback, useEffect, useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -64,8 +64,10 @@ const employerNav: NavigationItem[] = [
 export default function Header() {
   const { user, logout } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [scroll, setScroll] = useState<string | null>(null);
+  const searchParams = useSearchParams();
   // 사용자 역할에 따른 네비게이션 선택
 
   let navigation = defaultNav;
@@ -87,6 +89,22 @@ export default function Header() {
   const handleLogout = () => {
     logout();
   };
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash; // "#serviceInfo" 같은 해시값 가져오기
+
+      if (hash) {
+        const element = document.getElementById('serviceInfo');
+
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => {
+            window.history.replaceState(null, '', window.location.pathname);
+          }, 500);
+        }
+      }
+    }
+  }, [pathname, searchParams]);
 
   return (
     <div className="bg-customPink px-4 sm:px-[50px] pt-[50px]">
