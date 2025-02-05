@@ -11,6 +11,10 @@ interface ChatProps {
   messages: MessageResponse[];
   onEndChat: () => void;
   isClosed?: boolean;
+  onSessionStatusChange?: (
+    sessionId: number,
+    status: 'ACTIVE' | 'TERMINATED'
+  ) => void;
 }
 
 interface ImageUploadResponse {
@@ -24,6 +28,7 @@ const Chat: React.FC<ChatProps> = ({
   messages: initialMessages,
   onEndChat,
   isClosed,
+  onSessionStatusChange,
 }) => {
   const [message, setMessage] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -186,6 +191,12 @@ const Chat: React.FC<ChatProps> = ({
     };
   }, []);
 
+  const handleEndChat = () => {
+    onEndChat();
+    // 세션 상태 변경을 부모 컴포넌트에 알림
+    onSessionStatusChange?.(currentSessionId, 'TERMINATED');
+  };
+
   return (
     <div className="flex-1 flex flex-col h-full">
       {/* 고정된 상단 안내 문구 */}
@@ -194,13 +205,14 @@ const Chat: React.FC<ChatProps> = ({
           <div className="bg-blue-50 rounded-xl flex-1">
             <div className="flex items-center px-4 py-3">
               <span className="text-sm text-blue-700">
-                반갑습니다. 지금 하는 대화는 동의 없이 공개되지 않으니 편하게
-                속마음을 이야기해보세요.
+                {isClosed
+                  ? '채팅이 종료되었습니다.'
+                  : '반갑습니다. 지금 하는 대화는 동의 없이 공개되지 않으니 편하게 속마음을 이야기해보세요.'}
               </span>
             </div>
           </div>
           <button
-            onClick={onEndChat}
+            onClick={handleEndChat}
             className="text-gray-500 hover:text-gray-700 py-2 px-4 transition-colors whitespace-nowrap"
           >
             <span>종료하기 ›</span>

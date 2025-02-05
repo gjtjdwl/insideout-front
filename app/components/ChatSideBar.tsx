@@ -10,6 +10,10 @@ interface ChatSideBarProps {
   selectedSessionId?: number;
   onSessionSelect?: (sessionId: number) => void;
   onCreateChat: () => void;
+  onSessionStatusChange?: (
+    sessionId: number,
+    status: 'ACTIVE' | 'TERMINATED'
+  ) => void;
 }
 
 const ChatSideBar: React.FC<ChatSideBarProps> = ({
@@ -18,6 +22,7 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({
   selectedSessionId,
   onSessionSelect,
   onCreateChat,
+  onSessionStatusChange,
 }) => {
   const router = useRouter();
 
