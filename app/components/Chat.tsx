@@ -39,6 +39,7 @@ const Chat: React.FC<ChatProps> = ({
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [localIsClosed, setLocalIsClosed] = useState(isClosed);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -55,6 +56,10 @@ const Chat: React.FC<ChatProps> = ({
       )
     );
   }, [initialMessages]);
+
+  useEffect(() => {
+    setLocalIsClosed(isClosed);
+  }, [isClosed]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -191,10 +196,20 @@ const Chat: React.FC<ChatProps> = ({
     };
   }, []);
 
-  const handleEndChat = () => {
-    onEndChat();
-    // 세션 상태 변경을 부모 컴포넌트에 알림
-    onSessionStatusChange?.(currentSessionId, 'TERMINATED');
+  const handleEndChat = async () => {
+    try {
+      // 즉시 로컬 상태 업데이트
+      setLocalIsClosed(true);
+      onSessionStatusChange?.(currentSessionId, 'TERMINATED');
+
+      // API 호출
+      await onEndChat();
+    } catch (error) {
+      // 에러 발생 시 상태 롤백
+      console.error('Failed to end chat:', error);
+      setLocalIsClosed(false);
+      onSessionStatusChange?.(currentSessionId, 'ACTIVE');
+    }
   };
 
   return (
@@ -205,18 +220,20 @@ const Chat: React.FC<ChatProps> = ({
           <div className="bg-blue-50 rounded-xl flex-1">
             <div className="flex items-center px-4 py-3">
               <span className="text-sm text-blue-700">
-                {isClosed
+                {localIsClosed
                   ? '채팅이 종료되었습니다.'
                   : '반갑습니다. 지금 하는 대화는 동의 없이 공개되지 않으니 편하게 속마음을 이야기해보세요.'}
               </span>
             </div>
           </div>
-          <button
-            onClick={handleEndChat}
-            className="text-gray-500 hover:text-gray-700 py-2 px-4 transition-colors whitespace-nowrap"
-          >
-            <span>종료하기 ›</span>
-          </button>
+          {!localIsClosed && (
+            <button
+              onClick={handleEndChat}
+              className="text-gray-500 hover:text-gray-700 py-2 px-4 transition-colors whitespace-nowrap"
+            >
+              <span>종료하기 ›</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -339,11 +356,11 @@ const Chat: React.FC<ChatProps> = ({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder={
-                isClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
+                localIsClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
               }
-              disabled={isClosed}
+              disabled={localIsClosed}
               className={`flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 
-                ${isClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                ${localIsClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             <input
               type="file"
@@ -355,9 +372,9 @@ const Chat: React.FC<ChatProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              disabled={isClosed}
+              disabled={localIsClosed}
               className={`px-4 rounded-xl transition-colors ${
-                isClosed
+                localIsClosed
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
@@ -367,9 +384,9 @@ const Chat: React.FC<ChatProps> = ({
             <button
               type="button"
               onClick={toggleListening}
-              disabled={isClosed}
+              disabled={localIsClosed}
               className={`px-4 rounded-xl transition-colors ${
-                isClosed
+                localIsClosed
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : isListening
                     ? 'bg-pink-100 text-gray-700 hover:bg-pink-200'
@@ -380,9 +397,9 @@ const Chat: React.FC<ChatProps> = ({
             </button>
             <button
               type="submit"
-              disabled={isClosed}
+              disabled={localIsClosed}
               className={`px-6 py-2 rounded-xl transition-colors ${
-                isClosed
+                localIsClosed
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : 'bg-customPink text-black hover:bg-customPinkHover'
               }`}
