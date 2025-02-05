@@ -64,7 +64,6 @@ export default function CounselLogPage() {
         feedback: feedback,
         orsScore: orsScore,
       }));
-    console.log(formatRes);
     setSummaryList(formatRes);
     const dates = res
       .sort(
