@@ -33,7 +33,7 @@ const Inquiry = () => {
     if (user) {
       inquiry(currentPage);
     }
-  }, [user]);
+  }, [user, currentPage]);
 
   return (
     <div className="flex flex-col md:flex-row">

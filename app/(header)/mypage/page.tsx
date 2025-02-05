@@ -102,12 +102,16 @@ export default function Mypage() {
             >
               내 정보 수정
             </button>
-            <button
+            {userinfo.role === 'USER' && (
+
+              <button
               onClick={navigateToLogs}
               className="bg-customPink px-6 sm:w-[200px] text-black font-bold py-2 mt-5 sm:mt-0 sm:ml-10 rounded-lg hover:bg-customPinkHover focus:outline-none"
-            >
+              >
               상담 결과 보기
             </button>
+            )
+            }
           </div>
         </div>
       </div>
