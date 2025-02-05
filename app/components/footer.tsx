@@ -27,7 +27,7 @@ const employerNav = [
 const adminNav = [
   { name: '서비스소개', href: '/#serviceInfo' },
   { name: '공지사항', href: '#' },
-  { name: '관리자페이지', href: '#' },
+  { name: '관리자페이지', href: '/admin/web' },
   { name: '문의게시판', href: '#' },
   { name: '마이페이지', href: '/mypage' },
 ];

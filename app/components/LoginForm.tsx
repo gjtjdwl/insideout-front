@@ -63,15 +63,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-white">
-      <FiChevronLeft
-        type="button"
-        size={35}
-        cursor={'pointer'}
-        onClick={() => router.back()}
-        className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
-      />
+      <div className="relative">
+        <FiChevronLeft
+          type="button"
+          cursor={'pointer'}
+          onClick={() => router.back()}
+          className="absolute text-xl md:text-2xl top-1 left-[-30px] sm:left-[-50px] lg:left-[-90px] text-gray-600 hover:text-gray-900"
+        />
 
-      <h1 className="text-2xl font-bold mb-8">감정 본부로 출발하기 🏃</h1>
+        <h1 className="text-lg md:text-2xl font-bold mb-8">
+          감정 본부로 출발하기 🏃
+        </h1>
+      </div>
       <form onSubmit={handleSubmit} className="w-3/4 max-w-md">
         {/* 아이디 입력 */}
         <div className="mb-4">

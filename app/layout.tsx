@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className="scroll-smooth" lang="ko">
-      <body>{children}</body>
+      <body >{children}</body>
     </html>
   );
 }

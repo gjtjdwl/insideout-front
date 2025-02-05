@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import {
   InquiryData,
+  PageInquiriyData,
   IFormData,
   apiData,
   CommentData,
@@ -8,12 +9,22 @@ import {
 } from '../types/board';
 
 const board = (api: AxiosInstance) => ({
-  inquiry: async () => {
-    const response = await api.get<InquiryData[]>('/api/boards/inquiry');
+  inquiry: async (page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/inquiry?page=${page}`
+    );
     return response.data;
   },
-  notice: async () => {
-    const response = await api.get<InquiryData[]>('/api/boards/notice');
+  myInquiry: async (userId: string, page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/inquiry/myPost?userId=${userId}&page=${page}`
+    );
+    return response.data;
+  },
+  notice: async (keyword: string, page: number) => {
+    const response = await api.get<PageInquiriyData>(
+      `/api/boards/notice?keyword=${keyword}&page=${page}&size=10`
+    );
     return response.data;
   },
 

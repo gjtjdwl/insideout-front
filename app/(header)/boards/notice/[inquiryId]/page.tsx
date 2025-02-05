@@ -42,12 +42,17 @@ const BoardDetail = () => {
   };
 
   const handleDelete = async () => {
+    const isConfirmed = window.confirm('공지를 삭제하시겠습니까?');
+    if (isConfirmed) {
     try {
       const response = await BoardAPI.deleteBoard('notice', deleteData);
       alert(response.message);
       router.push('/boards/notice');
     } catch (error) {
       console.error('삭제 실패:', error);
+      alert('삭제에 실패했습니다.');
+    }} else {
+      alert('삭제가 취소되었습니다.');
     }
   };
 
@@ -58,7 +63,7 @@ const BoardDetail = () => {
   }, [inquiryId]);
 
   return (
-    <div className="p-5 w-full flex flex-col min-h-[70vh] ">
+    <div className="py-2 md:p-5 w-full flex flex-col min-h-[70vh] ">
       <FiChevronLeft
         type="button"
         onClick={() => router.push('/boards/notice')}

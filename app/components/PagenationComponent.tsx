@@ -1,77 +1,79 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
+import { PaginationPage, PaginationPrevious } from './pagination';
 import {
-  Pagination,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationList,
-  PaginationGap,
-  PaginationPage,
-} from './pagination';
-import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronsLeft,
+  FiChevronsRight,
+} from 'react-icons/fi';
+import clsx from 'clsx';
 
-export default function PaginationComponent({
-  totalPages,
-  boardName,
-}: {
+interface PagenationProps {
+  currentPage: number;
+  onChangePage: (page: number) => void;
   totalPages: number;
-  boardName : string;
-}) {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const pageSize = 10;
-  const startPage = Math.floor((currentPage - 1) / pageSize) * pageSize + 1;
-  const endPage = Math.min(startPage + pageSize - 1, totalPages);
+}
+export default function PaginationComponent({
+  currentPage,
+  onChangePage,
+  totalPages,
+}: PagenationProps) {
+  const startNum = 1;
+  const endNum = totalPages;
   const pageNumbers = Array.from(
-    { length: Math.max(endPage - startPage + 1,0) },
-    (_, index) => startPage + index
+    { length: Math.max(endNum - startNum + 1, 0) },
+    (_, index) => startNum + index
   );
 
-  const handlePrevGroup = () => {
-    if (startPage - pageSize >= 1) {
-      setCurrentPage(startPage - pageSize);
-    }
-  };
-  const handleNextGroup = () => {
-    if (startPage + pageSize <= totalPages) {
-      setCurrentPage(startPage + pageSize);
-    }
-  };
-
+  const handlePrevGroup = () => {};
+  const handleNextGroup = () => {};
   return (
-    <Pagination>
-      <button
+    <div className="flex gap-x-2 justify-center">
+      {/* <button
         onClick={handlePrevGroup}
         disabled={currentPage < pageSize}
         className={`${currentPage < pageSize ? 'text-[#87878d]' : 'flex items-center justify-center rounded-lg min-w-[2.25rem] hover:bg-zinc-950/5 before:bg-white/10'}`}
       >
         <FiChevronsLeft />
+      </button> */}
+
+      <button
+        disabled={currentPage + 1 === 1}
+        onClick={() => onChangePage(currentPage - 1)}
+        className={
+          currentPage + 1 === 1 ? 'text-gray-400' : 'text-black' // disabled일 때 회색과 커서 변경
+        }
+      >
+        <FiChevronLeft />
       </button>
-      <PaginationPrevious
-        href={currentPage > 1 ? `/boards/${boardName}/${currentPage - 1}` : null}
-      />
-      <PaginationList>
-        {pageNumbers.map((page) => (
+      {pageNumbers.map((page) => (
+        <div key={page} onClick={() => onChangePage(page - 1)}>
           <PaginationPage
             key={page}
-            href={`/boards/${boardName}/${page}`}
-            current={page === currentPage}
+            current={page === currentPage + 1}
+            className="cursor-pointer"
           >
             {page}
           </PaginationPage>
-        ))}
-      </PaginationList>
-      <PaginationNext
-        href={currentPage < totalPages ? `/boards/${boardName}/${currentPage + 1}` : null}
-      />
+        </div>
+      ))}
+
       <button
+        disabled={currentPage + 1 === totalPages}
+        onClick={() => onChangePage(currentPage + 1)}
+        className={
+          currentPage + 1 === totalPages ? 'text-gray-400' : 'text-black' // disabled일 때 회색과 커서 변경
+        }
+      >
+        <FiChevronRight />
+      </button>
+      {/* <button
         onClick={handleNextGroup}
         disabled={currentPage >= pageSize || totalPages <= pageSize}
         className={`${currentPage >= pageSize || totalPages <= pageSize ? 'text-[#87878d]' : 'flex items-center justify-center rounded-lg min-w-[2.25rem] hover:bg-zinc-950/5 before:bg-white/10'}`}
       >
         <FiChevronsRight />
-      </button>
-    </Pagination>
+      </button> */}
+    </div>
   );
 }

@@ -8,3 +8,14 @@ import moment from 'moment';
 export const formatDateTime = (isoString: string): string => {
   return moment(isoString).format("YYYY.MM.DD HH:mm");
 };
+
+export const formatDateTimeDepart = (isoString: string): string => {
+  return moment(isoString).format("MM월 DD일");
+};
+
+export const formatDateTimeSummary = (isoString: string): string => {
+  return moment(isoString).format("YY년 MM월 DD일");
+};
+export const formatDateTimeSummaryChart = (isoString: string): string => {
+  return moment(isoString).format("YYYY-MM-DD");
+};

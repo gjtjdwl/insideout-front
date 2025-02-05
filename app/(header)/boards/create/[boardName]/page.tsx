@@ -102,135 +102,139 @@ const WriteBoard = () => {
   return (
     <div>
       <div className="bg-customPink px-4 sm:px-[50px]">
-        <div className="items-center bg-white w-full p-10">
-          <div className="flex flex-col items-center justify-center">
-            <div className="text-3xl p-6">{topic}</div>
-            <div className="w-full">
-              <form className="">
-                <div className="space-y-12 flex justify-center">
-                  <div className="w-[90%] mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
-                    <div className="sm:col-span-full ">
-                      <label
-                        htmlFor="title"
-                        className="block text-base lg:text-xl font-medium text-gray-900"
-                      >
-                        제목
-                      </label>
-                      <div className="mt-2">
-                        <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-[#ffbdc3]">
-                          <input
-                            id="title"
-                            name="title"
-                            value={formData.title}
+        <div className="flex justify-center items-center bg-white w-full md:p-10 min-h-[50vh]">
+          <div className="max-w-[1200px] w-full">
+            <div className="flex flex-col justify-center items-center mt-10 ">
+              <div className="text-xl md:text-3xl font-semibold m-4 md:m-6">{topic}</div>
+              <div className="w-full">
+                <form className="">
+                  <div className="flex justify-center ">
+                    <div className="w-[90%] mt-5 md:mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+                      <div className="sm:col-span-full ">
+                        <label
+                          htmlFor="title"
+                          className="block text-base lg:text-xl font-medium text-gray-900"
+                        >
+                          제목
+                        </label>
+                        <div className="mt-2">
+                          <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-[#ffbdc3]">
+                            <input
+                              id="title"
+                              name="title"
+                              value={formData.title}
+                              onChange={handleChange}
+                              type="text"
+                              placeholder="제목을 입력해 주세요."
+                              className="block min-w-0 grow py-3 pl-1 pr-3 text-base lg:text-2xl text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="content"
+                          className="block text-base lg:text-xl font-medium text-gray-900"
+                        >
+                          내용
+                        </label>
+                        <div className="mt-2">
+                          <textarea
+                            id="content"
+                            name="content"
+                            placeholder={placeholder}
+                            value={formData.content}
                             onChange={handleChange}
-                            type="text"
-                            placeholder="제목을 입력해 주세요."
-                            className="block min-w-0 grow py-3 pl-1 pr-3 text-base lg:text-2xl text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                            rows={20}
+                            className="block w-full resize-none rounded-md bg-white p-3 text-base lg:text-2xl text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#ffbdc3] sm:text-sm/6"
                           />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="col-span-full">
-                      <label
-                        htmlFor="content"
-                        className="block text-base lg:text-xl font-medium text-gray-900"
-                      >
-                        내용
-                      </label>
-                      <div className="mt-2">
-                        <textarea
-                          id="content"
-                          name="content"
-                          placeholder={placeholder}
-                          value={formData.content}
-                          onChange={handleChange}
-                          rows={20}
-                          className="block w-full resize-none rounded-md bg-white p-3 text-base lg:text-2xl text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#ffbdc3] sm:text-sm/6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-span-full">
-                      <label
-                        htmlFor="cover-photo"
-                        className="block text-base lg:text-xl font-medium text-gray-900"
-                      >
-                        이미지
-                      </label>
-                      <div className="mt-2 flex text-base lg:text-xl justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 lg:py-20 ">
-                        <div className="text-center">
-                          {preview && (
-                            <div className="relative grid justify-end">
-                              <Image
-                                src={preview}
-                                alt="미리보기"
-                                width={500}
-                                height={100}
-                                style={{
-                                  objectFit: 'contain',
-                                }}
+                      <div className="col-span-full">
+                        <label
+                          htmlFor="cover-photo"
+                          className="block text-base lg:text-xl font-medium text-gray-900"
+                        >
+                          이미지
+                        </label>
+                        <div className="mt-2 flex text-base lg:text-xl justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 lg:py-20 ">
+                          <div className="text-center">
+                            {preview && (
+                              <div className="relative grid justify-end">
+                                <Image
+                                  src={preview}
+                                  alt="미리보기"
+                                  width={500}
+                                  height={100}
+                                  style={{
+                                    objectFit: 'contain',
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleRemove}
+                                  className="absolute top-1 right-1 rounded-2xl bg-customPink hover:bg-customPinkHover text-gray-500 p-1"
+                                >
+                                  <XMarkIcon className="w-5 h-5" />
+                                </button>
+                              </div>
+                            )}
+                            {formData.file ? (
+                              <p>선택된 파일 : {formData.file.name} </p>
+                            ) : (
+                              <PhotoIcon
+                                aria-hidden="true"
+                                className="mx-auto size-12 lg:size-20 text-gray-300"
                               />
-                              <button
-                                type="button"
-                                onClick={handleRemove}
-                                className="absolute top-1 right-1 rounded-2xl bg-customPink hover:bg-customPinkHover text-gray-500 p-1"
+                            )}
+
+                            <div className="mt-4 flex justify-center text-base lg:text-2xl text-gray-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-400 focus-within:outline-none hover:text-indigo-600"
                               >
-                                <XMarkIcon className="w-5 h-5" />
-                              </button>
+                                <span>Upload a file</span>
+                                <input
+                                  id="file-upload"
+                                  name="file-upload"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleChange}
+                                  className="sr-only"
+                                />
+                              </label>
+                              <p className="pl-1 hidden md:block ">
+                                or drag and drop
+                              </p>
                             </div>
-                          )}
-                          {formData.file ? (
-                            <p>선택된 파일 : {formData.file.name} </p>
-                          ) : (
-                            <PhotoIcon
-                              aria-hidden="true"
-                              className="mx-auto size-12 lg:size-20 text-gray-300"
-                            />
-                          )}
-
-                          <div className="mt-4 flex justify-center text-base lg:text-2xl text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-400 focus-within:outline-none hover:text-indigo-600"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleChange}
-                                className="sr-only"
-                              />
-                            </label>
-                            <p className="pl-1 hidden md:block ">or drag and drop</p>
+                            <p className=" hidden md:block text-base lg:text-xl text-gray-600">
+                              PNG, JPG, GIF up to 10MB
+                            </p>
                           </div>
-                          <p className=" hidden md:block text-base lg:text-xl text-gray-600">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="mt-6 flex items-center justify-end gap-x-6">
-                  <button
-                    type="button"
-                    onClick={() => router.back()}
-                    className="text-base lg:text-xl px-5 py-2 lg:px-7 lg:py-4  font-semibold text-gray-900 hover:bg-gray-300 rounded-md"
-                  >
-                    취소
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="rounded-md bg-customPink px-5 py-2 lg:px-7 lg:py-4 text-base lg:text-xl font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
-                  >
-                    작성
-                  </button>
-                </div>
-              </form>
+                  <div className="mt-6 mr-4 flex items-center justify-end gap-x-6">
+                    <button
+                      type="button"
+                      onClick={() => router.back()}
+                      className="text-base lg:text-xl px-5 py-2 lg:px-7 lg:py-4  font-semibold text-gray-900 hover:bg-gray-300 rounded-md"
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="rounded-md bg-customPink px-5 py-2 lg:px-7 lg:py-4 text-base lg:text-xl font-semibold hover:bg-customPinkHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF8C98]"
+                    >
+                      작성
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

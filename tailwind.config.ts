@@ -14,6 +14,11 @@ export default {
         customPink: '#FADEE1',
         customPinkHover: '#F5C2C9',
       },
+      fontFamily: {
+        TTLaundryGothicB: ['TTLaundryGothicB', 'sans-serif'],
+        'font-semibold': ['goorm-sans-medium', 'sans-serif'],
+        'font-bold': ['goorm-sans-bold', 'sans-serif'],
+      },
     },
   },
   plugins: [],

@@ -53,12 +53,18 @@ const BoardDetail = () => {
   };
   //문의 삭제
   const handleDelete = async () => {
-    try {
-      const response = await BoardAPI.deleteBoard('inquiry', deleteData);
-      alert(response.message);
-      router.push('/boards/inquiry');
-    } catch (error) {
-      console.error('삭제 실패:', error);
+    const isConfirmed = window.confirm('문의를 삭제하시겠습니까?');
+    if (isConfirmed) {
+      try {
+        const response = await BoardAPI.deleteBoard('inquiry', deleteData);
+        alert(response.message);
+        router.push('/boards/inquiry');
+      } catch (error) {
+        console.error('삭제 실패:', error);
+        alert('삭제에 실패했습니다.');
+      }
+    } else {
+      alert('삭제가 취소되었습니다.');
     }
   };
 
@@ -106,16 +112,22 @@ const BoardDetail = () => {
 
   // 댓글 삭제
   const handleCommentDelete = async (commentId: number, userId: string) => {
-    try {
-      const reqDelet = {
-        commentId,
-        userId,
-      };
-      const response = await BoardAPI.deleteComment(reqDelet);
-      alert('댓글 삭제 완료');
-      await inquiryDetail(Number(inquiryId));
-    } catch (error: unknown) {
-      console.error('댓글 삭제 오류', error);
+    const isConfirmed = window.confirm('댓글을 삭제하시겠습니까?');
+    if (isConfirmed) {
+      try {
+        const reqDelet = {
+          commentId,
+          userId,
+        };
+        const response = await BoardAPI.deleteComment(reqDelet);
+        alert('댓글 삭제 완료');
+        await inquiryDetail(Number(inquiryId));
+      } catch (error: unknown) {
+        console.error('댓글 삭제 오류', error);
+        alert('삭제에 실패했습니다.');
+      }
+    } else {
+      alert('삭제가 취소되었습니다.');
     }
   };
   //댓글 수정
@@ -132,7 +144,7 @@ const BoardDetail = () => {
 
   return (
     <div className="flex">
-      <div className="md:mt-9 w-[90%] flex-grow flex flex-col justify-center border p-10">
+      <div className="mt-4 md:mt-9 md:w-[90%] flex-grow flex flex-col justify-center border p-2 md:p-10">
         <FiChevronLeft
           type="button"
           onClick={() => router.push('/boards/inquiry')}
@@ -234,26 +246,18 @@ const BoardDetail = () => {
                       <span className="text-xs md:text-sm text-[#757575]">
                         {formattedDate}
                       </span>
-                      {/* {user && user.role === 'ADMIN' && (
-                        <button
-                          onClick={() => {
-                            handleCommentModify;
-                          }}
-                          className="ml-2 text-xs lg:text-sm text-[#757575] hover:text-[#ff8080]"
-                        >
-                          수정
-                        </button>
-                      )} */}
-                      {user && (user.role ==='ADMIN' || user.userId === comt.userId) && (
-                        <button
-                          onClick={() => {
-                            handleCommentDelete(comt.commentId, comt.userId);
-                          }}
-                          className="ml-3 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
-                        >
-                          삭제
-                        </button>
-                      )}
+                      {user &&
+                        (user.role === 'ADMIN' ||
+                          user.userId === comt.userId) && (
+                          <button
+                            onClick={() => {
+                              handleCommentDelete(comt.commentId, comt.userId);
+                            }}
+                            className="ml-3 text-xs md:text-sm text-[#757575] hover:text-[#ff8080]"
+                          >
+                            삭제
+                          </button>
+                        )}
                     </div>
                   </div>
 
@@ -268,7 +272,7 @@ const BoardDetail = () => {
                 {user
                   ? user.role === 'ADMIN'
                     ? '관리자'
-                    : user.name
+                    : user.userId
                   : '가입안하심'}
               </span>
               <div className="flex flex-col sm:flex-row mt-4 ">
@@ -278,7 +282,9 @@ const BoardDetail = () => {
                   placeholder={
                     user?.role === 'ADMIN'
                       ? '문의 답변을 남겨주세요.'
-                      : '추가 문의가 있으시면 답글을 남겨주세요.'
+                      : comments.length === 0
+                        ? '관리자의 답변을 기다려주세요.'
+                        : '추가 문의가 있으시면 답글을 남겨주세요.'
                   }
                   onChange={handleCommentChange}
                   onKeyDown={handleKeyPress}

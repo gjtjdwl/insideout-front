@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { mypageData, editRequestData } from '../types/mypage';
+import { mypageData, editRequestData, counsellog } from '../types/mypage';
 
 function getCookieValue(cookieName: string): string | null {
   const cookies = document.cookie.split('; ');
@@ -38,7 +38,11 @@ const user = (api: AxiosInstance) => ({
     const response = await api.put('api/users/me', filteredData, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response.data);
+    return response.data;
+  },
+
+  userSummary: async (userId: string) => {
+    const response = await api.get<counsellog[]>(`/api/users/summary/${userId}`);
     return response.data;
   },
 });

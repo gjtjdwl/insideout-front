@@ -21,3 +21,11 @@ export interface editFormData {
   deptCode: string;
   confirmPassword: string;
 }
+
+export interface counsellog {
+  orsScore: number;
+  summary: string;
+  status: string | null;
+  feedback: string;
+  createdAt: string;
+}
