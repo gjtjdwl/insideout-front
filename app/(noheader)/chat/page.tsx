@@ -10,6 +10,8 @@ import EmptyChat from '../../components/EmptyChat';
 import ScaleForm from '../../components/ScaleForm';
 import { ORS_CONFIG, SRS_CONFIG } from '../../constants/scaleFormConfig';
 import ConsentModal from '../../components/ConsentModal';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { FiChevronRight } from 'react-icons/fi';
 
 export default function ChatPage() {
   const { user } = useUser();
@@ -22,7 +24,7 @@ export default function ChatPage() {
   const [isSRSOpen, setIsSRSOpen] = useState(false);
   const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
   const [srsScores, setSrsScores] = useState<number[]>([]);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   useEffect(() => {
     if (user?.userId) {
       loadSessions();
@@ -135,9 +137,10 @@ export default function ChatPage() {
   return (
     <>
       <div className="min-h-screen bg-pink-50 py-[60px]">
-        <div className="flex h-[calc(100vh-120px)]">
-          <div className="w-[50px]" />
-          <div className="flex flex-1 gap-[40px] max-w-[1400px] mx-auto">
+        <div className="flex h-[calc(100vh-120px)] mx-4 md:mx-0">
+          <div className="md:w-[50px]" />
+          <div className="flex flex-1 gap-[40px] max-w-[1400px] mx-auto relative">
+            <div className='hidden md:flex'>
             <ChatSideBar
               sessions={sessions}
               userName={user?.name || '사용자'}
@@ -151,7 +154,48 @@ export default function ChatPage() {
                 }
               }}
               onCreateChat={handleCreateChat}
+              
+              />
+              </div>
+            <div className="flex md:hidden absolute top-[-20]">
+              <button
+                type="button"
+                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                <span className="sr-only">메뉴 열기</span>
+                {mobileMenuOpen ? (
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <FiChevronRight
+                    size={40}
+                    color="#5C5C5C"
+                    className="h-6 w-6"
+                    aria-hidden="true"
+                  />
+                )}
+              </button>
+            </div>
+            {
+              mobileMenuOpen && (
+              <div className='absolute '>
+                <ChatSideBar
+              sessions={sessions}
+              userName={user?.name || '사용자'}
+              selectedSessionId={currentSession?.id}
+              onSessionSelect={(sessionId) => {
+                if (!sessionId) return;
+                const session = sessions.find((s) => s.id === sessionId);
+                if (session) {
+                  setCurrentSession(session);
+                  loadMessages(sessionId);
+                }
+              }}
+              onCreateChat={handleCreateChat}
             />
+            </div>
+              )
+            }
             <div className="flex-1 bg-white rounded-[20px] overflow-hidden">
               {currentSession ? (
                 <Chat
@@ -166,7 +210,7 @@ export default function ChatPage() {
               )}
             </div>
           </div>
-          <div className="w-[50px]" />
+          <div className="md:w-[50px]" />
         </div>
       </div>
       <ScaleForm
