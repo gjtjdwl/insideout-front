@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { RiMailSendFill } from 'react-icons/ri';
 import { Improvements } from '@/app/types/manage';
 
-const feedback = () => {
+const Feedback = () => {
   const { user } = useUser();
   const [improvements, setImprovements] = useState<Improvements>();
 
@@ -113,4 +113,4 @@ const feedback = () => {
   );
 };
 
-export default feedback;
+export default Feedback;

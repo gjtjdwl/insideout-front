@@ -29,7 +29,7 @@ interface diffsType {
   varianceDiff: number;
 }
 
-export default function webAdminPage() {
+export default function WebAdminPage() {
   const [loading, setLoading] = useState(true);
   const [departments, setDepartments] = useState<departmentData[]>([]);
   const [SRS, setSRS] = useState<SRSType[]>([]);
@@ -184,7 +184,7 @@ export default function webAdminPage() {
             </div>
             <ul className="grid grid-cols-2 sm:grid-cols-1 gap-x-2 gap-y-2 sm:gap-x-6 sm:gap-y-5 mt-9">
               {departments.map((department, index) => {
-                let route =
+                const route =
                   '/admin/web/department/' + department.departmentName;
                 return (
                   <li key={index} className="sm:my-2">

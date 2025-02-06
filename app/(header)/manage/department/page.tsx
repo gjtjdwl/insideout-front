@@ -24,7 +24,7 @@ import {
   Legend,
 } from 'recharts';
 
-export default function managerAdminPage() {
+export default function ManagerAdminPage() {
   const route = `/manage/accepted`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);

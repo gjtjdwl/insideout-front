@@ -21,7 +21,7 @@ export default function Department() {
   const [users, setUsers] = useState<departmentUserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string>('');
-  const [showModal, setShowModal] = useState<Boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageList, setPageList] = useState<PagedepartmentUserData>();
   const handleDelete = async (userId: string) => {
