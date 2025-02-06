@@ -38,15 +38,15 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({
   };
 
   return (
-    <div className="w-[280px] bg-white rounded-[20px] p-6 flex flex-col">
+    <div className="w-[280px] bg-white rounded-[20px] p-6 flex flex-col h-full">
       {/* 사용자 정보 */}
-      <div className="mb-6">
+      <div className="flex-shrink-0 mb-6">
         <h2 className="text-gray-600 mb-1 text-sm">{userName}</h2>
         <h1 className="text-xl font-bold">기억구슬</h1>
       </div>
 
       {/* 새 상담 버튼 */}
-      <div className="mb-4">
+      <div className="flex-shrink-0 mb-4">
         <button
           onClick={onCreateChat}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
@@ -56,34 +56,38 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({
         </button>
       </div>
 
-      {/* 세션 목록 */}
-      <div className="flex-1">
-        {sessions
-          .filter((session) => session && session.id)
-          .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          )
-          .map((session) => (
-            <button
-              key={`session-${session.id}-${session.date}`}
-              onClick={() => onSessionSelect?.(session.id)}
-              className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
-                selectedSessionId === session.id ? 'bg-gray-100' : ''
-              }`}
-            >
-              <span>{session.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
-              {formatDate(session.date)}
-            </button>
-          ))}
+      {/* 세션 목록 - 스크롤 가능한 영역 */}
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
+        <div className="space-y-1">
+          {sessions
+            .filter((session) => session && session.id)
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
+            .map((session) => (
+              <button
+                key={`session-${session.id}-${session.date}`}
+                onClick={() => onSessionSelect?.(session.id)}
+                className={`w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors ${
+                  selectedSessionId === session.id ? 'bg-gray-100' : ''
+                }`}
+              >
+                <span>{session.status === 'ACTIVE' ? '🟢' : '⭐'}</span>{' '}
+                {formatDate(session.date)}
+              </button>
+            ))}
+        </div>
       </div>
 
       {/* 뒤로가기 버튼 */}
-      <button
-        onClick={() => router.push('/')}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-800 py-2"
-      >
-        <span>←</span> 본부 나가기
-      </button>
+      <div className="flex-shrink-0 mt-4 pt-4 border-t">
+        <button
+          onClick={() => router.push('/')}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 py-2"
+        >
+          <span>←</span> 본부 나가기
+        </button>
+      </div>
     </div>
   );
 };
