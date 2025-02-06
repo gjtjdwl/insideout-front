@@ -22,6 +22,7 @@ export default function ChatPage() {
   const [isSRSOpen, setIsSRSOpen] = useState(false);
   const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
   const [srsScores, setSrsScores] = useState<number[]>([]);
+  const [isTerminating, setIsTerminating] = useState(false);
 
   useEffect(() => {
     if (user?.userId) {
@@ -107,17 +108,21 @@ export default function ChatPage() {
   const handleConsent = async (withConsent: boolean) => {
     if (!currentSession) return;
 
+    setIsConsentModalOpen(false);
+    setCurrentSession(null);
+    setIsTerminating(true);
+
     try {
       await ChatAPI.terminateSession({
         sessionId: currentSession.id,
         srsScore: srsScores[0],
         agreement: withConsent ? 'ACCEPTED' : 'DENIED',
       });
-      setCurrentSession(null);
       await loadSessions();
-      setIsConsentModalOpen(false);
     } catch (error) {
       console.error('Failed to terminate session:', error);
+    } finally {
+      setIsTerminating(false);
     }
   };
 
@@ -134,24 +139,34 @@ export default function ChatPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-pink-50 py-[60px]">
+      <div className="min-h-screen bg-pink-50 py-[60px] relative">
+        {isTerminating && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <p className="mb-2 text-2xl">채팅을 종료하고</p>
+              <p className="text-2xl">개선사항을 도출중입니다...</p>
+            </div>
+          </div>
+        )}
         <div className="flex h-[calc(100vh-120px)]">
           <div className="w-[50px]" />
           <div className="flex flex-1 gap-[40px] max-w-[1400px] mx-auto">
-            <ChatSideBar
-              sessions={sessions}
-              userName={user?.name || '사용자'}
-              selectedSessionId={currentSession?.id}
-              onSessionSelect={(sessionId) => {
-                if (!sessionId) return;
-                const session = sessions.find((s) => s.id === sessionId);
-                if (session) {
-                  setCurrentSession(session);
-                  loadMessages(sessionId);
-                }
-              }}
-              onCreateChat={handleCreateChat}
-            />
+            <div className="w-[280px] flex-shrink-0">
+              <ChatSideBar
+                sessions={sessions}
+                userName={user?.name || '사용자'}
+                selectedSessionId={currentSession?.id}
+                onSessionSelect={(sessionId) => {
+                  if (!sessionId) return;
+                  const session = sessions.find((s) => s.id === sessionId);
+                  if (session) {
+                    setCurrentSession(session);
+                    loadMessages(sessionId);
+                  }
+                }}
+                onCreateChat={handleCreateChat}
+              />
+            </div>
             <div className="flex-1 bg-white rounded-[20px] overflow-hidden">
               {currentSession ? (
                 <Chat
