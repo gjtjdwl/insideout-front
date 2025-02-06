@@ -3,59 +3,23 @@ import { ManageAPI } from '@/app/api';
 import { useUser } from '@/app/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { RiMailSendFill } from 'react-icons/ri';
+import { Improvements } from '@/app/types/manage';
 
 const feedback = () => {
   const { user } = useUser();
-  const [improvv, setImprov] = useState();
+  const [improvements, setImprovements] = useState<Improvements>();
 
-  const improv = [
-    {
-      main: '간식 ',
-      sub: [
-        '탕비실에 과자가 없다 채워달라',
-        '과자는 사브레 초코크렘이 좋겠다',
-        '사브레 초코크렘은 맛있다',
-        '얼려먹으면 더 맛있다',
-        '이상이다',
-      ],
-    },
-    {
-      main: '조직원 ',
-      sub: [
-        '괴롭힘을 당하고 있다',
-        '신변보호를 요청한다',
-        '괴롭히는 상대는 바로 김상사',
-        '김상사 죽어',
-        '이상이다',
-      ],
-    },
-    {
-      main: '조직원 ',
-      sub: ['괴롭힘을 당하고 있다'],
-    },
-    {
-      main: '조직원 ',
-      sub: ['괴롭힘을 당하고 있다', '신변보호를 요청한다'],
-    },
-    {
-      main: '내 옆자리 ',
-      sub: [],
-    },
-    {
-      main: '화장실  ',
-      sub: [
-        '괴롭힘을 당하고 있다',
-        '신변보호를 요청한다',
-        '괴롭히는 상대는 바로 김상사',
-        '김상사 죽어',
-        '이상이다',
-      ],
-    },
-  ];
-  const improvements = async () => {
+  const fetchImprovements = async () => {
     try {
       const response = await ManageAPI.improvements(String(user?.userId));
-      setImprov(response);
+      // 백엔드 응답을 Improvements 형식으로 변환
+      const formattedImprovements = Object.entries(response).map(
+        ([main, sub]) => ({
+          main,
+          sub: sub as string[],
+        })
+      );
+      setImprovements(formattedImprovements);
     } catch (error: unknown) {
       console.error('개선사항 로딩 중 오류', error);
     }
@@ -63,54 +27,82 @@ const feedback = () => {
 
   useEffect(() => {
     if (user) {
-      improvements();
+      fetchImprovements();
     }
   }, [user]);
+
   return (
     <div className="bg-customPink px-4 sm:px-[50px]">
-      <div className="flex justify-center items-center bg-white w-full p-4 md:p-10 min-h-[50vh]">
+      <div className="flex justify-center items-center bg-white w-full p-4 md:p-10 min-h-[calc(100vh-80px)]">
         <div className="max-w-[1200px] w-full">
-          <div className="flex items-center justify-between p-4 border-b">
-            <div className="font-bold text-xl md:text-3xl">개선 사항</div>
+          <div className="flex items-center justify-between p-4 mb-8 border-b">
+            <div className="font-bold text-xl md:text-3xl text-gray-800">
+              개선 사항
+            </div>
+            <div className="text-sm md:text-base text-gray-500">
+              최근 30일간의 상담 데이터 기반
+            </div>
           </div>
-          <div className="flex justify-center flex-col items-center ">
-            <div className=" max-w-[1200px]">
-              {!improv ? (
-                <div className="m-6 mt-28 p-6 border rounded-lg max-h-[300px] h-full">
-                  <div className="flex flex-col justify-center mb-8">
-                    <div className="flex justify-center">
+          <div className="flex justify-center flex-col items-center">
+            <div className="w-full transition-opacity duration-300 ease-in-out">
+              {!improvements ? (
+                <div className="mx-auto max-w-md m-6 mt-12 p-6 border rounded-lg shadow-sm bg-white/50">
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="flex justify-center text-gray-600">
                       <RiMailSendFill size={32} />
                     </div>
-                    <div className="my-2"> • 개선사항을 수집 중 입니다!</div>
-                    <div className="my-2"> • 조금만 기다려주세요.</div>
+                    <div className="mt-4 text-base text-gray-700 font-medium">
+                      개선사항을 수집 중 입니다
+                    </div>
+                    <div className="mt-2 text-sm text-gray-500">
+                      조금만 기다려주세요...
+                    </div>
                   </div>
                 </div>
               ) : (
-                <div className="mt-10 md:mt-28 max-w-[1200px] max-h-[600px] overflow-y-scroll grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-20">
-                  {improv.map((category, index) => (
-                    <div
-                      key={index}
-                      className="group relative p-6 border rounded-lg"
-                    >
-                      <div className="flex flex-col justify-between mb-8">
-                        <div className="mb-10 flex justify-center">
-                          <p className="md:text-2xl font-semibold">
-                            {category.main}
-                          </p>
-                        </div>
-                        {improv[index].sub.map((content, i) => (
-                          <div key={i} className="text-xs md:text-base my-2">
-                            • {content}
+                <div className="mt-4 w-full">
+                  <div
+                    className={`
+                    grid gap-6 auto-rows-fr
+                    ${
+                      improvements.length === 1
+                        ? 'flex justify-center'
+                        : improvements.length === 2
+                          ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto'
+                          : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                    }
+                  `}
+                  >
+                    {improvements.map((category, index) => (
+                      <div
+                        key={index}
+                        className="w-full max-w-[350px] min-h-[280px] p-8 border rounded-lg shadow-sm hover:shadow-md transition-all duration-200 bg-white"
+                      >
+                        <div className="flex flex-col h-full">
+                          <div className="mb-8 pb-4 text-center border-b">
+                            <h3 className="text-xl md:text-2xl font-semibold text-gray-800">
+                              {category.main}
+                            </h3>
                           </div>
-                        ))}
+                          <div className="flex-grow space-y-4">
+                            {category.sub.map((content, i) => (
+                              <div
+                                key={i}
+                                className="text-sm md:text-base text-gray-600 hover:text-gray-800 transition-colors duration-200"
+                              >
+                                • {content}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
-            <div className="mt-12 md:mt-24 min-h-60">
-              <button className="w-full p-3 md:px-10 rounded-lg max-w-[270px] min-w-[50px] bg-[#757575] text-white text-sm md:text-base">
+            <div className="mt-12 md:mt-16">
+              <button className="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm md:text-base transition-colors duration-200">
                 이전 개선사항 보기
               </button>
             </div>

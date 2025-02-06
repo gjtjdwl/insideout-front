@@ -27,9 +27,9 @@ export interface statisticData {
   variance: number;
 }
 export interface diffData {
-  latest:statisticData,
-  varianceDiff:number;
-  averageDiff:number;
+  latest: statisticData;
+  varianceDiff: number;
+  averageDiff: number;
 }
 
 export interface ORSRequest {
@@ -39,10 +39,17 @@ export interface ORSRequest {
 }
 
 export interface Person {
-  id : string;
+  id: string;
   name: string;
 }
 export interface DepartmentContextType {
   selectedPerson: Person | null;
   setSelectedPerson: (person: Person | null) => void;
 }
+
+export interface Improvement {
+  main: string;
+  sub: string[];
+}
+
+export type Improvements = Improvement[];
