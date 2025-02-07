@@ -40,6 +40,7 @@ const Chat: React.FC<ChatProps> = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [localIsClosed, setLocalIsClosed] = useState(isClosed);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -89,6 +90,9 @@ const Chat: React.FC<ChatProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() && !selectedImage) return;
+    if (isSending) return;
+
+    setIsSending(true);
 
     let imageUrl = '';
     const currentMessage = message;
@@ -146,6 +150,7 @@ const Chat: React.FC<ChatProps> = ({
       setMessage(currentMessage); // 에러 시 메시지 복원
     } finally {
       setIsTyping(false);
+      setIsSending(false);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -358,9 +363,9 @@ const Chat: React.FC<ChatProps> = ({
               placeholder={
                 localIsClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
               }
-              disabled={localIsClosed}
+              disabled={localIsClosed || isSending}
               className={`flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 
-                ${localIsClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                ${localIsClosed || isSending ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             <input
               type="file"
@@ -372,9 +377,9 @@ const Chat: React.FC<ChatProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              disabled={localIsClosed}
+              disabled={localIsClosed || isSending}
               className={`px-4 rounded-xl transition-colors ${
-                localIsClosed
+                localIsClosed || isSending
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
@@ -384,9 +389,9 @@ const Chat: React.FC<ChatProps> = ({
             <button
               type="button"
               onClick={toggleListening}
-              disabled={localIsClosed}
+              disabled={localIsClosed || isSending}
               className={`px-4 rounded-xl transition-colors ${
-                localIsClosed
+                localIsClosed || isSending
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : isListening
                     ? 'bg-pink-100 text-gray-700 hover:bg-pink-200'
@@ -397,14 +402,14 @@ const Chat: React.FC<ChatProps> = ({
             </button>
             <button
               type="submit"
-              disabled={localIsClosed}
+              disabled={localIsClosed || isSending}
               className={`px-6 py-2 rounded-xl transition-colors ${
-                localIsClosed
+                localIsClosed || isSending
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   : 'bg-customPink text-black hover:bg-customPinkHover'
               }`}
             >
-              전송
+              {isSending ? '전송중...' : '전송'}
             </button>
           </div>
         </form>
