@@ -20,7 +20,7 @@ export interface MessageRequest {
   sessionId: number;
   userId: string;
   content: string;
-  createdAt: string;
+  createdAt: string | null;
   imageUrl: string | null;
 }
 

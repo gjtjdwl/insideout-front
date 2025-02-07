@@ -124,7 +124,7 @@ const Chat: React.FC<ChatProps> = ({
         sessionId: currentSessionId,
         userId: userId,
         content: currentMessage,
-        createdAt: koreanTime.toISOString(),
+        createdAt: null,
         imageUrl: imageUrl || null,
       });
 
