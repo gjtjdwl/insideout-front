@@ -101,11 +101,6 @@ const Feedback = () => {
                 </div>
               )}
             </div>
-            <div className="mt-12 md:mt-16">
-              <button className="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm md:text-base transition-colors duration-200">
-                이전 개선사항 보기
-              </button>
-            </div>
           </div>
         </div>
       </div>
