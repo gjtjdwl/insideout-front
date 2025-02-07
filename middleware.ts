@@ -4,8 +4,8 @@ import { UserRole } from './app/types/auth';
 
 // 페이지별 접근 가능한 역할 정의
 const roleBasedRoutes: Record<string, UserRole[]> = {
-  '/dashboard': ['MANAGER', 'ADMIN'],
-  '/admin': ['ADMIN'],
+  '/manage': ['MANAGER', 'ADMIN'],
+  '/admin/web': ['ADMIN'],
   '/chat': ['USER'],
 };
 
@@ -58,7 +58,7 @@ export const config = {
     '/login',
     '/register',
     '/chat/:path*',
-    '/dashboard/:path*',
-    '/admin/:path*',
+    '/manage/:path*',
+    '/admin/web/:path*',
   ],
 };
