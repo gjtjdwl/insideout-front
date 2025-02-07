@@ -1,9 +1,14 @@
 import { AxiosInstance } from 'axios';
-import { MemberData, statsData, SessionIdResponse, PageMemberData } from '../types/manage';
+import {
+  MemberData,
+  statsData,
+  SessionIdResponse,
+  PageMemberData,
+} from '../types/manage';
 import { MessageResponse } from '../types/chat';
 
 const manage = (api: AxiosInstance) => ({
-  departmentUser: async (userId: string, keyword:string, page:number) => {
+  departmentUser: async (userId: string, keyword: string, page: number) => {
     const response = await api.get<PageMemberData>(
       `/manage/department/users?memberName=${keyword}&page=${page}&size=8`,
       {
@@ -37,10 +42,7 @@ const manage = (api: AxiosInstance) => ({
     return response.data;
   },
   improvements: async (userId: string) => {
-    const response = await api.post(
-      `/manage/department/improvements/${userId}`,
-      userId
-    );
+    const response = await api.post(`/manage/department/improvements`, userId);
     return response.data;
   },
 });
