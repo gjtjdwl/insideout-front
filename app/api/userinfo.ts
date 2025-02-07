@@ -42,7 +42,7 @@ const user = (api: AxiosInstance) => ({
   },
 
   userSummary: async (userId: string) => {
-    const response = await api.get<counsellog[]>(`/api/users/summary`);
+    const response = await api.get<counsellog[]>(`/api/users/summary/${userId}`);
     return response.data;
   },
 });

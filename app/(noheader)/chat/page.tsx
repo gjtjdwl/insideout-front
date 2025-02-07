@@ -80,7 +80,6 @@ export default function ChatPage() {
       const totalScore = scores.reduce((sum, score) => sum + score, 0);
 
       await ChatAPI.updateOrsScore({
-        userId: user?.userId || '',
         sessionId: currentSession.id,
         orsScore: totalScore,
       });
@@ -115,7 +114,6 @@ export default function ChatPage() {
 
     try {
       await ChatAPI.terminateSession({
-        userId: user?.userId || '',
         sessionId: currentSession.id,
         srsScore: srsScores[0],
         agreement: withConsent ? 'ACCEPTED' : 'DENIED',

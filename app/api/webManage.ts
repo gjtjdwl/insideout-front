@@ -8,21 +8,18 @@ import {
 } from '../types/webManage';
 
 const webManage = (api: AxiosInstance) => ({
-  departments: async (
-    keyword: string,
-    page: number
-  ): Promise<PagedepartmentData> => {
+  departments: async (keyword:string, page: number): Promise<PagedepartmentData> => {
     const response = await api.get<PagedepartmentData>(
       `manage/departments?keyword=${keyword}&page=${page}&size=4`
     );
     return response.data;
   },
   departmentUsers: async (
-    departmentName: string,
-    page: number
+    departmentName: string, page:number
   ): Promise<PagedepartmentUserData> => {
     const response = await api.get<PagedepartmentUserData>(
-      `manage/department/users/by?departmentName=${departmentName}&page=${page}&size=10`
+      `manage/department/users?page=${page}&size=10`,
+      { params: { departmentName } }
     );
     return response.data;
   },
