@@ -66,7 +66,7 @@ export default function Department() {
 
   useEffect(() => {
     handleLoad(currentPage);
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
