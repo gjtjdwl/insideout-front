@@ -8,7 +8,7 @@ import webManage from './webManage';
 
 const baseURL =
   process.env.NODE_ENV === 'production'
-    ? 'https://insideout-back-production.up.railway.app'
+    ? 'https://insideout-back.azurewebsites.net'
     : 'http://localhost:8080';
 
 // 서버 사이드용 API 인스턴스
