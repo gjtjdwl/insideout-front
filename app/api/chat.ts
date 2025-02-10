@@ -29,7 +29,7 @@ const chat = (api: AxiosInstance) => ({
         createdAt: string;
         isClosed: boolean;
       }>
-    >(`/chat/sessions?userId=${userId}`);
+    >(`/chat/sessions/${userId}`);
 
     // 백엔드 응답을 SessionInfo 형식으로 변환
     return response.data.map((session) => ({

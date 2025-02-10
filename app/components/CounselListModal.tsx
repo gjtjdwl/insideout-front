@@ -37,7 +37,7 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
       }
     };
     loadSessions();
-  }, [sessions]);
+  }, []);
 
   const handleDelete = async (sessionId: number) => {
     try {
