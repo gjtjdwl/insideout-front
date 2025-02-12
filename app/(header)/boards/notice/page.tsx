@@ -1,71 +1,37 @@
-'use client';
+import { ServerBoardAPI } from '@/app/api';
+import ClientNoticeWrapper from './ClientNoticeWrapper';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import BoardList from '../../../components/BoardList';
-import PaginationComponent from '@/app/components/PagenationComponent';
-import { InquiryData, PageInquiriyData } from '@/app/types/board';
-import { BoardAPI } from '@/app/api';
-import SearchInput from '@/app/components/SearchInput';
+// 동적 렌더링을 위한 설정 추가
+export const dynamic = 'force-dynamic';
+// 캐시 비활성화
+export const revalidate = 0;
 
-const Notice = () => {
-  const [noticeList, setNoticeList] = useState<InquiryData[]>([]);
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [pageList, setPageList] = useState<PageInquiriyData>();
-  const notice = async (keyword: string, page: number): Promise<void> => {
-    try {
-      const res = await BoardAPI.notice(keyword, page);
-      setNoticeList(res.content);
-      setPageList(res);
-    } catch (error: unknown) {
-      console.error('공지하기 리스트 가져오는 중 오류 발생', error);
-      throw error;
-    }
-  };
-  useEffect(() => {
-    notice(searchValue, currentPage);
-  }, [searchValue, currentPage]);
+export default async function Notice() {
+  try {
+    console.log('서버에서 초기 데이터 요청 시작');
+    const noticeData = await ServerBoardAPI.notice('', 0);
+    console.log('서버 초기 데이터:', noticeData);
 
-  const handleClear = () => {
-    setSearchValue('');
-  };
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-    }
-  };
-
-  useEffect(() => {
-    notice(searchValue, currentPage);
-  }, []);
-
-  return (
-    <div className="p-4 md:p-10 w-full md:w-[90%] flex-grow flex flex-col justify-center">
-      <div className="flex justify-end">
-        <SearchInput
-          searchValue={searchValue}
-          onChange={setSearchValue}
-          onClear={handleClear}
-          onKeyDown={handleKeyPress}
-        />
+    return (
+      <div className="p-4 md:p-10 w-full md:w-[90%] flex-grow flex flex-col justify-center">
+        <ClientNoticeWrapper initialData={noticeData} />
       </div>
-      <div className="mt-3">
-        {noticeList.length === 0 ? (
-          <div className="min-h-[40vh]"> 공지사항이 없습니다. </div>
-        ) : (
-          <>
-            <BoardList boardList={noticeList} boardName="notice" />
-            <div className="mt-10">
-              <PaginationComponent
-                currentPage={currentPage}
-                onChangePage={setCurrentPage}
-                totalPages={Number(pageList?.totalPages)}
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
+    );
+  } catch (error) {
+    console.error('서버에서 공지사항 로드 중 오류:', error);
+    const fallbackData = {
+      totalElements: 0,
+      totalPages: 0,
+      first: true,
+      last: true,
+      size: 10,
+      content: [],
+    };
 
-export default Notice;
+    return (
+      <div className="p-4 md:p-10 w-full md:w-[90%] flex-grow flex flex-col justify-center">
+        <ClientNoticeWrapper initialData={fallbackData} />
+      </div>
+    );
+  }
+}

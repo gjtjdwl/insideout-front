@@ -164,7 +164,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="my-14 w-full">
+          <div className="my-14 w-full max-w-[1200px]">
             <div className="mx-4 sm:mx-8 lg:ml-20 my-20 font-semibold">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -436,7 +436,8 @@ export default function Home() {
                       🤗
                     </div>
                     <div className="text-xs sm:text-base bg-gray-100 p-3 md:px-6 md:py-3 mt-4 rounded-tr-3xl rounded-bl-3xl rounded-br-3xl max-w-[75%] whitespace-normal break-words">
-                    마음이 무거운가요? 여기는 감정본부입니다. 작은 고민도 괜찮아요. 함께 이야기하면서 정리해 봐요.😊
+                      마음이 무거운가요? 여기는 감정본부입니다. 작은 고민도
+                      괜찮아요. 함께 이야기하면서 정리해 봐요.😊
                     </div>
                   </motion.div>
 

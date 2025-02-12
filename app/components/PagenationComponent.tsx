@@ -51,7 +51,7 @@ export default function PaginationComponent({
           <PaginationPage
             key={page}
             current={page === currentPage + 1}
-            className="cursor-pointer"
+            className="cursor-pointer text-black"
           >
             {page}
           </PaginationPage>

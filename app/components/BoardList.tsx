@@ -38,7 +38,9 @@ export default function BoardList({ boardList, boardName }: BoardListProps) {
                     {board.title}
                   </span>
                   {board.commentsCount && board.commentsCount !== 0 ? (
-                    <span className="text-[#00A6FF] text-sm">
+                    <span
+                      className={`${Number(board.commentsCount) % 2 == 0 ? 'text-[#FD5151] text-sm' : 'text-[#00A6FF] text-sm'}`}
+                    >
                       [답변 : {board.commentsCount}]
                     </span>
                   ) : (

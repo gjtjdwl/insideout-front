@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { FiChevronLeft } from 'react-icons/fi';
 
-export default function departmentMember({
+export default function DepartmentMember({
   children,
 }: {
   children: React.ReactNode;

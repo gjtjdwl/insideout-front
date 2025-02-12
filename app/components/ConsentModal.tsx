@@ -12,23 +12,6 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
   onClose,
   onConfirm,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [step, setStep] = useState<'initial' | 'confirmation'>('initial');
-
-  const handleProceed = () => {
-    setStep('confirmation');
-  };
-
-  const handleConfirm = () => {
-    onConfirm(true);
-    onClose();
-  };
-
-  const handleDeny = () => {
-    onConfirm(false);
-    onClose();
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -38,37 +21,25 @@ const ConsentModal: React.FC<ConsentModalProps> = ({
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
     >
-      {step === 'initial' ? (
-        <div className="bg-white rounded-2xl w-full max-w-md p-8 flex flex-col items-center text-center">
-          <h2 className="text-xl font-bold mb-8">상담을 종료하시겠습니까?</h2>
+      <div className="bg-white rounded-2xl w-full max-w-md p-8 flex flex-col items-center text-center">
+        <h2 className="text-base font-bold mb-8">
+          상담 전문을 부서장에게 제공하시겠습니까?
+        </h2>
+        <div className="flex gap-4 w-full">
           <button
-            onClick={handleProceed}
-            className="w-full py-4 bg-customPink text-black rounded-xl hover:bg-customPinkHover"
+            onClick={() => onConfirm(false)}
+            className="flex-1 py-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200"
           >
-            종료하기
+            아니오
+          </button>
+          <button
+            onClick={() => onConfirm(true)}
+            className="flex-1 py-4 bg-customPink text-black rounded-xl hover:bg-customPinkHover"
+          >
+            예
           </button>
         </div>
-      ) : (
-        <div className="bg-white rounded-2xl w-full max-w-md p-8 flex flex-col items-center text-center">
-          <h2 className="text-base font-bold mb-8">
-            상담 전문을 부서장에게 제공하시겠습니까?
-          </h2>
-          <div className="flex gap-4 w-full">
-            <button
-              onClick={handleDeny}
-              className="flex-1 py-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200"
-            >
-              아니오
-            </button>
-            <button
-              onClick={handleConfirm}
-              className="flex-1 py-4 bg-customPink text-black rounded-xl hover:bg-customPinkHover"
-            >
-              예
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </motion.div>
   );
 };

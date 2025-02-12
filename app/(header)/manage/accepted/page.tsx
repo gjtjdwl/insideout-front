@@ -6,7 +6,7 @@ import { formatDateTimeSummaryChart } from '@/app/utils/dataFormatter';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-const member = () => {
+const Member = () => {
   const [sessionList, setSessionList] = useState<SessionIdResponse[]>([]);
   const { selectedPerson } = useDepartment();
   const userSession = async () => {
@@ -57,4 +57,4 @@ const member = () => {
     </div>
   );
 };
-export default member;
+export default Member;

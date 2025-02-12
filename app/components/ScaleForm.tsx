@@ -123,12 +123,12 @@ const ScaleForm: React.FC<ScaleFormProps> = ({
         </div>
 
         <div className="border-t p-4 flex justify-end gap-4 bg-white">
-          <button
+          {/* <button
             onClick={handleCancel}
             className="px-6 py-2 text-gray-600 hover:text-gray-800"
           >
             취소
-          </button>
+          </button> */}
           <button
             onClick={handleSubmit}
             className="px-6 py-2 bg-customPink text-black rounded-xl hover:bg-customPinkHover"

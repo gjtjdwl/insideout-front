@@ -24,7 +24,7 @@ import {
   Legend,
 } from 'recharts';
 
-export default function managerAdminPage() {
+export default function ManagerAdminPage() {
   const route = `/manage/accepted`;
   const { user } = useUser();
   const [memberList, setMemberList] = useState<MemberData[]>([]);
@@ -46,19 +46,32 @@ export default function managerAdminPage() {
           average: Number(average.toFixed(2)),
           variance: Number(variance.toFixed(2)),
         }));
+
       setOrsList(dates);
-      const latest = dates[dates.length - 1];
-      const lastweek = dates[dates.length - 2];
 
-      const stats = {
-        latest,
-        averageDiff:
-          Math.round((latest?.average - lastweek?.average) * 100) / 100,
-        varianceDiff:
-          Math.round((latest?.variance - lastweek?.variance) * 100) / 100,
-      };
+      // 데이터가 2개 이상일 때만 비교 수행
+      if (dates.length >= 2) {
+        const latest = dates[dates.length - 1];
+        const lastweek = dates[dates.length - 2];
 
-      setLatest(stats);
+        const stats = {
+          latest,
+          averageDiff:
+            Math.round((latest.average - lastweek.average) * 100) / 100,
+          varianceDiff:
+            Math.round((latest.variance - lastweek.variance) * 100) / 100,
+        };
+
+        setLatest(stats);
+      } else if (dates.length === 1) {
+        // 데이터가 1개만 있을 경우
+        const stats = {
+          latest: dates[0],
+          averageDiff: 0,
+          varianceDiff: 0,
+        };
+        setLatest(stats);
+      }
     } catch (error: unknown) {
       console.error('ORS통계 불러오는 중 오류 발생', error);
     }
@@ -66,8 +79,10 @@ export default function managerAdminPage() {
 
   const member = async (keyword: string, page: number) => {
     try {
+      if (!user?.userId) return;
+
       const response = await ManageAPI.departmentUser(
-        String(user?.userId),
+        user.userId,
         keyword,
         page
       );
@@ -78,8 +93,10 @@ export default function managerAdminPage() {
     }
   };
   useEffect(() => {
-    member(searchValue, currentPage);
-  }, [searchValue, currentPage]);
+    if (user?.userId) {
+      member(searchValue, currentPage);
+    }
+  }, [searchValue, currentPage, user?.userId]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -153,14 +170,14 @@ export default function managerAdminPage() {
                           </tr>
                           <tr>
                             <td className="m-4">
-                              {latest?.latest.date &&
+                              {latest?.latest?.date &&
                                 formatDateTimeDepart(latest.latest.date)}
                             </td>
                             <td className="m-4 p-5">
-                              {latest?.latest.average}
+                              {latest?.latest?.average ?? '-'}
                             </td>
                             <td className="m-4 p-5">
-                              {latest?.latest.variance}
+                              {latest?.latest?.variance ?? '-'}
                             </td>
                           </tr>
                           <tr>

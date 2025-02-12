@@ -621,7 +621,7 @@ const Register = () => {
             위하여 아래와 같이 관련 부서 및 개인정보관리책임자를 지정하고
             있습니다.
           </p>
-          <p>담당자: 감정본부 개인정보보호책임자</p>
+          <p>담당자: 인사이드아웃 개인정보보호책임자</p>
           <p>이메일: emotionhq11@gmail.com</p>
           <p>
             귀하께서는 회사의 서비스를 이용하시며 발생하는 모든 개인정보보호
@@ -659,6 +659,24 @@ const Register = () => {
         <h1 className="text-center text-xl md:text-3xl font-bold mb-8">
           회원가입
         </h1>
+
+        {/* 테스트 계정 정보 추가 */}
+        {/* <div className="mb-8 p-4 bg-gray-50 rounded-lg text-sm">
+          <p className="font-semibold mb-2">🔍 테스트용 계정 정보</p>
+          <p>
+            • 부서원 가입 시 부서 코드:{' '}
+            <span className="font-mono text-pink-600">TOHWQI</span>
+          </p>
+          <p>• 부서장 계정 접속 정보:</p>
+          <p className="ml-4">
+            - 아이디: <span className="font-mono text-pink-600">manager2</span>
+          </p>
+          <p className="ml-4">
+            - 비밀번호:{' '}
+            <span className="font-mono text-pink-600">qwer1234!!</span>
+          </p>
+        </div> */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* 왼쪽 입력 필드 */}
           <div>
@@ -800,7 +818,9 @@ const Register = () => {
               required
             />
             {errors.userId && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.userId}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
+                {errors.userId}
+              </p>
             )}
 
             <label
@@ -842,7 +862,9 @@ const Register = () => {
               required
             />
             {passwordError && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">{passwordError}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
+                {passwordError}
+              </p>
             )}
           </div>
         </div>

@@ -20,7 +20,7 @@ export interface MessageRequest {
   sessionId: number;
   userId: string;
   content: string;
-  createdAt: string;
+  createdAt: string | null;
   imageUrl: string | null;
 }
 
@@ -34,6 +34,7 @@ export interface MessageResponse {
 }
 
 export interface ORSRequest {
+  userId: string;
   sessionId: number;
   orsScore: number;
 }
@@ -41,6 +42,7 @@ export interface ORSRequest {
 export type AgreementType = 'ACCEPTED' | 'DENIED';
 
 export interface SessionEndRequest {
+  userId: string;
   sessionId: number;
   srsScore: number;
   agreement: AgreementType;

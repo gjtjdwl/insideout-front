@@ -10,8 +10,8 @@ interface CounselModalProps {
 }
 
 function dateFormat(date: string): string {
-  let originDate = new Date(date);
-  let formatDate =
+  const originDate = new Date(date);
+  const formatDate =
     originDate.getFullYear() +
     '년' +
     (originDate.getMonth() + 1) +
@@ -37,7 +37,7 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
       }
     };
     loadSessions();
-  }, [sessions]);
+  }, []);
 
   const handleDelete = async (sessionId: number) => {
     try {
@@ -69,7 +69,7 @@ const CounselListModal: React.FC<CounselModalProps> = ({ onClose, userId }) => {
             </div>
           ) : (
             sessions.map((item) => {
-              let date = dateFormat(item.date);
+              const date = dateFormat(item.date);
               return (
                 <li key={item.id} className="my-2">
                   <div className="flex justify-center items-center px-4 py-3 gap-x-4 border border-black rounded-md">

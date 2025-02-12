@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Inside out',
   description: '인간에 지친 당신을 위한 심리 상담 플랫폼',
   icons: {
-		icon: "/hq_logo.svg",
-	},
+    icon: '/hq_logo.svg',
+  },
 };
 
 export default function RootLayout({
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html className="scroll-smooth" lang="ko">
-      <body >{children}</body>
+      <body>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+      </body>
     </html>
   );
 }
