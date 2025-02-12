@@ -1,7 +1,7 @@
-import clsx from 'clsx'
-import type React from 'react'
-import { Button } from './button'
-import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import clsx from 'clsx';
+import type React from 'react';
+import { Button } from './button';
+import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 /*
 pagination - 전체 nav element, props: totalPages, currentPage
@@ -25,7 +25,13 @@ export function Pagination({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<'nav'>) {
-  return <nav aria-label={ariaLabel} {...props} className={clsx(className, 'flex gap-x-1 justify-center')} />
+  return (
+    <nav
+      aria-label={ariaLabel}
+      {...props}
+      className={clsx(className, 'flex gap-x-1 justify-center text-black')}
+    />
+  );
 }
 
 export function PaginationPrevious({
@@ -35,12 +41,16 @@ export function PaginationPrevious({
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
     <span className={clsx(className, 'flex  justify-end')}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
-      <FiChevronLeft />
+      <Button
+        {...(href === null ? { disabled: true } : { href })}
+        plain
+        aria-label="Previous page"
+      >
+        <FiChevronLeft />
         {/* {children} */}
       </Button>
     </span>
-  )
+  );
 }
 
 export function PaginationNext({
@@ -50,23 +60,35 @@ export function PaginationNext({
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
     <span className={clsx(className, 'flex  justify-end')}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
+      <Button
+        {...(href === null ? { disabled: true } : { href })}
+        plain
+        aria-label="Next page"
+      >
         {/* {children} */}
         <FiChevronRight />
       </Button>
     </span>
-  )
+  );
 }
 
-export function PaginationList({ className, ...props }: React.ComponentPropsWithoutRef<'span'>) {
-  return <span {...props} className={clsx(className, 'hidden items-baseline gap-x-2 sm:flex')} />
+export function PaginationList({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'>) {
+  return (
+    <span
+      {...props}
+      className={clsx(className, 'hidden items-baseline gap-x-2 sm:flex')}
+    />
+  );
 }
 
 export function PaginationPage({
   className,
   current = false,
   children,
-}: React.PropsWithChildren<{className?: string; current?: boolean }>) {
+}: React.PropsWithChildren<{ className?: string; current?: boolean }>) {
   return (
     <Button
       plain
@@ -75,12 +97,12 @@ export function PaginationPage({
       className={clsx(
         className,
         'min-w-[2.25rem] before:absolute before:-inset-px before:rounded-lg',
-        current && 'before:bg-zinc-950/5 dark:before:bg-white/10'
+        current && 'before:bg-zinc-950/5'
       )}
     >
-      <span className="-mx-0.5">{children}</span>
+      <span className="-mx-0.5 text-black dark:text-black">{children}</span>
     </Button>
-  )
+  );
 }
 
 export function PaginationGap({
@@ -94,10 +116,10 @@ export function PaginationGap({
       {...props}
       className={clsx(
         className,
-        'w-[2.25rem] select-none text-center text-sm/6 font-semibold text-zinc-950 dark:text-white'
+        'w-[2.25rem] select-none text-center text-sm/6 font-semibold text-zinc-950'
       )}
     >
       {children}
     </span>
-  )
+  );
 }
