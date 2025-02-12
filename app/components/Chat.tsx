@@ -363,9 +363,9 @@ const Chat: React.FC<ChatProps> = ({
               placeholder={
                 localIsClosed ? '종료된 상담입니다' : '메시지를 입력하세요...'
               }
-              disabled={localIsClosed || isSending}
+              disabled={localIsClosed}
               className={`flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-300 
-                ${localIsClosed || isSending ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                ${localIsClosed ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             <input
               type="file"
