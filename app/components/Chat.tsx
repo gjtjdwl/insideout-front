@@ -62,6 +62,15 @@ const Chat: React.FC<ChatProps> = ({
     setLocalIsClosed(isClosed);
   }, [isClosed]);
 
+  // currentSessionId가 변경될 때 입력창 초기화
+  useEffect(() => {
+    setMessage('');
+    setSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, [currentSessionId]);
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
