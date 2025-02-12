@@ -661,7 +661,7 @@ const Register = () => {
         </h1>
 
         {/* 테스트 계정 정보 추가 */}
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg text-sm">
+        {/* <div className="mb-8 p-4 bg-gray-50 rounded-lg text-sm">
           <p className="font-semibold mb-2">🔍 테스트용 계정 정보</p>
           <p>
             • 부서원 가입 시 부서 코드:{' '}
@@ -675,7 +675,7 @@ const Register = () => {
             - 비밀번호:{' '}
             <span className="font-mono text-pink-600">qwer1234!!</span>
           </p>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* 왼쪽 입력 필드 */}
