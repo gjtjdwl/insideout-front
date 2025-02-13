@@ -29,6 +29,8 @@ EAP 자동화를 통한 면담 업무 효율화, AI 상시 면담을 통한 심�
 
 ### Getting Started
 ```bash
+npm install
+
 npm run dev
 # or
 yarn dev
