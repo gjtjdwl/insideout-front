@@ -29,6 +29,9 @@ AI를 통한 비대면 상담 서비스에 대한 선호도 조사 결과 긍정
 - 직원 스트레스 완화 및 정신 건강 증진을 통한 공무원 이직률 감소 및 채용·교육 비용 절감
 - 직원들의 불만을 선제적으로 파악 및 개선하여 조직 내 긍정적인 분위기 조성을 통한 업무 생산성 및 효율성 증가
 - EAP(직원 지원 프로그램) 자동화를 통해 운영 비용 절감 및 전문 상담사의 업무 부담 감소 등 비용 절감 및 자원 최적화
+- 
+### 🔍개발언어
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=flat-square&logo=Tailwind CSS&logoColor=white"/>
 
 ### 
 ![AI 11조 1P 설명서](https://github.com/user-attachments/assets/50a1e4ff-de30-4784-9cad-784a646f97a6)
